@@ -1,0 +1,35 @@
+{
+  "name": "react-router",
+  "version": "0.0.0",
+  "description": "Declarative router component for React",
+  "main": "index.js",
+  "dependencies": {
+    "url-pattern": "~0.2.2"
+  },
+  "devDependencies": {
+    "react": "~0.8.0",
+    "semver": "~2.2.1",
+    "mocha": "~1.17.1",
+    "jshint": "~2.4.3"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andreypopp/react-router"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "router",
+    "history",
+    "pushState"
+  ],
+  "author": "Andrey Popp <8mayday@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andreypopp/react-router/issues"
+  },
+  "homepage": "https://github.com/andreypopp/react-router"
+}
