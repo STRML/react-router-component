@@ -1,21 +1,11 @@
 var React     = require('react');
 var Router    = require('./index');
 
-var location = {
-  "origin": "https://github.com",
-  "hash": "",
-  "search": "",
-  "pathname": process.argv[2] || '/',
-  "port": "",
-  "hostname": "github.com",
-  "host": "github.com",
-  "protocol": "https:",
-  "href": "https://github.com/"
-}
+var path = process.argv[2] || '/';
 
 var App = React.createClass({
   render: function() {
-    return Router.Locations({location: this.props.location},
+    return Router.Locations({path: this.props.path},
       Router.Location({path: '/'}, function(state, props) {
         return ['Main page']
       }),
@@ -29,6 +19,6 @@ var App = React.createClass({
   }
 });
 
-React.renderComponentToString(App({location: location}), function(markup) {
+React.renderComponentToString(App({path: path}), function(markup) {
   console.log(markup);
 });

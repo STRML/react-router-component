@@ -7,7 +7,7 @@ function createRouter(component) {
   return React.createClass({
     getInitialState: function() {
       return {
-        location: this.props.location || window.location
+        path: this.props.path || window.location.pathname
       }
     },
 
@@ -21,7 +21,7 @@ function createRouter(component) {
 
     onPopState: function(e) {
       e.preventDefault();
-      this.setState({location: window.location});
+      this.setState({location: window.location.pathname});
     },
 
     render: function() {
@@ -40,7 +40,7 @@ function createRouter(component) {
         if (current.path) {
           current.pattern = current.pattern || pattern(current.path);
           if (!page) {
-            match = current.pattern.match(this.state.location.pathname);
+            match = current.pattern.match(this.state.path);
             if (match) {
               page = current;
             }
@@ -55,7 +55,7 @@ function createRouter(component) {
                      notFound ? notFound.children :
                      [];
 
-      return component(this.props, children(this.state.location, match));
+      return component(this.props, children(this.state, match));
     }
   });
 }
