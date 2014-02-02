@@ -1,4 +1,4 @@
-# react-router
+# react-router-component
 
 Declarative router component for [React][react]:
 
