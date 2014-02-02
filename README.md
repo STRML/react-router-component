@@ -28,7 +28,9 @@ Declarative router component for [React][react]:
       }
     });
 
-or if you are using [jsxx][jsxx]:
+## Using with JSXX
+
+If you are using [jsxx][jsxx]:
 
     module React from 'react';
     import {Pages, Page} from 'react-router';
