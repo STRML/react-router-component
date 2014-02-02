@@ -1,5 +1,5 @@
 {
-  "name": "react-router",
+  "name": "react-router-component",
   "version": "0.0.0",
   "description": "Declarative router component for React",
   "main": "index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreypopp/react-router"
+    "url": "git://github.com/andreypopp/react-router-component"
   },
   "keywords": [
     "react",
@@ -29,7 +29,7 @@
   "author": "Andrey Popp <8mayday@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andreypopp/react-router/issues"
+    "url": "https://github.com/andreypopp/react-router-component/issues"
   },
-  "homepage": "https://github.com/andreypopp/react-router"
+  "homepage": "https://github.com/andreypopp/react-router-component"
 }
