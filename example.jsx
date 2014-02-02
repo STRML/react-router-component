@@ -1,10 +1,6 @@
 var React     = require('react');
 var Router    = require('./index');
 
-var Locations = Router.Locations;
-var Location  = Router.Location;
-var NotFound  = Router.NotFound;
-
 var location = {
   "origin": "https://github.com",
   "hash": "",
@@ -20,23 +16,23 @@ var location = {
 var App = React.createClass({
   render: function() {
     return (
-      <Locations location={this.props.location}>
-        <Location path="/">
+      <Router:Locations location={this.props.location}>
+        <Router:Location path="/">
           <template>
             Main page
           </template>
-        </Location>
-        <Location path="/users/:username">
+        </Router:Location>
+        <Router:Location path="/users/:username">
           <template>
             Hello, {props.username}
           </template>
-        </Location>
-        <NotFound>
+        </Router:Location>
+        <Router:NotFound>
           <template>
             404, sorry!
           </template>
-        </NotFound>
-      </Locations>
+        </Router:NotFound>
+      </Router:Locations>
     );
   }
 });
