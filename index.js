@@ -51,27 +51,23 @@ function createRouter(component) {
         }
       }
 
-      var children = page ? page.children.slice(0) :
-                     notFound ? notFound.children.slice(0) :
+      var children = page ? page.children :
+                     notFound ? notFound.children :
                      [];
 
-      for (i = 0, len = children.length; i < len; i++) {
-        children[i].props.route = match;
-      }
-
       children.unshift(this.props);
-      return component.apply(component, children);
+      return component.apply(component, children(this.state.location, match));
     }
   });
 }
 
-function Route(props) {
-  var children = Array.prototype.slice.call(arguments, 1);
+function Route(props, children) {
+  invariant(typeof children === 'function');
   return {path: props.path, children: children};
 }
 
-function NotFound(_props) {
-  var children = Array.prototype.slice.call(arguments, 1);
+function NotFound(_props, children) {
+  invariant(typeof children === 'function');
   return {path: null, children: children};
 }
 
