@@ -55,19 +55,22 @@ function createRouter(component) {
                      notFound ? notFound.children :
                      [];
 
-      children.unshift(this.props);
-      return component.apply(component, children(this.state.location, match));
+      return component(this.props, children(this.state.location, match));
     }
   });
 }
 
 function Route(props, children) {
-  invariant(typeof children === 'function');
+  invariant(
+    typeof children === 'function',
+    "Route children should be a template");
   return {path: props.path, children: children};
 }
 
 function NotFound(_props, children) {
-  invariant(typeof children === 'function');
+  invariant(
+    typeof children === 'function',
+    "NotFound children should be a template");
   return {path: null, children: children};
 }
 
