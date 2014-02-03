@@ -26,13 +26,13 @@ descriptors — `Location` and `NotFound`.
         return (
           <Locations>
             <Location path="/">
-              {function(props) { return [<div>Main page</div>]; }}
+              {function() { return <div>Main page</div> }}
             </Location>
             <Location path="/users/:username">
-              {function(props) { return [<div>{props.username}'s page</div>]; }}
+              {function(props) { return <div>{props.username}'s page</div> }}
             </Location>
             <NotFound>
-              {function(props) { return [<div>404!</div>]; }}
+              {function() { return <div>404!</div> }}
             </NotFound>
           </Locations>
         )
