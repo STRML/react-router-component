@@ -37,10 +37,8 @@ function createRouter(component) {
       var match, page, notFound;
       var len, i;
 
-      this.children = this.children || this.props.children;
-
-      for (i = 0, len = this.children.length; i < len; i++) {
-        var current = this.children[i];
+      for (i = 0, len = this.props.children.length; i < len; i++) {
+        var current = this.props.children[i];
 
         if (process.env.NODE_ENV !== "production") {
           invariant(
