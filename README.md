@@ -14,13 +14,13 @@ Declarative router component for [React][react]:
             </head>
             <Pages location={this.props.location}>
               <Page path="/">
-                {function(state, props) { return [<div>Main page</div>]; }}
+                {function(props) { return [<div>Main page</div>]; }}
               </Page>
               <Page path="/users/:username">
-                {function(state, props) { return [<div>{props.username}'s page</div>]; }}
+                {function(props) { return [<div>{props.username}'s page</div>]; }}
               </Page>
               <NotFound>
-                {function(state, props) { return [<div>404!</div>]; }}
+                {function(props) { return [<div>404!</div>]; }}
               </NotFound>
             </Pages>
           </html>
