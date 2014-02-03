@@ -42,6 +42,8 @@ descriptors — `Location` and `NotFound`.
 That way `App` will render a markup for a currently active location (via
 `window.location.pathname`).
 
+It automatically handles `popstate` event and updates its state accordingly.
+
 To navigate to a different location, component exposes `navigate(path)` method.
 You would want to keep a `ref` to the component to call it:
 
