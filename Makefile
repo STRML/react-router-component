@@ -11,6 +11,9 @@ lint:
 test:
 	@echo 'nothing' > /dev/null
 
+test-local:
+	@$(BIN)/zuul --local 3000  -- tests.js
+
 test-cloud:
 	@$(BIN)/zuul -- tests.js
 
