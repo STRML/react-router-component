@@ -10,7 +10,8 @@
     "react": "~0.8.0",
     "semver": "~2.2.1",
     "mocha": "~1.17.1",
-    "jshint": "~2.4.3"
+    "jshint": "~2.4.3",
+    "zuul": "~1.5.2"
   },
   "scripts": {
     "test": "make test"

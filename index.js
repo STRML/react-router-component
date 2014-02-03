@@ -5,6 +5,12 @@ var pattern   = require('url-pattern');
 
 function createRouter(component) {
   return React.createClass({
+
+    navigate: function(path, cb) {
+      window.history.pushState({}, '', path);
+      this.setState({path: window.location.pathname}, cb);
+    },
+
     getInitialState: function() {
       return {
         path: this.props.path || window.location.pathname
@@ -20,16 +26,21 @@ function createRouter(component) {
     },
 
     onPopState: function(e) {
-      e.preventDefault();
-      this.setState({location: window.location.pathname});
+      var path = window.location.pathname;
+
+      if (this.state.path !== path) {
+        this.setState({path: path});
+      }
     },
 
     render: function() {
       var match, page, notFound;
       var len, i;
 
-      for (i = 0, len = this.props.children.length; i < len; i++) {
-        var current = this.props.children[i];
+      this.children = this.children || this.props.children;
+
+      for (i = 0, len = this.children.length; i < len; i++) {
+        var current = this.children[i];
 
         if (process.env.NODE_ENV !== "production") {
           invariant(
@@ -55,7 +66,7 @@ function createRouter(component) {
                      notFound ? notFound.children :
                      [];
 
-      return component(this.props, children(this.state, match));
+      return this.transferPropsTo(component(null, children(match)));
     }
   });
 }

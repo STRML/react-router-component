@@ -13,7 +13,6 @@
     "exports": false,
     "console": false,
     "document": false,
-    "setTimeout": false,
-    "__callback": false
+    "setTimeout": false
   }
 }

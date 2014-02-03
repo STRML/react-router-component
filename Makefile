@@ -6,10 +6,13 @@ install link:
 	@npm $@
 
 lint:
-	@$(BIN)/jshint *.js
+	@$(BIN)/jshint index.js
 
 test:
-	@$(BIN)/mocha -b -R spec specs/*.js
+	@echo 'nothing' > /dev/null
+
+test-cloud:
+	@$(BIN)/zuul -- tests.js
 
 release-patch: test lint
 	@$(call release,patch)
