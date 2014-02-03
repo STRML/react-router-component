@@ -5,7 +5,7 @@ var Router = require('./index');
 var App = React.createClass({
 
   render: function() {
-    return Router.Locations({ref: 'router'},
+    return Router.Locations({ref: 'router', className: 'App'},
       Router.Location({path: '/__zuul'}, function(props) { return 'mainpage' }),
       Router.Location({path: '/__zuul/:slug'}, function(props) { return props.slug })
     );
@@ -37,6 +37,7 @@ describe('react-router-component', function() {
 
   it('renders', function() {
     assert.equal(getText(host), 'mainpage');
+    assert.ok(app.getDOMNode().classList.contains('App'));
   });
 
   it('navigates to a different route', function(done) {
