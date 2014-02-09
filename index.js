@@ -42,7 +42,7 @@ function createRouter(component) {
 
         if (process.env.NODE_ENV !== "production") {
           invariant(
-            current.children !== undefined && current.path !== undefined,
+            current.handler !== undefined && current.path !== undefined,
             "Router should contain either Route or NotFound components as children")
         }
 
@@ -60,27 +60,27 @@ function createRouter(component) {
         }
       }
 
-      var children = page ? page.children :
-                     notFound ? notFound.children :
+      var handler = page ? page.handler :
+                     notFound ? notFound.handler :
                      [];
 
-      return this.transferPropsTo(component(null, children(match)));
+      return this.transferPropsTo(component(null, handler(match)));
     }
   });
 }
 
-function Route(props, children) {
+function Route(props, handler) {
   invariant(
-    typeof children === 'function',
-    "Route children should be a template");
-  return {path: props.path, children: children};
+    typeof props.handler === 'function' || typeof handler === 'function',
+    "Route handler should be a template");
+  return {path: props.path, handler: props.handler || handler};
 }
 
-function NotFound(_props, children) {
+function NotFound(props, handler) {
   invariant(
-    typeof children === 'function',
-    "NotFound children should be a template");
-  return {path: null, children: children};
+    typeof props.handler === 'function' || typeof handler === 'function',
+    "NotFound handler should be a template");
+  return {path: null, handler: props.handler || handler};
 }
 
 module.exports = {

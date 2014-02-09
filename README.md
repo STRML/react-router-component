@@ -42,6 +42,14 @@ descriptors — `Location` and `NotFound`.
 That way `App` will render a markup for a currently active location (via
 `window.location.pathname`).
 
+If you don't want to specify handlers for each location inline you can pass them
+a `handler` prop with a component class instead:
+
+    <Locations>
+      <Location path="/" handler={MainPage} />
+      <Location path="/users/:username" handler={UserPage} />
+    </Locations>
+
 It automatically handles `popstate` event and updates its state accordingly.
 
 To navigate to a different location, component exposes `navigate(path)` method.
@@ -61,7 +69,7 @@ You would want to keep a `ref` to the component to call it:
         </Locations>
       )
     }
-    
+
 That way all clicks to anchors will be intercepted and, instead of reloading the
 page, routed via `Locations` component.
 
