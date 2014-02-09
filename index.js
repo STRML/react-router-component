@@ -37,13 +37,20 @@ function createRouter(component) {
       var match, page, notFound;
       var len, i;
 
-      for (i = 0, len = this.props.children.length; i < len; i++) {
-        var current = this.props.children[i];
+      var children = this.props.children;
+
+      if (!Array.isArray(children)) {
+        children = [children];
+      }
+
+      for (i = 0, len = children.length; i < len; i++) {
+        var current = children[i];
 
         if (process.env.NODE_ENV !== "production") {
           invariant(
             current.handler !== undefined && current.path !== undefined,
-            "Router should contain either Route or NotFound components as children")
+            "Router should contain either Route or NotFound components " +
+            "as children")
         }
 
         if (current.path) {
@@ -60,11 +67,11 @@ function createRouter(component) {
         }
       }
 
-      var handler = page ? page.handler :
-                     notFound ? notFound.handler :
+      var rendered = page ? page.handler(match) :
+                     notFound ? notFound.handler(match) :
                      [];
 
-      return this.transferPropsTo(component(null, handler(match)));
+      return this.transferPropsTo(component(null, rendered));
     }
   });
 }
