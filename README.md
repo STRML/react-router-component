@@ -20,20 +20,18 @@ descriptors — `Location` and `NotFound`.
     var Locations = Router.Locations
     var Location  = Router.Location
 
+    var MainPage = React.createClass(...)
+    var UserPage = React.createClass(...)
+    var NotFoundPage = React.createClass(...)
+
     var App = React.createClass({
 
       render: function() {
         return (
           <Locations>
-            <Location path="/">
-              {function() { return <div>Main page</div> }}
-            </Location>
-            <Location path="/users/:username">
-              {function(props) { return <div>{props.username}'s page</div> }}
-            </Location>
-            <NotFound>
-              {function() { return <div>404!</div> }}
-            </NotFound>
+            <Location path="/" handler={MainPage} />
+            <Location path="/users/:username" handler={UserPage} />
+            <NotFound handler={NotFoundPage} />
           </Locations>
         )
       }
@@ -41,14 +39,6 @@ descriptors — `Location` and `NotFound`.
 
 That way `App` will render a markup for a currently active location (via
 `window.location.pathname`).
-
-If you don't want to specify handlers for each location inline you can pass them
-a `handler` prop with a component class instead:
-
-    <Locations>
-      <Location path="/" handler={MainPage} />
-      <Location path="/users/:username" handler={UserPage} />
-    </Locations>
 
 It automatically handles `popstate` event and updates its state accordingly.
 
