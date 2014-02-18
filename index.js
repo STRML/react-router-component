@@ -18,8 +18,7 @@ function createRouter(component) {
     },
 
     childContextTypes: {
-      router: React.PropTypes.component,
-      route: React.PropTypes.array
+      router: React.PropTypes.component
     },
 
     getChildContext: function() {
