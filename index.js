@@ -1,10 +1,23 @@
 "use strict";
+
 var React     = require('react');
 var invariant = require('react/lib/invariant');
 var pattern   = require('url-pattern');
 
 function createRouter(component) {
+
   return React.createClass({
+
+    childContextTypes: {
+      router: React.PropTypes.component,
+      route: React.PropTypes.array
+    },
+
+    getChildContext: function() {
+      return {
+        router: this
+      };
+    },
 
     navigate: function(path, cb) {
       window.history.pushState({}, '', path);
@@ -76,6 +89,39 @@ function createRouter(component) {
   });
 }
 
+/**
+ * A component which can navigate to a different route.
+ */
+var NavigatableMixin = {
+
+  contextTypes: {
+    router: React.PropTypes.component,
+  },
+
+  navigate: function(path, cb) {
+    this.context.router.navigate(path, cb);
+  }
+};
+
+var Link = React.createClass({
+  mixins: [NavigatableMixin],
+
+  propTypes: {
+    href: React.PropTypes.string.isRequired
+  },
+
+  onClick: function(e) {
+    this.navigate(this.props.href);
+    if (this.props.onClick)
+      this.props.onClick(e);
+  },
+
+  render: function() {
+    return this.transferPropsTo(
+      React.DOM.a({onClick: this.onClick}, this.props.children));
+  }
+});
+
 function Route(props, handler) {
   invariant(
     typeof props.handler === 'function' || typeof handler === 'function',
@@ -98,5 +144,8 @@ module.exports = {
   Locations: createRouter(React.DOM.div),
   Location: Route,
 
-  NotFound: NotFound
+  NotFound: NotFound,
+
+  NavigatableMixin: NavigatableMixin,
+  Link: Link
 }

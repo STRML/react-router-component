@@ -6,8 +6,12 @@ var App = React.createClass({
 
   render: function() {
     return Router.Locations({ref: 'router', className: 'App'},
-      Router.Location({path: '/__zuul'}, function(props) { return 'mainpage' }),
-      Router.Location({path: '/__zuul/:slug'}, function(props) { return props.slug })
+      Router.Location({path: '/__zuul'}, function(props) {
+        return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+      }),
+      Router.Location({path: '/__zuul/:slug'}, function(props) {
+        return props.slug
+      })
     );
   }
 });
@@ -57,6 +61,34 @@ describe('react-router-component', function() {
       setTimeout(function() {
         assert.equal(getText(host), 'mainpage');
         done();
+      }, 200);
+    });
+  });
+
+  describe('Link component', function() {
+
+    it('navigates via .navigate(path) call', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.refs.link.navigate('/__zuul/hello', function() {
+        assert.equal(getText(host), 'hello');
+        history.back();
+        setTimeout(function() {
+          assert.equal(getText(host), 'mainpage');
+          done();
+        }, 200);
+      });
+    });
+
+    it('navigates via onClick event', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.refs.link.onClick();
+      setTimeout(function() {
+        assert.equal(getText(host), 'hello');
+        history.back();
+        setTimeout(function() {
+          assert.equal(getText(host), 'mainpage');
+          done();
+        }, 200);
       }, 200);
     });
   });
