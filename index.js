@@ -39,10 +39,10 @@ function createRouter(component) {
       if (this.props.contextual && this.context.router) {
         var match = this.context.router.getMatch();
         invariant(
-          match.match._ !== undefined,
+          this.props.path || match.match._ && match.match._.length > 0,
           "contextual router has nothing to match on"
         );
-        path = this.props.path || match.match._;
+        path = this.props.path || match.match._[0];
       } else {
         path = this.props.path || window.location.pathname;
       }
