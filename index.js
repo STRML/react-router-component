@@ -22,13 +22,13 @@ function createRouter(component) {
     navigate: function(path, cb) {
       window.history.pushState({}, '', path);
       var path = window.location.pathname;
-      this.setState({match: this.getMatch(path)}, cb);
+      this.setState({match: this.matchPath(path)}, cb);
     },
 
     getInitialState: function() {
       var path = this.props.path || window.location.pathname;
       return {
-        match: this.getMatch(path)
+        match: this.matchPath(path)
       };
     },
 
@@ -44,11 +44,11 @@ function createRouter(component) {
       var path = window.location.pathname;
 
       if (this.state.match.path !== path) {
-        this.setState({match: this.getMatch(path)});
+        this.setState({match: this.matchPath(path)});
       }
     },
 
-    getMatch: function(path) {
+    matchPath: function(path) {
       var match, page, notFound;
 
       var children = this.props.children;
