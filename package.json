@@ -4,7 +4,7 @@
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
-    "url-pattern": "~0.2.2"
+    "url-pattern": "git+https://github.com/andreypopp/url-pattern.git#master"
   },
   "devDependencies": {
     "react": "~0.9.0-rc1",
