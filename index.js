@@ -21,13 +21,15 @@ function createRouter(component) {
 
     navigate: function(path, cb) {
       window.history.pushState({}, '', path);
-      this.setState({path: window.location.pathname}, cb);
+      var path = window.location.pathname;
+      this.setState({match: this.getMatch(path)}, cb);
     },
 
     getInitialState: function() {
+      var path = this.props.path || window.location.pathname;
       return {
-        path: this.props.path || window.location.pathname
-      }
+        match: this.getMatch(path)
+      };
     },
 
     componentDidMount: function() {
@@ -41,14 +43,13 @@ function createRouter(component) {
     onPopState: function(e) {
       var path = window.location.pathname;
 
-      if (this.state.path !== path) {
-        this.setState({path: path});
+      if (this.state.match.path !== path) {
+        this.setState({match: this.getMatch(path)});
       }
     },
 
-    render: function() {
+    getMatch: function(path) {
       var match, page, notFound;
-      var len, i;
 
       var children = this.props.children;
 
@@ -56,7 +57,7 @@ function createRouter(component) {
         children = [children];
       }
 
-      for (i = 0, len = children.length; i < len; i++) {
+      for (var i = 0, len = children.length; i < len; i++) {
         var current = children[i];
 
         if (process.env.NODE_ENV !== "production") {
@@ -69,7 +70,7 @@ function createRouter(component) {
         if (current.path) {
           current.pattern = current.pattern || pattern(current.path);
           if (!page) {
-            match = current.pattern.match(this.state.path);
+            match = current.pattern.match(path);
             if (match) {
               page = current;
             }
@@ -80,13 +81,25 @@ function createRouter(component) {
         }
       }
 
-      var rendered = page ? page.handler(match) :
-                     notFound ? notFound.handler(match) :
-                     [];
+      return {
+        path: path,
+        route: page ? page : notFound ? notFound : null,
+        match: match,
+        getChildren: getChildren
+      };
+    },
 
-      return this.transferPropsTo(component(null, rendered));
+    render: function() {
+      return this.transferPropsTo(component(null, this.state.match.getChildren()));
     }
   });
+}
+
+/**
+ * Helper to get children from a matched route.
+ */
+function getChildren() {
+  return this.route ? this.route.handler(this.match) : undefined;
 }
 
 /**
