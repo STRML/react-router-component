@@ -2,12 +2,46 @@ var assert = require('assert');
 var React  = require('react');
 var Router = require('./index');
 
+var NestedRouter = React.createClass({
+  render: function() {
+    return React.DOM.div(null,
+      Router.Locations(null,
+        Router.Location({path: '/__zuul/nested/'}, function(props) {
+          return 'nested/root';
+        }),
+        Router.Location({path: '/__zuul/nested/page'}, function(props) {
+          return 'nested/page';
+        })
+      ));
+  }
+});
+
+var ContextualRouter = React.createClass({
+  render: function() {
+    return React.DOM.div(null,
+      Router.Locations({contextual: true},
+        Router.Location({path: '/'}, function(props) {
+          return 'contextual/root';
+        }),
+        Router.Location({path: '/page'}, function(props) {
+          return 'contextual/page';
+        })
+      ));
+  }
+});
+
 var App = React.createClass({
 
   render: function() {
     return Router.Locations({ref: 'router', className: 'App'},
       Router.Location({path: '/__zuul'}, function(props) {
         return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+      }),
+      Router.Location({path: '/__zuul/nested/*'}, function(props) {
+        return NestedRouter();
+      }),
+      Router.Location({path: '/__zuul/contextual/*'}, function(props) {
+        return ContextualRouter();
       }),
       Router.Location({path: '/__zuul/:slug'}, function(props) {
         return props.slug
@@ -31,12 +65,14 @@ describe('react-router-component', function() {
     router = app.refs.router;
   });
 
-  afterEach(function() {
+  afterEach(function(done) {
     React.unmountComponentAtNode(host);
     document.body.removeChild(host);
     host = null;
     app = null;
     router = null
+    window.history.pushState({}, '', '/__zuul');
+    setTimeout(done, 100);
   });
 
   it('renders', function() {
@@ -65,17 +101,53 @@ describe('react-router-component', function() {
     });
   });
 
+  describe('Nested routers', function() {
+
+    it('navigates to a subroute', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.navigate('/__zuul/contextual/page', function() {
+        assert.equal(getText(host), 'contextual/page');
+        done();
+      });
+    });
+
+    it('navigates to a subroute (root case)', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.navigate('/__zuul/contextual/', function() {
+        assert.equal(getText(host), 'contextual/root');
+        done();
+      });
+    });
+
+  });
+
+  describe('Contextual routers', function() {
+
+    it('navigates to a subroute', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.navigate('/__zuul/contextual/page', function() {
+        assert.equal(getText(host), 'contextual/page');
+        done();
+      });
+    });
+
+    it('navigates to a subroute (root case)', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      router.navigate('/__zuul/contextual/', function() {
+        assert.equal(getText(host), 'contextual/root');
+        done();
+      });
+    });
+
+  });
+
   describe('Link component', function() {
 
     it('navigates via .navigate(path) call', function(done) {
       assert.equal(getText(host), 'mainpage');
       router.refs.link.navigate('/__zuul/hello', function() {
         assert.equal(getText(host), 'hello');
-        history.back();
-        setTimeout(function() {
-          assert.equal(getText(host), 'mainpage');
-          done();
-        }, 200);
+        done();
       });
     });
 
@@ -84,12 +156,9 @@ describe('react-router-component', function() {
       router.refs.link.onClick();
       setTimeout(function() {
         assert.equal(getText(host), 'hello');
-        history.back();
-        setTimeout(function() {
-          assert.equal(getText(host), 'mainpage');
-          done();
-        }, 200);
+        done();
       }, 200);
     });
   });
+
 });

@@ -8,6 +8,15 @@ function createRouter(component) {
 
   return React.createClass({
 
+    propTypes: {
+      path: React.PropTypes.string,
+      contextual: React.PropTypes.bool
+    },
+
+    contextTypes: {
+      router: React.PropTypes.component,
+    },
+
     childContextTypes: {
       router: React.PropTypes.component,
       route: React.PropTypes.array
@@ -26,7 +35,23 @@ function createRouter(component) {
     },
 
     getInitialState: function() {
-      var path = this.props.path || window.location.pathname;
+      var path;
+
+      if (this.props.contextual && this.context.router) {
+        var match = this.context.router.getMatch();
+        invariant(
+          match.match[undefined] !== undefined,
+          "contextual router has nothing to match on"
+        );
+        path = this.props.path || match.match[undefined];
+      } else {
+        path = this.props.path || window.location.pathname;
+      }
+
+      if (path[0] !== '/') {
+        path = '/' + path;
+      }
+
       return {
         match: this.matchPath(path)
       };
@@ -46,6 +71,10 @@ function createRouter(component) {
       if (this.state.match.path !== path) {
         this.setState({match: this.matchPath(path)});
       }
+    },
+
+    getMatch: function() {
+      return this.state.match;
     },
 
     matchPath: function(path) {
@@ -83,6 +112,7 @@ function createRouter(component) {
 
       return {
         path: path,
+        pattern: page.pattern,
         route: page ? page : notFound ? notFound : null,
         match: match,
         getChildren: getChildren
