@@ -6,6 +6,10 @@ var pattern   = require('url-pattern');
 
 function createRouter(component, environment) {
 
+  if (window.history === undefined) {
+    environment = HashChangeRouterEnvironment;
+  }
+
   return React.createClass({
     mixins: [environment],
 
