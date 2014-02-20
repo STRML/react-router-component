@@ -99,7 +99,7 @@ function createRouter(component, environment) {
 
       return {
         path: path,
-        pattern: page.pattern,
+        pattern: page ? page.pattern : null,
         route: page ? page : notFound ? notFound : null,
         match: match,
         getChildren: getChildren
@@ -155,7 +155,7 @@ var HistoryAPIRouterEnvironment = {
 var HashChangeRouterEnvironment = {
 
   getPath: function() {
-    return window.location.hash;
+    return window.location.hash.slice(1);
   },
 
   updatePath: function(path) {
@@ -171,7 +171,7 @@ var HashChangeRouterEnvironment = {
   },
 
   onHashChange: function() {
-    var path = window.location.hash;
+    var path = window.location.hash.slice(1);
 
     if (this.state.match.path !== path) {
       this.setState({match: this.matchPath(path)});

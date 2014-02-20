@@ -29,9 +29,13 @@ also provides a method to navigate between locations which sets the correct
 React router component also provides advanced features like support for full
 page server side rendering and nested and contextual routers.
 
-Its functionality is tested using [Saucelabs][] on all modern browsers (IE >=
-10, Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and
-iPad >= 6). Basically, the browsers which support the HTML5 History API.
+Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
+Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
+6).
+
+Note that browsers which do not support History API (IE 9 and below) should use
+"hash" router. Also the library may work in IE8 with [needed
+shims][React-Shims] included.
 
 ## Installation
 
@@ -44,4 +48,5 @@ See [docs][] for the usage.
 [docs]: http://andreypopp.viewdocs.io/react-router-component
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
+[React-Shims]: http://facebook.github.io/react/docs/working-with-the-browser.html#polyfills-needed-to-support-older-browsers
 [Saucelabs]: saucelabs.com
