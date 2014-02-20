@@ -113,7 +113,7 @@ a different location in the router.
 As an example, let's see how `MainPage` component can be implemented with the
 usage of the `Link` component to transition to a `UserPage`:
 
-    var Link = require('react-router-component').Link;
+    var Link = require('react-router-component').Link
     var MainPage = React.createClass({
 
       render: function() {
