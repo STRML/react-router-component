@@ -65,6 +65,7 @@ convenience.
               <Page path="/" handler={MainPage} />
               <Page path="/users/:username" handler={UserPage} />
             </Pages>
+          </html>
         )
       }
     })
