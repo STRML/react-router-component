@@ -34,8 +34,9 @@ Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
 6).
 
 Note that browsers which do not support History API (IE 9 and below) should use
-"hash" router. Also the library may work in IE8 with [needed
-shims][React-Shims] included.
+["hash" router](hash-routing) which routes based on `window.location.hash`.
+
+The library may work in IE8 too if you include the [needed shims][React-Shims].
 
 ## Installation
 
