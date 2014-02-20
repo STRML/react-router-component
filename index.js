@@ -4,9 +4,10 @@ var React     = require('react');
 var invariant = require('react/lib/invariant');
 var pattern   = require('url-pattern');
 
-function createRouter(component) {
+function createRouter(component, environment) {
 
   return React.createClass({
+    mixins: [environment],
 
     propTypes: {
       path: React.PropTypes.string,
@@ -28,8 +29,7 @@ function createRouter(component) {
     },
 
     navigate: function(path, cb) {
-      window.history.pushState({}, '', path);
-      var path = window.location.pathname;
+      this.updatePath(path);
       this.setState({match: this.matchPath(path)}, cb);
     },
 
@@ -44,7 +44,7 @@ function createRouter(component) {
         );
         path = this.props.path || match.match._[0];
       } else {
-        path = this.props.path || window.location.pathname;
+        path = this.props.path || this.getPath();
       }
 
       if (path[0] !== '/') {
@@ -54,22 +54,6 @@ function createRouter(component) {
       return {
         match: this.matchPath(path)
       };
-    },
-
-    componentDidMount: function() {
-      window.addEventListener('popstate', this.onPopState);
-    },
-
-    componentWillUnmount: function() {
-      window.removeEventListener('popstate', this.onPopState);
-    },
-
-    onPopState: function(e) {
-      var path = window.location.pathname;
-
-      if (this.state.match.path !== path) {
-        this.setState({match: this.matchPath(path)});
-      }
     },
 
     getMatch: function() {
@@ -132,6 +116,80 @@ function getChildren() {
 }
 
 /**
+ * Router environment mixin for routers which handles History API.
+ */
+var HistoryAPIRouterEnvironment = {
+
+  getPath: function() {
+    return window.location.pathname;
+  },
+
+  updatePath: function(path) {
+    window.history.pushState({}, '', path);
+  },
+
+  componentDidMount: function() {
+    window.addEventListener('popstate', this.onPopState);
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('popstate', this.onPopState);
+  },
+
+  onPopState: function(e) {
+    var path = window.location.pathname;
+
+    if (this.state.match.path !== path) {
+      this.setState({match: this.matchPath(path)});
+    }
+  }
+};
+
+/**
+ * Router environment mixin for routers which handles hashchange event.
+ */
+var HashChangeRouterEnvironment = {
+
+  getPath: function() {
+    return window.location.hash;
+  },
+
+  updatePath: function(path) {
+    window.location.hash = path;
+  },
+
+  componentDidMount: function() {
+    window.addEventListener('hashchange', this.onHashChange);
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('hashchange', this.onHashChange);
+  },
+
+  onHashChange: function() {
+    var path = window.location.hash;
+
+    if (this.state.match.path !== path) {
+      this.setState({match: this.matchPath(path)});
+    }
+  }
+};
+
+function Route(props, handler) {
+  invariant(
+    typeof props.handler === 'function' || typeof handler === 'function',
+    "Route handler should be a template");
+  return {path: props.path, handler: props.handler || handler};
+}
+
+function NotFound(props, handler) {
+  invariant(
+    typeof props.handler === 'function' || typeof handler === 'function',
+    "NotFound handler should be a template");
+  return {path: null, handler: props.handler || handler};
+}
+
+/**
  * A component which can navigate to a different route.
  */
 var NavigatableMixin = {
@@ -145,6 +203,11 @@ var NavigatableMixin = {
   }
 };
 
+/**
+ * A basic navigatable component which renders into <a> DOM element and handles
+ * onClick event by transitioning onto different route (defined by
+ * this.props.href).
+ */
 var Link = React.createClass({
   mixins: [NavigatableMixin],
 
@@ -164,26 +227,23 @@ var Link = React.createClass({
   }
 });
 
-function Route(props, handler) {
-  invariant(
-    typeof props.handler === 'function' || typeof handler === 'function',
-    "Route handler should be a template");
-  return {path: props.path, handler: props.handler || handler};
-}
-
-function NotFound(props, handler) {
-  invariant(
-    typeof props.handler === 'function' || typeof handler === 'function',
-    "NotFound handler should be a template");
-  return {path: null, handler: props.handler || handler};
-}
-
 module.exports = {
 
-  Pages: createRouter(React.DOM.body),
+  HashChange: {
+    Pages: createRouter(React.DOM.body, HashChangeRouterEnvironment),
+    Page: Route,
+
+    Locations: createRouter(React.DOM.div, HashChangeRouterEnvironment),
+    Location: Route,
+
+    NotFound: NotFound,
+    Link: Link
+  },
+
+  Pages: createRouter(React.DOM.body, HistoryAPIRouterEnvironment),
   Page: Route,
 
-  Locations: createRouter(React.DOM.div),
+  Locations: createRouter(React.DOM.div, HistoryAPIRouterEnvironment),
   Location: Route,
 
   NotFound: NotFound,
