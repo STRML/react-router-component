@@ -26,15 +26,15 @@ transitions between locations (that means back button works as expected). It
 also provides a method to navigate between locations which sets the correct
 `window.location` by using `window.history.pushState(..)` function.
 
-React router component also provides advanced features like support for full
-page server side rendering and nested and contextual routers.
+React router component also provides advanced features like support for [full
+page server side rendering][server-side] and nested and contextual routers.
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
 6).
 
 Note that browsers which do not support History API (IE 9 and below) should use
-["hash" router](hash-routing) which routes based on `window.location.hash`.
+["hash" router][hash-routing] which routes based on `window.location.hash`.
 
 The library may work in IE8 too if you include the [needed shims][React-Shims].
 
@@ -71,6 +71,8 @@ into `Locations` router:
         )
       }
     })
+
+Direct children of `Locations` router must `Location` route descriptors.
 
 You also need to define `MainPage` and `UserPage` components (these are just
 regular React components) or require them from a different module:
@@ -131,9 +133,11 @@ mechanism.
 
 ## Advanced usage
 
-Advanced usage includes support for full page server side rendering and nested
+Advanced usage includes support for [full page server side rendering][server-side] and nested
 and contextual routers.
 
+[hash-routing]: hash-routing
+[server-side]: server-side
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
 [React-Shims]: http://facebook.github.io/react/docs/working-with-the-browser.html#polyfills-needed-to-support-older-browsers
