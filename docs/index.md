@@ -125,7 +125,8 @@ usage of the `Link` component to transition to a `UserPage`:
 
 Alternatively, if you have a reference to a router component instance, you can
 call its `.navigate(href)` method to do a transition to a different location.
-You can acquire a reference to a router by using [Refs][React-Refs] mechanism.
+You can acquire a reference to a router by using React's [Refs][React-Refs]
+mechanism.
 
 ## Advanced usage
 
