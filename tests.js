@@ -173,11 +173,11 @@ describe('react-router-component (hash routing)', function() {
   var App = React.createClass({
 
     render: function() {
-      return Router.HashChange.Locations({ref: 'router', className: 'App'},
-        Router.HashChange.Location({path: '/'}, function(props) {
-          return Router.HashChange.Link({ref: 'link', href: '/hello'}, 'mainpage')
+      return Router.Hash.Locations({ref: 'router', className: 'App'},
+        Router.Hash.Location({path: '/'}, function(props) {
+          return Router.Hash.Link({ref: 'link', href: '/hello'}, 'mainpage')
         }),
-        Router.HashChange.Location({path: '/:slug'}, function(props) {
+        Router.Hash.Location({path: '/:slug'}, function(props) {
           return props.slug
         })
       );

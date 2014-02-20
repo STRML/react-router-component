@@ -233,7 +233,7 @@ var Link = React.createClass({
 
 module.exports = {
 
-  HashChange: {
+  Hash: {
     Pages: createRouter(React.DOM.body, HashChangeRouterEnvironment),
     Page: Route,
 
