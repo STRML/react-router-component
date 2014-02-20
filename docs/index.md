@@ -21,10 +21,17 @@ While having a nice API this approach allows you to dynamically reconfigure
 routing based on your application state. For example you can return a different
 set of allowed locations for anonymous and signed-in users.
 
-React router component handles `"popstate"` event and make appropriate
+React router component handles `"popstate"` event and makess appropriate
 transitions between locations (that means back button works as expected). It
-also provides a method to navigate between locations which uses
-`window.history.pushState(..)` function.
+also provides a method to navigate between locations which sets the correct
+`window.location` by using `window.history.pushState(..)` function.
+
+React router component also provides advanced features like support for full
+page server side rendering and nested and contextual routers.
+
+Its functionality is tested using [Saucelabs][] on all modern browsers (IE >=
+10, Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and
+iPad >= 6). Basically, the browsers which support the HTML5 History API.
 
 ## Installation
 
@@ -98,8 +105,9 @@ You can acquire a reference to a router by using [Refs][React-Refs] mechanism.
 
 ## Advanced usage
 
-React router component also provides advanced features like support for full
-page server side rendering and nested and contextual routers.
+Advanced usage includes support for full page server side rendering and nested
+and contextual routers.
 
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
+[Saucelabs]: saucelabs.com
