@@ -72,8 +72,8 @@ into `Locations` router:
       }
     })
 
-You also need to `MainPage` and `UserPage` components (these are just regular
-React components) or require them from a different module:
+You also need to define `MainPage` and `UserPage` components (these are just
+regular React components) or require them from a different module:
 
     var MainPage = React.createClass({...})
     var UserPage = React.createClass({...})
