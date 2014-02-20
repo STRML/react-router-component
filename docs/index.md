@@ -81,6 +81,26 @@ The final part is to render your `App` component which activates your router:
 
     React.renderComponent(App(), document.body)
 
+## Handling "404 Not Found" case
+
+You might want to specify a fallback location which will be activated in case no
+other location is matched. For that there's a special `NotFound` location:
+
+    var NotFound = Router.NotFound
+
+    var App = React.createClass({
+
+      render: function() {
+        return (
+          <Locations>
+            <Location path="/" handler={MainPage} />
+            <Location path="/users/:username" handler={UserPage} />
+            <NotFound handler={NotFoundPage} />
+          </Locations>
+        )
+      }
+    })
+
 ## Navigating between locations
 
 To navigate between different locations React router component provides a `Link`
