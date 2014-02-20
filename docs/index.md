@@ -11,7 +11,7 @@ function:
       <Location path="/users/:username" handler={UserPage} />
     </Locations>
 
-Alternatively, if you doesn't prefer JSX:
+Alternatively, if you don't prefer JSX:
 
     Locations(
       Location({path: "/", handler: MainPage}),
@@ -21,7 +21,7 @@ While having a nice API this approach allows you to dynamically reconfigure
 routing based on your application state. For example you can return a different
 set of allowed locations for anonymous and signed-in users.
 
-React router component handles `"popstate"` event and makess appropriate
+React router component handles `"popstate"` event and makes appropriate
 transitions between locations (that means back button works as expected). It
 also provides a method to navigate between locations which sets the correct
 `window.location` by using `window.history.pushState(..)` function.
