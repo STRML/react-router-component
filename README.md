@@ -1,10 +1,10 @@
 # React Router Component
 
-React router component allows you to define application routes in your [React][]
+React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
-To use it, you just return a configured router component from your `.render()`
-function:
+Usage is as simple as just returning a configured router component from your
+`.render()` function:
 
     <Locations>
       <Location path="/" handler={MainPage} />
