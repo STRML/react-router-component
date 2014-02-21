@@ -69,9 +69,13 @@ into `Locations` router:
 
 Direct children of `Locations` router must be `Location` route descriptors.
 
-Each descriptor accepts a `path` property which specifies [URL
-pattern][url-pattern] and a `handler` property which declares a component which
-should render in case corresponding `path` is matched.
+Each descriptor accepts a `path` property which specifies URL pattern and a
+`handler` property which declares a component which should render in case
+corresponding `path` is matched.
+
+Parameters extracted from a `path` will be passed to a `handler` as props. In
+the example above, `UserPage` component will receive `username` prop on a
+successful location match.
 
 The final part is to render your `App` component which activates your router:
 
@@ -83,7 +87,8 @@ elements.
 ## Handling "404 Not Found" case
 
 You might want to specify a fallback location which will be activated in case no
-other location is matched. For that there's a special `NotFound` location:
+other location is matched. For that there's a special `NotFound` location
+descriptor:
 
     var NotFound = Router.NotFound
 
@@ -138,7 +143,6 @@ side rendering][server-side], [multiple routers][multiple] on the same page and
 [server-side]: server-side
 [multiple]: multiple
 [contextual]: contextual
-[url-pattern]: url-pattern
 
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html

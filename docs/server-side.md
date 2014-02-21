@@ -26,11 +26,12 @@ Then to get the markup:
     var app = App({path: '/users/andreypopp')
     var markup = React.renderComponentToString(app)
 
+## Express middleware
+
 You probably would want to use it in your [express][] application. Then the
 needed middleware would look like:
 
     var url        = require('url')
-    var React      = require('react')
 
     function(req, res, next) {
       try {
@@ -51,8 +52,12 @@ rendering.
 That means that you can generate entire page's markup with `<html>`, `<head>`
 and so on.
 
-React router component provides an another router `Pages` which renders directly
-into `<body>` DOM element. 
+React router component provides an another router `Pages`. It is completely
+similar to `Locations` but renders directly into `<body>` DOM element.
+
+    var Router = require('react-router-component')
+    var Pages = Router.Pages
+    var Page = Router.Page
 
     var App = React.createClass({
 

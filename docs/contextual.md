@@ -27,3 +27,29 @@ unmatched part of the parent router.
         )
       }
     })
+
+Now the application would have the following routes:
+
+  - `/` dispatches to a `MainPage`
+  - `/photos/` dispatches to a `AlbumPage`
+  - `/photos/:slug` dispatches to a `PhotoPage`
+
+If you use `Link` components inside a contextual router, its `href` would be
+scoped to this router. In the following example, the link *"back to albums"*
+would trigger transition to `/photos/` URL.
+
+    var PhotoPage = React.createClass({
+
+      render: function() {
+        return (
+          <div>
+            <img src={this.props.slug} />
+            <Link href="/">back to albums</Link>
+          </div>
+        )
+      }
+    })
+
+That allows to use contextual routers to write self-contained and reusable parts
+of an application which can be mounted several times under several different
+prefixes.
