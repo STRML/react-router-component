@@ -108,6 +108,17 @@ var HashRoutingMethod = merge(EnvironmentBase, {
 });
 
 /**
+ * Dummy routing environment which does nothing. Should be used on server and/or
+ * in WebWorker.
+ */
+var DummyRoutingMethod = merge(EnvironmentBase,  {
+  getPath: function(path) { return null; },
+  setPath: function(path, cb) { cb(); },
+  start: function() {},
+  stop: function() {}
+});
+
+/**
  * Create new routing environment which routes with specified method.
  *
  * @param {Object} method
@@ -123,3 +134,4 @@ function createEnvironment(method) {
 module.exports.createEnvironment = createEnvironment;
 module.exports.PathnameRoutingMethod = PathnameRoutingMethod;
 module.exports.HashRoutingMethod = HashRoutingMethod;
+module.exports.DummyRoutingMethod = DummyRoutingMethod;

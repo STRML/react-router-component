@@ -1,23 +1,29 @@
 "use strict";
 
-var pattern     = require('url-pattern');
-var React       = require('react');
-var merge       = require('react/lib/merge');
-var invariant   = require('react/lib/invariant');
-var Environment = require('./Environment');
+var pattern               = require('url-pattern');
+var React                 = require('react');
+var merge                 = require('react/lib/merge');
+var invariant             = require('react/lib/invariant');
+var Environment           = require('./Environment');
+var ExecutionEnvironment  = require('react/lib/ExecutionEnvironment');
 
-var pathnameRoutingEnvironment = Environment.createEnvironment(
-      Environment.PathnameRoutingMethod);
+if (ExecutionEnvironment.canUseDOM) {
 
-var hashRoutingEnvironment = Environment.createEnvironment(
-      Environment.HashRoutingMethod);
+  var pathnameRoutingEnvironment = Environment.createEnvironment(
+        Environment.PathnameRoutingMethod);
+
+  var hashRoutingEnvironment = Environment.createEnvironment(
+        Environment.HashRoutingMethod);
+}
 
 function createRouter(component, environment) {
 
   if (!environment) {
-    environment = (window.history === undefined) ?
-      hashRoutingEnvironment :
-      pathnameRoutingEnvironment;
+    environment = !ExecutionEnvironment.canUseDOM ?
+      Environment.createEnvironment(Environment.DummyRoutingMethod) :
+      (window.history === undefined) ?
+        hashRoutingEnvironment :
+        pathnameRoutingEnvironment
   }
 
   return React.createClass({
@@ -62,6 +68,12 @@ function createRouter(component, environment) {
       } else {
 
         path = this.props.path || fullPath;
+
+        invariant(
+          path,
+          "router operate in environment which cannot provide path, pass it a path prop"
+        );
+
         prefix = '';
       }
 
