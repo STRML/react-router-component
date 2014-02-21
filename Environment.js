@@ -3,6 +3,11 @@
 var merge         = require('react/lib/merge');
 var ReactUpdates  = require('react/lib/ReactUpdates');
 
+/**
+ * Base methods for an environment.
+ *
+ * @private
+ */
 var EnvironmentBase = {
 
   notify: function(cb) {
@@ -38,6 +43,9 @@ var EnvironmentBase = {
   }
 };
 
+/**
+ * Routing method which routes on window.location.pathname.
+ */
 var PathnameRoutingMethod = merge(EnvironmentBase, {
 
   getPath: function() {
@@ -67,6 +75,9 @@ var PathnameRoutingMethod = merge(EnvironmentBase, {
   }
 });
 
+/**
+ * Routing method which routes on window.location.hash.
+ */
 var HashRoutingMethod = merge(EnvironmentBase, {
 
   getPath: function() {
@@ -96,6 +107,11 @@ var HashRoutingMethod = merge(EnvironmentBase, {
   }
 });
 
+/**
+ * Create new routing environment which routes with specified method.
+ *
+ * @param {Object} method
+ */
 function createEnvironment(method) {
   var env = Object.create(method);
   env.path = env.getPath();
