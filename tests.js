@@ -8,7 +8,7 @@ function getText(node) {
   return node.textContent || node.innerText;
 }
 
-describe('react-router-component', function() {
+describe('Routing', function() {
 
   if (!historyAPI) return;
 
@@ -218,7 +218,7 @@ describe('Contextual routers', function() {
   });
 });
 
-describe('multiple active routers', function() {
+describe('Multiple active routers', function() {
 
   if (!historyAPI) return;
 
@@ -300,7 +300,7 @@ describe('multiple active routers', function() {
 
 });
 
-describe('react-router-component (hash routing)', function() {
+describe('Hash routing', function() {
 
   var App = React.createClass({
 
