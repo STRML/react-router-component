@@ -3,7 +3,7 @@
 var merge         = require('react/lib/merge');
 var ReactUpdates  = require('react/lib/ReactUpdates');
 
-var Environment = {
+var EnvironmentBase = {
 
   notify: function(cb) {
     var latch = this.routers.length;
@@ -38,7 +38,7 @@ var Environment = {
   }
 };
 
-var PathnameRoutingMethod = merge(Environment, {
+var PathnameRoutingMethod = merge(EnvironmentBase, {
 
   getPath: function() {
     return window.location.pathname;
@@ -67,7 +67,7 @@ var PathnameRoutingMethod = merge(Environment, {
   }
 });
 
-var HashRoutingMethod = merge(Environment, {
+var HashRoutingMethod = merge(EnvironmentBase, {
 
   getPath: function() {
     return window.location.hash.slice(1);
