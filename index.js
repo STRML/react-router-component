@@ -4,8 +4,8 @@ var pattern               = require('url-pattern');
 var React                 = require('react');
 var merge                 = require('react/lib/merge');
 var invariant             = require('react/lib/invariant');
-var Environment           = require('./Environment');
 var ExecutionEnvironment  = require('react/lib/ExecutionEnvironment');
+var Environment           = require('./Environment');
 
 if (ExecutionEnvironment.canUseDOM) {
 
