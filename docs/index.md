@@ -4,7 +4,7 @@ React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
 Usage is as simple as just returning a configured router component from your
-`.render()` function:
+component's `render()` method:
 
     <Locations>
       <Location path="/" handler={MainPage} />
@@ -17,26 +17,21 @@ Alternatively, if you don't prefer JSX:
       Location({path: "/", handler: MainPage}),
       Location({path: "/users/:username", handler: UserPage}))
 
-While having a nice API this approach allows you to dynamically reconfigure
-routing based on your application state. For example you can return a different
-set of allowed locations for anonymous and signed-in users.
+Having routes defined as a part of your component hierarchy allows to
+dynamically reconfigure routing based on your application state. For example you
+can return a different set of allowed locations for anonymous and signed-in
+users.
 
-React router component handles `"popstate"` event and makes appropriate
-transitions between locations (that means back button works as expected). It
-also provides a method to navigate between locations which sets the correct
-`window.location` by using `window.history.pushState(..)` function.
+React router component can dispatch based on `location.pathname` or
+`location.hash` if browser doesn't support History API.
 
-React router component also provides advanced features like support for [full
-page server side rendering][server-side] and nested and contextual routers.
+Furthermore it provides advanced features like support for [full page server
+side rendering][server-side], [multiple routers][multiple] on the same page and
+[contextual routers][contextual].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
 6).
-
-Note that browsers which do not support History API (IE 9 and below) should use
-["hash" router][hash-routing] which routes based on `window.location.hash`.
-
-The library may work in IE8 too if you include the [needed shims][React-Shims].
 
 ## Installation
 
@@ -51,8 +46,8 @@ First you require `react-router-component` library:
     var React = require('react')
     var Router = require('react-router-component')
 
-If you are using JSX, don't forget to bring names from a library into scope,
-cause JSX doesn't support namespaces yet:
+If you are using JSX, don't forget to bring components from a library into
+scope, cause JSX doesn't support namespaces yet:
 
     var Locations = Router.Locations
     var Location = Router.Location
@@ -72,17 +67,18 @@ into `Locations` router:
       }
     })
 
-Direct children of `Locations` router must `Location` route descriptors.
+Direct children of `Locations` router must be `Location` route descriptors.
 
-You also need to define `MainPage` and `UserPage` components (these are just
-regular React components) or require them from a different module:
-
-    var MainPage = React.createClass({...})
-    var UserPage = React.createClass({...})
+Each descriptor accepts a `path` property which specifies [URL
+pattern][url-pattern] and a `handler` property which declares a component which
+should render in case corresponding `path` is matched.
 
 The final part is to render your `App` component which activates your router:
 
     React.renderComponent(App(), document.body)
+
+In case no location is matched router would render into an empty set of
+elements.
 
 ## Handling "404 Not Found" case
 
@@ -114,6 +110,7 @@ As an example, let's see how `MainPage` component can be implemented with the
 usage of the `Link` component to transition to a `UserPage`:
 
     var Link = require('react-router-component').Link
+
     var MainPage = React.createClass({
 
       render: function() {
@@ -133,11 +130,15 @@ mechanism.
 
 ## Advanced usage
 
-Advanced usage includes support for [full page server side rendering][server-side] and nested
-and contextual routers.
+Advanced usage includes support for [full page server side
+rendering][server-side] and [nested and contextual routers][nested].
 
 [hash-routing]: hash-routing
 [server-side]: server-side
+[multiple]: multiple
+[contextual]: contextual
+[url-pattern]: url-pattern
+
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
 [React-Shims]: http://facebook.github.io/react/docs/working-with-the-browser.html#polyfills-needed-to-support-older-browsers

@@ -45,13 +45,14 @@ needed middleware would look like:
 
 ## Full page rendering
 
-React supports rendering its components directly into `document` element when
-using server side rendering. That means that you can generate entire page's
-markup with `<html>`, `<head>` and so on.
+React supports rendering directly into `document` element when using server side
+rendering.
+
+That means that you can generate entire page's markup with `<html>`, `<head>`
+and so on.
 
 React router component provides an another router `Pages` which renders directly
-into `<body>` DOM element. There is also `Page` route descriptor for
-convenience.
+into `<body>` DOM element. 
 
     var App = React.createClass({
 
@@ -69,6 +70,9 @@ convenience.
         )
       }
     })
+
+There is also `Page` route descriptor which is just an alias for `Location`. It
+is provided for convenience.
 
 [render-component-to-string]: http://facebook.github.io/react/docs/top-level-api.html#react.rendercomponenttostring
 [express]: http://expressjs.com

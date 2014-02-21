@@ -1,12 +1,15 @@
-# "Hash" routing
+# Hash routing
 
-Older browser which don't support [History API][] can use another kind of router
-which routes based on `window.location.hash` instead of `pathname`.
+Older browser which don't support [History API][] (notably IE < 10) can use hash
+router instead.
 
-That means that you don't get nice URLs when transitioning from a location to
-another location but everything else will be working as expected.
+Hash router dispatches to locations based on `location.hash` instead of
+`location.pathname`.
 
-To use "hash" router you just need to use another set of components under `Hash`
+That means you don't get nice URLs when transitioning from a location to another
+location but everything else will be working as expected.
+
+To use hash router you need to use an another set of components under `Hash`
 namespace:
 
     var React = require('react')
@@ -15,7 +18,8 @@ namespace:
     var Locations = Router.Hash.Locations
     var Location = Router.Hash.Location
 
-Everything else is the same:
+These components behaves exactly like theirs components which work with History
+API:
 
     var App = React.createClass({
 
@@ -29,7 +33,7 @@ Everything else is the same:
       }
     })
 
-Another use case for "hash" router is when you are not using a web server to
+Another use case for hash routers is when you are not using a web server to
 prototype your application and everything is served directly from filesystem.
 
 [History API]: https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history
