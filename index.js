@@ -229,6 +229,7 @@ var Link = React.createClass({
   },
 
   onClick: function(e) {
+    e.preventDefault();
     this.navigate(this.props.href);
     if (this.props.onClick)
       this.props.onClick(e);
