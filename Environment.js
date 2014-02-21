@@ -52,8 +52,10 @@ var PathnameRoutingMethod = merge(EnvironmentBase, {
     return window.location.pathname;
   },
 
-  setPath: function(path, cb) {
-    window.history.pushState({}, '', path);
+  setPath: function(path, cb, retrospective) {
+    if (!retrospective) {
+      window.history.pushState({}, '', path);
+    }
     this.path = path;
     this.notify(cb);
   },
@@ -70,7 +72,7 @@ var PathnameRoutingMethod = merge(EnvironmentBase, {
     var path = window.location.pathname;
 
     if (this.path !== path) {
-      this.setPath(path);
+      this.setPath(path, undefined, true);
     }
   }
 });
@@ -84,8 +86,10 @@ var HashRoutingMethod = merge(EnvironmentBase, {
     return window.location.hash.slice(1);
   },
 
-  setPath: function(path, cb) {
-    window.location.hash = path;
+  setPath: function(path, cb, retrospective) {
+    if (!retrospective) {
+      window.location.hash = path;
+    }
     this.path = path;
     this.notify(cb);
   },
@@ -102,7 +106,7 @@ var HashRoutingMethod = merge(EnvironmentBase, {
     var path = window.location.hash.slice(1);
 
     if (this.path !== path) {
-      this.setPath(path);
+      this.setPath(path, undefined, true);
     }
   }
 });
