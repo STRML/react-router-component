@@ -41,11 +41,11 @@ React router component is packaged on npm:
 
 See [docs][] for the usage.
 
-[hash-routing]: hash-routing
-[server-side]: server-side
-[multiple]: multiple
-[contextual]: contextual
-[url-pattern]: url-pattern
+[hash-routing]: http://andreypopp.viewdocs.io/react-router-component/hash-routing
+[server-side]: http://andreypopp.viewdocs.io/react-router-component/server-side
+[multiple]: http://andreypopp.viewdocs.io/react-router-component/multiple
+[contextual]: http://andreypopp.viewdocs.io/react-router-component/contextual
+[url-pattern]: http://andreypopp.viewdocs.io/react-router-component/url-pattern
 
 [docs]: http://andreypopp.viewdocs.io/react-router-component
 [React]: http://facebook.github.io/react/
