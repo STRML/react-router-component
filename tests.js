@@ -26,20 +26,6 @@ describe('react-router-component', function() {
     }
   });
 
-  var ContextualRouter = React.createClass({
-    render: function() {
-      return React.DOM.div(null,
-        Router.Locations({contextual: true},
-          Router.Location({path: '/'}, function(props) {
-            return 'contextual/root';
-          }),
-          Router.Location({path: '/page'}, function(props) {
-            return 'contextual/page';
-          })
-        ));
-    }
-  });
-
   var App = React.createClass({
 
     render: function() {
@@ -49,9 +35,6 @@ describe('react-router-component', function() {
         }),
         Router.Location({path: '/__zuul/nested/*'}, function(props) {
           return NestedRouter();
-        }),
-        Router.Location({path: '/__zuul/contextual/*'}, function(props) {
-          return ContextualRouter();
         }),
         Router.Location({path: '/__zuul/:slug'}, function(props) {
           return props.slug
@@ -76,7 +59,7 @@ describe('react-router-component', function() {
     app = null;
     router = null
     window.history.pushState({}, '', '/__zuul');
-    setTimeout(done, 100);
+    setTimeout(done, 200);
   });
 
   it('renders', function() {
@@ -111,36 +94,16 @@ describe('react-router-component', function() {
 
     it('navigates to a subroute', function(done) {
       assert.equal(getText(host), 'mainpage');
-      router.navigate('/__zuul/contextual/page', function() {
-        assert.equal(getText(host), 'contextual/page');
+      router.navigate('/__zuul/nested/page', function() {
+        assert.equal(getText(host), 'nested/page');
         done();
       });
     });
 
     it('navigates to a subroute (root case)', function(done) {
       assert.equal(getText(host), 'mainpage');
-      router.navigate('/__zuul/contextual/', function() {
-        assert.equal(getText(host), 'contextual/root');
-        done();
-      });
-    });
-
-  });
-
-  describe('Contextual routers', function() {
-
-    it('navigates to a subroute', function(done) {
-      assert.equal(getText(host), 'mainpage');
-      router.navigate('/__zuul/contextual/page', function() {
-        assert.equal(getText(host), 'contextual/page');
-        done();
-      });
-    });
-
-    it('navigates to a subroute (root case)', function(done) {
-      assert.equal(getText(host), 'mainpage');
-      router.navigate('/__zuul/contextual/', function() {
-        assert.equal(getText(host), 'contextual/root');
+      router.navigate('/__zuul/nested/', function() {
+        assert.equal(getText(host), 'nested/root');
         done();
       });
     });
@@ -162,6 +125,93 @@ describe('react-router-component', function() {
       router.refs.link.onClick();
       setTimeout(function() {
         assert.equal(getText(host), 'hello');
+        done();
+      }, 200);
+    });
+  });
+});
+
+describe('Contextual routers', function() {
+
+  if (!historyAPI) return;
+
+  var SubCat = React.createClass({
+
+    render: function() {
+      return React.DOM.div(null,
+        Router.Locations({ref: 'router', contextual: true},
+          Router.Location({path: '/'}, function(props) {
+            return 'subcat/root';
+          }),
+          Router.Location({path: '/page'}, function(props) {
+            return Router.Link({ref: 'link', href: '/'}, 'subcat/page');
+          })
+        ));
+    }
+  });
+
+  var App = React.createClass({
+
+    render: function() {
+      return Router.Locations({ref: 'router'},
+        Router.Location({path: '/__zuul', handler: function() { return "mainpage" }}),
+        Router.Location({path: '/__zuul/subcat/*', handler: SubCat, ref: 'subcat'}));
+    }
+  });
+
+  var host, app, router;
+
+  beforeEach(function() {
+    host = document.createElement('div');
+    document.body.appendChild(host);
+    app = React.renderComponent(App(), host);
+    router = app.refs.router;
+  });
+
+  afterEach(function(done) {
+    React.unmountComponentAtNode(host);
+    document.body.removeChild(host);
+    host = null;
+    app = null;
+    router = null;
+    window.history.pushState({}, '', '/__zuul');
+    setTimeout(done, 200);
+  });
+
+  it('navigates to a subroute', function(done) {
+    assert.equal(getText(host), 'mainpage');
+    router.navigate('/__zuul/subcat/page', function() {
+      assert.equal(getText(host), 'subcat/page');
+      done();
+    });
+  });
+
+  it('navigates to a subroute (root case)', function(done) {
+    assert.equal(getText(host), 'mainpage');
+    router.navigate('/__zuul/subcat/', function() {
+      assert.equal(getText(host), 'subcat/root');
+      done();
+    });
+  });
+
+  it('scopes router.navigate() to a current context', function(done) {
+    assert.equal(getText(host), 'mainpage');
+    router.navigate('/__zuul/subcat/', function() {
+      assert.equal(getText(host), 'subcat/root');
+      router.refs.subcat.refs.router.navigate('/page', function() {
+        assert.equal(getText(host), 'subcat/page');
+        done();
+      });
+    });
+  });
+
+  it('scopes Link to a current context', function(done) {
+    assert.equal(getText(host), 'mainpage');
+    router.navigate('/__zuul/subcat/page', function() {
+      assert.equal(getText(host), 'subcat/page');
+      router.refs.subcat.refs.router.refs.link.onClick();
+      setTimeout(function() {
+        assert.equal(getText(host), 'subcat/root');
         done();
       }, 200);
     });

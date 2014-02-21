@@ -1,8 +1,9 @@
 "use strict";
 
-var React     = require('react');
-var invariant = require('react/lib/invariant');
-var pattern   = require('url-pattern');
+var pattern     = require('url-pattern');
+var React       = require('react');
+var merge       = require('react/lib/merge');
+var invariant   = require('react/lib/invariant');
 var Environment = require('./Environment');
 
 var pathnameRoutingEnvironment = Environment.createEnvironment(
@@ -44,16 +45,24 @@ function createRouter(component, environment) {
 
     getInitialState: function() {
       var path;
+      var prefix;
+      var fullPath = environment.getPath();
 
       if (this.props.contextual && this.context.router) {
+
         var match = this.context.router.getMatch();
+
         invariant(
           this.props.path || match.match._ && match.match._.length > 0,
           "contextual router has nothing to match on"
         );
+
         path = this.props.path || match.match._[0];
+        prefix = fullPath.substring(0, fullPath.length - path.length);
       } else {
-        path = this.props.path || environment.getPath();
+
+        path = this.props.path || fullPath;
+        prefix = '';
       }
 
       if (path[0] !== '/') {
@@ -61,8 +70,13 @@ function createRouter(component, environment) {
       }
 
       return {
-        match: this.match(path)
+        match: this.match(path),
+        prefix: prefix
       };
+    },
+
+    componentWillReceiveProps: function() {
+      this.setState(this.getInitialState());
     },
 
     getMatch: function() {
@@ -119,6 +133,7 @@ function createRouter(component, environment) {
     },
 
     navigate: function(path, cb) {
+      path = join(this.state.prefix, path);
       environment.setPath(path, cb);
     },
 
@@ -145,24 +160,33 @@ function createRouter(component, environment) {
 }
 
 /**
+ * Join pathnames and normalize double slashes.
+ */
+function join(a, b) {
+  return (a + b).replace(/\/\//g, '/');
+}
+
+/**
  * Helper to get children from a matched route.
  */
 function getChildren() {
-  return this.route ? this.route.handler(this.match) : undefined;
+  return this.route ?
+    this.route.handler(merge(this.match, {ref: this.route.ref})) :
+    undefined;
 }
 
 function Route(props, handler) {
   invariant(
     typeof props.handler === 'function' || typeof handler === 'function',
     "Route handler should be a template");
-  return {path: props.path, handler: props.handler || handler};
+  return {path: props.path, handler: props.handler || handler, ref: props.ref};
 }
 
 function NotFound(props, handler) {
   invariant(
     typeof props.handler === 'function' || typeof handler === 'function',
     "NotFound handler should be a template");
-  return {path: null, handler: props.handler || handler};
+  return {path: null, handler: props.handler || handler, ref: props.ref};
 }
 
 /**
