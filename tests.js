@@ -170,6 +170,8 @@ describe('react-router-component', function() {
 
 describe('multiple active routers', function() {
 
+  if (!historyAPI) return;
+
   var App = React.createClass({
 
     render: function() {
