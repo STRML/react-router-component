@@ -168,6 +168,86 @@ describe('react-router-component', function() {
   });
 });
 
+describe('multiple active routers', function() {
+
+  var App = React.createClass({
+
+    render: function() {
+      var router1 = Router.Locations({ref: 'router1', className: 'App'},
+        Router.Location({path: '/__zuul'}, function(props) {
+          return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage1')
+        }),
+        Router.Location({path: '/__zuul/:slug'}, function(props) {
+          return props.slug + '1';
+        })
+      );
+      var router2 = Router.Locations({ref: 'router2', className: 'App'},
+        Router.Location({path: '/__zuul'}, function(props) {
+          return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage2')
+        }),
+        Router.Location({path: '/__zuul/:slug'}, function(props) {
+          return props.slug + '2';
+        })
+      );
+      return React.DOM.div(null, router1, router2);
+    }
+  });
+
+  var host, app, router1, router2;
+
+  beforeEach(function() {
+    host = document.createElement('div');
+    document.body.appendChild(host);
+    app = React.renderComponent(App(), host);
+    router1 = app.refs.router1;
+    router2 = app.refs.router2;
+  });
+
+  afterEach(function(done) {
+    React.unmountComponentAtNode(host);
+    document.body.removeChild(host);
+    host = null;
+    app = null;
+    router1 = null;
+    router2 = null;
+    window.history.pushState({}, '', '/__zuul');
+    setTimeout(done, 200);
+  });
+
+  it('renders', function() {
+    assert.equal(getText(host), 'mainpage1mainpage2');
+  });
+
+  it('navigates to a different route', function(done) {
+    assert.equal(getText(host), 'mainpage1mainpage2');
+    router1.navigate('/__zuul/hello', function() {
+      assert.equal(getText(host), 'hello1hello2');
+      done();
+    });
+  });
+
+  it('navigates to a different route (using another router)', function(done) {
+    assert.equal(getText(host), 'mainpage1mainpage2');
+    router2.navigate('/__zuul/hello', function() {
+      assert.equal(getText(host), 'hello1hello2');
+      done();
+    });
+  });
+
+  it('handles "popstate" event', function(done) {
+    assert.equal(getText(host), 'mainpage1mainpage2');
+    router1.navigate('/__zuul/hello', function() {
+      assert.equal(getText(host), 'hello1hello2');
+      window.history.back();
+      setTimeout(function() {
+        assert.equal(getText(host), 'mainpage1mainpage2');
+        done();
+      }, 200);
+    });
+  });
+
+});
+
 describe('react-router-component (hash routing)', function() {
 
   var App = React.createClass({
@@ -251,4 +331,3 @@ describe('react-router-component (hash routing)', function() {
   });
 
 });
-

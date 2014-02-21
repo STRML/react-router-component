@@ -3,15 +3,25 @@
 var React     = require('react');
 var invariant = require('react/lib/invariant');
 var pattern   = require('url-pattern');
+var Environment = require('./Environment');
+
+var pathnameRoutingEnvironment = Environment.createEnvironment(
+      Environment.PathnameRoutingMethod);
+
+var hashRoutingEnvironment = Environment.createEnvironment(
+      Environment.HashRoutingMethod);
 
 function createRouter(component, environment) {
 
-  if (window.history === undefined) {
-    environment = HashChangeRouterEnvironment;
+  if (!environment) {
+    environment = (window.history === undefined) ?
+      hashRoutingEnvironment :
+      pathnameRoutingEnvironment;
   }
 
   return React.createClass({
-    mixins: [environment],
+
+    displayName: 'Router',
 
     propTypes: {
       path: React.PropTypes.string,
@@ -32,11 +42,6 @@ function createRouter(component, environment) {
       };
     },
 
-    navigate: function(path, cb) {
-      this.updatePath(path);
-      this.setState({match: this.matchPath(path)}, cb);
-    },
-
     getInitialState: function() {
       var path;
 
@@ -48,7 +53,7 @@ function createRouter(component, environment) {
         );
         path = this.props.path || match.match._[0];
       } else {
-        path = this.props.path || this.getPath();
+        path = this.props.path || environment.getPath();
       }
 
       if (path[0] !== '/') {
@@ -56,7 +61,7 @@ function createRouter(component, environment) {
       }
 
       return {
-        match: this.matchPath(path)
+        match: this.match(path)
       };
     },
 
@@ -64,7 +69,14 @@ function createRouter(component, environment) {
       return this.state.match;
     },
 
-    matchPath: function(path) {
+    /**
+     * Return a match for the specified path
+     *
+     * @private
+     *
+     * @param {String} path
+     */
+    match: function(path) {
       var match, page, notFound;
 
       var children = this.props.children;
@@ -106,6 +118,26 @@ function createRouter(component, environment) {
       };
     },
 
+    navigate: function(path, cb) {
+      environment.setPath(path, cb);
+    },
+
+    setPath: function(path, cb) {
+      this.setState({match: this.match(path)}, cb);
+    },
+
+    getParentRouter: function() {
+      return this.context.router;
+    },
+
+    componentDidMount: function() {
+      environment.register(this);
+    },
+
+    componentWillUnmount: function() {
+      environment.unregister(this);
+    },
+
     render: function() {
       return this.transferPropsTo(component(null, this.state.match.getChildren()));
     }
@@ -118,66 +150,6 @@ function createRouter(component, environment) {
 function getChildren() {
   return this.route ? this.route.handler(this.match) : undefined;
 }
-
-/**
- * Router environment mixin for routers which handles History API.
- */
-var HistoryAPIRouterEnvironment = {
-
-  getPath: function() {
-    return window.location.pathname;
-  },
-
-  updatePath: function(path) {
-    window.history.pushState({}, '', path);
-  },
-
-  componentDidMount: function() {
-    window.addEventListener('popstate', this.onPopState);
-  },
-
-  componentWillUnmount: function() {
-    window.removeEventListener('popstate', this.onPopState);
-  },
-
-  onPopState: function(e) {
-    var path = window.location.pathname;
-
-    if (this.state.match.path !== path) {
-      this.setState({match: this.matchPath(path)});
-    }
-  }
-};
-
-/**
- * Router environment mixin for routers which handles hashchange event.
- */
-var HashChangeRouterEnvironment = {
-
-  getPath: function() {
-    return window.location.hash.slice(1);
-  },
-
-  updatePath: function(path) {
-    window.location.hash = path;
-  },
-
-  componentDidMount: function() {
-    window.addEventListener('hashchange', this.onHashChange);
-  },
-
-  componentWillUnmount: function() {
-    window.removeEventListener('hashchange', this.onHashChange);
-  },
-
-  onHashChange: function() {
-    var path = window.location.hash.slice(1);
-
-    if (this.state.match.path !== path) {
-      this.setState({match: this.matchPath(path)});
-    }
-  }
-};
 
 function Route(props, handler) {
   invariant(
@@ -232,22 +204,21 @@ var Link = React.createClass({
 });
 
 module.exports = {
-
   Hash: {
-    Pages: createRouter(React.DOM.body, HashChangeRouterEnvironment),
+    Pages: createRouter(React.DOM.body, hashRoutingEnvironment),
     Page: Route,
 
-    Locations: createRouter(React.DOM.div, HashChangeRouterEnvironment),
+    Locations: createRouter(React.DOM.div, hashRoutingEnvironment),
     Location: Route,
 
     NotFound: NotFound,
     Link: Link
   },
 
-  Pages: createRouter(React.DOM.body, HistoryAPIRouterEnvironment),
+  Pages: createRouter(React.DOM.body),
   Page: Route,
 
-  Locations: createRouter(React.DOM.div, HistoryAPIRouterEnvironment),
+  Locations: createRouter(React.DOM.div),
   Location: Route,
 
   NotFound: NotFound,
