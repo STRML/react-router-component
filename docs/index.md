@@ -130,8 +130,9 @@ mechanism.
 
 ## Advanced usage
 
-Advanced usage includes support for [full page server side
-rendering][server-side] and [nested and contextual routers][nested].
+Advanced features include support for [full page server
+side rendering][server-side], [multiple routers][multiple] on the same page and
+[contextual routers][contextual].
 
 [hash-routing]: hash-routing
 [server-side]: server-side
