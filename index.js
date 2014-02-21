@@ -59,18 +59,18 @@ function createRouter(component, environment) {
         var match = this.context.router.getMatch();
 
         invariant(
-          this.props.path || match.match._ && match.match._.length > 0,
-          "contextual router has nothing to match on"
+          this.props.path || isString(match.unmatched),
+          "contextual router has nothing to match on: %s", match.unmatched
         );
 
-        path = this.props.path || match.match._[0];
+        path = this.props.path || match.unmatched;
         prefix = fullPath.substring(0, fullPath.length - path.length);
       } else {
 
         path = this.props.path || fullPath;
 
         invariant(
-          path,
+          isString(path),
           "router operate in environment which cannot provide path, pass it a path prop"
         );
 
@@ -140,6 +140,7 @@ function createRouter(component, environment) {
         pattern: page ? page.pattern : null,
         route: page ? page : notFound ? notFound : null,
         match: match,
+        unmatched: match && match._ ? match._[0] : null,
         getChildren: getChildren
       };
     },
@@ -176,6 +177,10 @@ function createRouter(component, environment) {
  */
 function join(a, b) {
   return (a + b).replace(/\/\//g, '/');
+}
+
+function isString(o) {
+  return Object.prototype.toString.call(o) === '[object String]';
 }
 
 /**
@@ -224,12 +229,16 @@ var NavigatableMixin = {
 var Link = React.createClass({
   mixins: [NavigatableMixin],
 
+  displayName: 'Link',
+
   propTypes: {
     href: React.PropTypes.string.isRequired
   },
 
   onClick: function(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     this.navigate(this.props.href);
     if (this.props.onClick)
       this.props.onClick(e);
