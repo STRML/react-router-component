@@ -2,6 +2,7 @@
 
 var merge         = require('react/lib/merge');
 var ReactUpdates  = require('react/lib/ReactUpdates');
+var emptyFunction = require('react/lib/emptyFunction');
 
 /**
  * Base methods for an environment.
@@ -112,14 +113,22 @@ var HashRoutingMethod = merge(EnvironmentBase, {
 });
 
 /**
- * Dummy routing environment which does nothing. Should be used on server and/or
- * in WebWorker.
+ * Dummy routing method which does nothing.
+ *
+ * Should be used on server or in WebWorker.
  */
 var DummyRoutingMethod = merge(EnvironmentBase,  {
-  getPath: function(path) { return null; },
-  setPath: function(path, cb) { cb(); },
-  start: function() {},
-  stop: function() {}
+
+  getPath: emptyFunction.thatReturnsNull,
+
+  setPath: function(path, cb) {
+    this.path = path;
+    cb();
+  },
+
+  start: emptyFunction,
+
+  stop: emptyFunction
 });
 
 /**
