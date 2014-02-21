@@ -170,8 +170,9 @@ function join(a, b) {
  * Helper to get children from a matched route.
  */
 function getChildren() {
-  return this.route ?
-    this.route.handler(merge(this.match, {ref: this.route.ref})) :
+  var self = this; // jshint ignore:line
+  return self.route ?
+    self.route.handler(merge(self.match, {ref: self.route.ref})) :
     undefined;
 }
 
