@@ -1,7 +1,6 @@
 # Multiple routers on the same page
 
-You can have multiple routers active at the same time. Each router can act
-independently of each other.
+You can have multiple routers active at the same time.
 
 Define several components which use `Locations` router to dispatch to different
 UI components:
