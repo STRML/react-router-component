@@ -70,6 +70,10 @@ describe('Routing', function() {
     var dom = app.refs.router.getDOMNode();
     if (dom.classList)
       assert.ok(dom.classList.contains('App'));
+  });
+
+  it('passes props from location down to handler', function() {
+    assert.equal(getText(host), 'mainpage');
     assert.equal(router.refs.link.props.foo, 'bar');
   });
 
