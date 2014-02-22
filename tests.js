@@ -31,8 +31,8 @@ describe('Routing', function() {
     render: function() {
       return React.DOM.div(null,
         Router.Locations({ref: 'router', className: 'App'},
-          Router.Location({path: '/__zuul'}, function(props) {
-            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+          Router.Location({path: '/__zuul', foo: 'bar'}, function(props) {
+            return Router.Link({foo: props.foo, ref: 'link', href: '/__zuul/hello'}, 'mainpage')
           }),
           Router.Location({path: '/__zuul/nested/*'}, function(props) {
             return NestedRouter();
@@ -70,6 +70,7 @@ describe('Routing', function() {
     var dom = app.refs.router.getDOMNode();
     if (dom.classList)
       assert.ok(dom.classList.contains('App'));
+    assert.equal(router.refs.link.props.foo, 'bar');
   });
 
   it('navigates to a different route', function(done) {

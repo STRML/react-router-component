@@ -184,21 +184,30 @@ function isString(o) {
   return Object.prototype.toString.call(o) === '[object String]';
 }
 
+function cleanProps(props) {
+  props = merge({}, props);
+  delete props.path;
+  delete props.handler;
+  return props;
+}
+
 /**
  * Helper to get children from a matched route.
  */
 function getChildren() {
   var self = this; // jshint ignore:line
   return self.route ?
-    self.route.handler(merge(self.match, {ref: self.route.ref})) :
+    self.route.handler(merge(self.match, self.route.props)) :
     undefined;
 }
 
 function Route(props, handler) {
+  handler = props.handler || handler;
   invariant(
-    typeof props.handler === 'function' || typeof handler === 'function',
-    "Route handler should be a template");
-  return {path: props.path, handler: props.handler || handler, ref: props.ref};
+    typeof handler === 'function',
+    "Route handler should be a component or a function but got: %s", handler
+  );
+  return {path: props.path, handler: handler, props: cleanProps(props)};
 }
 
 function NotFound(props, handler) {
