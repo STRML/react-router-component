@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.0
+
+  - Location now passes all props to its handler (except "path" and "handler"
+    which are reserved for Location)
+
 ## 0.4.0
 
   - Link component can now communicate with the router (of the default
