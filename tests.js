@@ -29,16 +29,19 @@ describe('Routing', function() {
   var App = React.createClass({
 
     render: function() {
-      return Router.Locations({ref: 'router', className: 'App'},
-        Router.Location({path: '/__zuul'}, function(props) {
-          return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage')
-        }),
-        Router.Location({path: '/__zuul/nested/*'}, function(props) {
-          return NestedRouter();
-        }),
-        Router.Location({path: '/__zuul/:slug'}, function(props) {
-          return props.slug
-        })
+      return React.DOM.div(null,
+        Router.Locations({ref: 'router', className: 'App'},
+          Router.Location({path: '/__zuul'}, function(props) {
+            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+          }),
+          Router.Location({path: '/__zuul/nested/*'}, function(props) {
+            return NestedRouter();
+          }),
+          Router.Location({path: '/__zuul/:slug'}, function(props) {
+            return props.slug
+          })
+        ),
+        Router.Link({ref: 'outside', href: '/__zuul/hi'})
       );
     }
   });
@@ -64,7 +67,7 @@ describe('Routing', function() {
 
   it('renders', function() {
     assert.equal(getText(host), 'mainpage');
-    var dom = app.getDOMNode();
+    var dom = app.refs.router.getDOMNode();
     if (dom.classList)
       assert.ok(dom.classList.contains('App'));
   });
@@ -128,7 +131,18 @@ describe('Routing', function() {
         done();
       }, 200);
     });
+
+    it('navigates even if it is situated outside of the router context', function(done) {
+      assert.equal(getText(host), 'mainpage');
+      app.refs.outside.onClick();
+      setTimeout(function() {
+        assert.equal(getText(host), 'hi');
+        done();
+      }, 200);
+    });
+
   });
+
 });
 
 describe('Contextual routers', function() {

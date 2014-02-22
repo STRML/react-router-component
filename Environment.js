@@ -25,6 +25,10 @@ var EnvironmentBase = {
     }.bind(this));
   },
 
+  getRouter: function() {
+    return this.routers[0];
+  },
+
   register: function(router) {
     if (this.routers.length === 0) {
       this.start();

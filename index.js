@@ -14,17 +14,18 @@ if (ExecutionEnvironment.canUseDOM) {
 
   var hashRoutingEnvironment = Environment.createEnvironment(
         Environment.HashRoutingMethod);
+
+  var defaultEnvironment = !ExecutionEnvironment.canUseDOM ?
+        Environment.createEnvironment(Environment.DummyRoutingMethod) :
+        (window.history === undefined) ?
+          hashRoutingEnvironment :
+          pathnameRoutingEnvironment;
+
 }
 
 function createRouter(component, environment) {
 
-  if (!environment) {
-    environment = !ExecutionEnvironment.canUseDOM ?
-      Environment.createEnvironment(Environment.DummyRoutingMethod) :
-      (window.history === undefined) ?
-        hashRoutingEnvironment :
-        pathnameRoutingEnvironment
-  }
+  environment = environment || defaultEnvironment;
 
   return React.createClass({
 
@@ -217,7 +218,14 @@ var NavigatableMixin = {
   },
 
   navigate: function(path, cb) {
-    this.context.router.navigate(path, cb);
+    var router = this.context.router || defaultEnvironment.getRouter();
+
+    invariant(
+      router,
+      this.displayName + " can't found an active router on a page"
+    );
+
+    router.navigate(path, cb);
   }
 };
 
