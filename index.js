@@ -138,7 +138,6 @@ function createRouter(component, environment) {
 
       return {
         path: path,
-        pattern: page ? page.pattern : null,
         route: page ? page : notFound ? notFound : null,
         match: match,
         unmatched: match && match._ ? match._[0] : null,
