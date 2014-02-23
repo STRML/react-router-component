@@ -8,8 +8,7 @@ install link:
 lint:
 	@$(BIN)/jshint index.js
 
-test:
-	@echo 'nothing' > /dev/null
+test: test-server
 
 test-server:
 	@$(BIN)/mocha -R spec -b tests/server.js
