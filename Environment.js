@@ -9,7 +9,7 @@ var emptyFunction = require('react/lib/emptyFunction');
  *
  * @private
  */
-var EnvironmentBase = {
+var RoutingMethodBase = {
 
   notify: function(cb) {
     var latch = this.routers.length;
@@ -51,7 +51,7 @@ var EnvironmentBase = {
 /**
  * Routing method which routes on window.location.pathname.
  */
-var PathnameRoutingMethod = merge(EnvironmentBase, {
+var PathnameRoutingMethod = merge(RoutingMethodBase, {
 
   getPath: function() {
     return window.location.pathname;
@@ -85,7 +85,7 @@ var PathnameRoutingMethod = merge(EnvironmentBase, {
 /**
  * Routing method which routes on window.location.hash.
  */
-var HashRoutingMethod = merge(EnvironmentBase, {
+var HashRoutingMethod = merge(RoutingMethodBase, {
 
   getPath: function() {
     return window.location.hash.slice(1);
@@ -121,7 +121,7 @@ var HashRoutingMethod = merge(EnvironmentBase, {
  *
  * Should be used on server or in WebWorker.
  */
-var DummyRoutingMethod = merge(EnvironmentBase,  {
+var DummyRoutingMethod = merge(RoutingMethodBase,  {
 
   getPath: emptyFunction.thatReturnsNull,
 
@@ -148,7 +148,24 @@ function createEnvironment(method) {
   return env;
 }
 
+var Mixin = function(environment) {
+  return {
+    getEnvironment: function() {
+      return environment;
+    },
+
+    componentDidMount: function() {
+      environment.register(this);
+    },
+
+    componentWillUnmount: function() {
+      environment.unregister(this);
+    }
+  }
+}
+
 module.exports.createEnvironment = createEnvironment;
 module.exports.PathnameRoutingMethod = PathnameRoutingMethod;
 module.exports.HashRoutingMethod = HashRoutingMethod;
 module.exports.DummyRoutingMethod = DummyRoutingMethod;
+module.exports.Mixin = Mixin;

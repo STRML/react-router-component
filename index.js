@@ -6,6 +6,9 @@ var merge                 = require('react/lib/merge');
 var invariant             = require('react/lib/invariant');
 var ExecutionEnvironment  = require('react/lib/ExecutionEnvironment');
 var Environment           = require('./Environment');
+var RouterMixin           = require('./RouterMixin');
+
+var defaultEnvironment;
 
 if (ExecutionEnvironment.canUseDOM) {
 
@@ -15,13 +18,16 @@ if (ExecutionEnvironment.canUseDOM) {
   var hashRoutingEnvironment = Environment.createEnvironment(
         Environment.HashRoutingMethod);
 
-}
+  defaultEnvironment = (window.history === undefined) ?
+    hashRoutingEnvironment :
+    pathnameRoutingEnvironment;
 
-var defaultEnvironment = !ExecutionEnvironment.canUseDOM ?
-      Environment.createEnvironment(Environment.DummyRoutingMethod) :
-      (window.history === undefined) ?
-        hashRoutingEnvironment :
-        pathnameRoutingEnvironment;
+} else {
+
+  defaultEnvironment = Environment.createEnvironment(
+        Environment.DummyRoutingMethod);
+
+}
 
 function createRouter(component, environment) {
 
@@ -31,140 +37,7 @@ function createRouter(component, environment) {
 
     displayName: 'Router',
 
-    propTypes: {
-      path: React.PropTypes.string,
-      contextual: React.PropTypes.bool
-    },
-
-    contextTypes: {
-      router: React.PropTypes.component,
-    },
-
-    childContextTypes: {
-      router: React.PropTypes.component
-    },
-
-    getChildContext: function() {
-      return {
-        router: this
-      };
-    },
-
-    getInitialState: function() {
-      var path;
-      var prefix;
-      var fullPath = environment.getPath();
-
-      if (this.props.contextual && this.context.router) {
-
-        var match = this.context.router.getMatch();
-
-        invariant(
-          this.props.path || isString(match.unmatched),
-          "contextual router has nothing to match on: %s", match.unmatched
-        );
-
-        path = this.props.path || match.unmatched;
-        prefix = fullPath.substring(0, fullPath.length - path.length);
-      } else {
-
-        path = this.props.path || fullPath;
-
-        invariant(
-          isString(path),
-          "router operate in environment which cannot provide path, pass it a path prop"
-        );
-
-        prefix = '';
-      }
-
-      if (path[0] !== '/') {
-        path = '/' + path;
-      }
-
-      return {
-        match: this.match(path),
-        prefix: prefix
-      };
-    },
-
-    componentWillReceiveProps: function() {
-      this.setState(this.getInitialState());
-    },
-
-    getMatch: function() {
-      return this.state.match;
-    },
-
-    /**
-     * Return a match for the specified path
-     *
-     * @private
-     *
-     * @param {String} path
-     */
-    match: function(path) {
-      var match, page, notFound;
-
-      var children = this.props.children;
-
-      if (!Array.isArray(children)) {
-        children = [children];
-      }
-
-      for (var i = 0, len = children.length; i < len; i++) {
-        var current = children[i];
-
-        if (process.env.NODE_ENV !== "production") {
-          invariant(
-            current.handler !== undefined && current.path !== undefined,
-            "Router should contain either Route or NotFound components " +
-            "as children")
-        }
-
-        if (current.path) {
-          current.pattern = current.pattern || pattern(current.path);
-          if (!page) {
-            match = current.pattern.match(path);
-            if (match) {
-              page = current;
-            }
-          }
-        }
-        if (!notFound && current.path === null) {
-          notFound = current;
-        }
-      }
-
-      return {
-        path: path,
-        route: page ? page : notFound ? notFound : null,
-        match: match,
-        unmatched: match && match._ ? match._[0] : null,
-        getChildren: getChildren
-      };
-    },
-
-    navigate: function(path, cb) {
-      path = join(this.state.prefix, path);
-      environment.setPath(path, cb);
-    },
-
-    setPath: function(path, cb) {
-      this.setState({match: this.match(path)}, cb);
-    },
-
-    getParentRouter: function() {
-      return this.context.router;
-    },
-
-    componentDidMount: function() {
-      environment.register(this);
-    },
-
-    componentWillUnmount: function() {
-      environment.unregister(this);
-    },
+    mixins: [Environment.Mixin(environment), RouterMixin],
 
     render: function() {
       return this.transferPropsTo(component(null, this.state.match.getChildren()));
@@ -175,29 +48,11 @@ function createRouter(component, environment) {
 /**
  * Join pathnames and normalize double slashes.
  */
-function join(a, b) {
-  return (a + b).replace(/\/\//g, '/');
-}
-
-function isString(o) {
-  return Object.prototype.toString.call(o) === '[object String]';
-}
-
 function cleanProps(props) {
   props = merge({}, props);
   delete props.path;
   delete props.handler;
   return props;
-}
-
-/**
- * Helper to get children from a matched route.
- */
-function getChildren() {
-  var self = this; // jshint ignore:line
-  return self.route ?
-    self.route.handler(merge(self.match, self.route.props)) :
-    undefined;
 }
 
 function Route(props, handler) {
