@@ -15,13 +15,13 @@ if (ExecutionEnvironment.canUseDOM) {
   var hashRoutingEnvironment = Environment.createEnvironment(
         Environment.HashRoutingMethod);
 
-  var defaultEnvironment = !ExecutionEnvironment.canUseDOM ?
-        Environment.createEnvironment(Environment.DummyRoutingMethod) :
-        (window.history === undefined) ?
-          hashRoutingEnvironment :
-          pathnameRoutingEnvironment;
-
 }
+
+var defaultEnvironment = !ExecutionEnvironment.canUseDOM ?
+      Environment.createEnvironment(Environment.DummyRoutingMethod) :
+      (window.history === undefined) ?
+        hashRoutingEnvironment :
+        pathnameRoutingEnvironment;
 
 function createRouter(component, environment) {
 
@@ -201,7 +201,7 @@ function getChildren() {
 }
 
 function Route(props, handler) {
-  handler = props.handler || handler;
+  handler = props && props.handler || handler;
   invariant(
     typeof handler === 'function',
     "Route handler should be a component or a function but got: %s", handler
@@ -210,10 +210,11 @@ function Route(props, handler) {
 }
 
 function NotFound(props, handler) {
+  handler = props && props.handler || handler;
   invariant(
-    typeof props.handler === 'function' || typeof handler === 'function',
+    typeof handler === 'function',
     "NotFound handler should be a template");
-  return {path: null, handler: props.handler || handler, ref: props.ref};
+  return {path: null, handler: handler, props: cleanProps(props)};
 }
 
 /**
