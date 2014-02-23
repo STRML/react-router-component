@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.5.1
+
+  - fixes for server side rendering
+
+  - browser test suite refactored to use ReactTestUtils
+
 ## 0.5.0
 
   - Location now passes all props to its handler (except "path" and "handler"
