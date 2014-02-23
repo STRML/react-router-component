@@ -18,7 +18,7 @@ test-local:
 	@$(BIN)/zuul --local 3000  -- tests/browser.js
 
 test-cloud:
-	@$(BIN)/zuul -- tests.js
+	@$(BIN)/zuul -- tests/browser.js
 
 release-patch: test lint
 	@$(call release,patch)
