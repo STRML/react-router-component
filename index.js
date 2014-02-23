@@ -86,7 +86,7 @@ var NavigatableMixin = {
 
     invariant(
       router,
-      this.displayName + " can't found an active router on a page"
+      this.displayName + " can't find an active router on a page"
     );
 
     router.navigate(path, cb);
