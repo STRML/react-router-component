@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.6.0
+
+  - factor out RouterMixin for reusability
+
 ## 0.5.1
 
   - fixes for server side rendering
