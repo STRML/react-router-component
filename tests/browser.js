@@ -60,6 +60,9 @@ describe('Routing', function() {
           }),
           Router.Location({path: '/__zuul/:slug'}, function(props) {
             return props.slug
+          }),
+          Router.NotFound(null, function(props) {
+            return 'not_found'
           })
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'})
@@ -86,8 +89,7 @@ describe('Routing', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/hello', function() {
       assertRendered('hello');
-      history.back();
-      setTimeout(done, 200);
+      done();
     });
   });
 
@@ -100,6 +102,14 @@ describe('Routing', function() {
         assertRendered('mainpage');
         done();
       }, 200);
+    });
+  });
+
+  it('renders to NotFound if not match is found', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/wow', function() {
+      assertRendered('not_found');
+      done();
     });
   });
 
