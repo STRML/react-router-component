@@ -8,7 +8,10 @@ install link:
 lint:
 	@$(BIN)/jshint index.js
 
-test: test-server
+test: test-unit test-server
+
+test-unit:
+	@$(BIN)/mocha -R spec -b tests/matchRoutes.js
 
 test-server:
 	@$(BIN)/mocha -R spec -b tests/server.js

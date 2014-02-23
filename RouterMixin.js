@@ -28,22 +28,21 @@ var RouterMixin = {
   getInitialState: function() {
     var path;
     var prefix;
-    var fullPath = this.getEnvironment().getPath();
 
     if (this.props.contextual && this.context.router) {
 
       var match = this.context.router.getMatch();
 
       invariant(
-        this.props.path || isString(match.unmatched),
-        "contextual router has nothing to match on: %s", match.unmatched
+        this.props.path || isString(match.unmatchedPath),
+        "contextual router has nothing to match on: %s", match.unmatchedPath
       );
 
-      path = this.props.path || match.unmatched;
-      prefix = fullPath.substring(0, fullPath.length - path.length);
+      path = this.props.path || match.unmatchedPath;
+      prefix = match.matchedPath;
     } else {
 
-      path = this.props.path || fullPath;
+      path = this.props.path || this.getEnvironment().getPath();
 
       invariant(
         isString(path),

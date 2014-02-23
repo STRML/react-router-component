@@ -142,5 +142,12 @@ module.exports = {
   NotFound: NotFound,
 
   NavigatableMixin: NavigatableMixin,
-  Link: Link
+  Link: Link,
+
+  RouterMixin: RouterMixin,
+
+  Environment: Environment,
+  defaultEnvironment: defaultEnvironment,
+  pathnameRoutingEnvironment: pathnameRoutingEnvironment,
+  hashRoutingEnvironment: hashRoutingEnvironment
 }

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.7.0
+
+  - expose environment
+
 ## 0.6.0
 
   - factor out RouterMixin for reusability

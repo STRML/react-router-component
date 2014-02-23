@@ -1,7 +1,7 @@
 "use strict";
 
 var pattern   = require('url-pattern');
-var merge     = require('react/lib/merge');
+var mergeInto = require('react/lib/mergeInto');
 var invariant = require('react/lib/invariant');
 
 /**
@@ -52,13 +52,23 @@ function Match(path, route, match) {
   this.path = path;
   this.route = route;
   this.match = match;
-  this.unmatched = this.match && this.match._ ? this.match._[0] : null;
+
+  this.unmatchedPath = this.match && this.match._ ?
+    this.match._[0] :
+    null;
+
+  this.matchedPath = this.unmatchedPath ?
+    this.path.substring(0, this.path.length - this.unmatchedPath.length) :
+    this.path;
 }
 
 Match.prototype.getChildren = function() {
-  return this.route ?
-    this.route.handler(merge(this.match, this.route.props)) :
-    undefined;
+  var props = {key: this.matchedPath};
+  if (this.route && this.match) {
+    mergeInto(props, this.match);
+    mergeInto(props, this.route.props);
+  }
+  return this.route ? this.route.handler(props) : undefined;
 }
 
 module.exports = matchRoutes;
