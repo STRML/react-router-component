@@ -1,6 +1,7 @@
-var assert = require('assert');
-var React  = require('react');
-var Router = require('./index');
+var assert          = require('assert');
+var React           = require('react');
+var ReactTestUtils  = require('react/lib/ReactTestUtils');
+var Router          = require('../index');
 
 var historyAPI = window.history !== undefined && window.history.pushState !== undefined;
 

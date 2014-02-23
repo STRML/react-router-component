@@ -12,7 +12,7 @@ test:
 	@echo 'nothing' > /dev/null
 
 test-local:
-	@$(BIN)/zuul --local 3000  -- tests.js
+	@$(BIN)/zuul --local 3000  -- tests/browser.js
 
 test-cloud:
 	@$(BIN)/zuul -- tests.js
