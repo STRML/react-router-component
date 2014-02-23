@@ -11,6 +11,9 @@ lint:
 test:
 	@echo 'nothing' > /dev/null
 
+test-server:
+	@$(BIN)/mocha -R spec -b tests/server.js
+
 test-local:
 	@$(BIN)/zuul --local 3000  -- tests/browser.js
 
