@@ -59,14 +59,12 @@ describe('Routing', function() {
 
   beforeEach(function() {
     host = document.createElement('div');
-    document.body.appendChild(host);
     app = React.renderComponent(App(), host);
     router = app.refs.router;
   });
 
   afterEach(function(done) {
     React.unmountComponentAtNode(host);
-    document.body.removeChild(host);
     host = null;
     app = null;
     router = null
@@ -191,14 +189,12 @@ describe('Contextual routers', function() {
 
   beforeEach(function() {
     host = document.createElement('div');
-    document.body.appendChild(host);
     app = React.renderComponent(App(), host);
     router = app.refs.router;
   });
 
   afterEach(function(done) {
     React.unmountComponentAtNode(host);
-    document.body.removeChild(host);
     host = null;
     app = null;
     router = null;
@@ -277,7 +273,6 @@ describe('Multiple active routers', function() {
 
   beforeEach(function() {
     host = document.createElement('div');
-    document.body.appendChild(host);
     app = React.renderComponent(App(), host);
     router1 = app.refs.router1;
     router2 = app.refs.router2;
@@ -285,7 +280,6 @@ describe('Multiple active routers', function() {
 
   afterEach(function(done) {
     React.unmountComponentAtNode(host);
-    document.body.removeChild(host);
     host = null;
     app = null;
     router1 = null;
@@ -348,14 +342,12 @@ describe('Hash routing', function() {
 
   beforeEach(function() {
     host = document.createElement('div');
-    document.body.appendChild(host);
     app = React.renderComponent(App(), host);
     router = app.refs.router;
   });
 
   afterEach(function(done) {
     React.unmountComponentAtNode(host);
-    document.body.removeChild(host);
     host = null;
     app = null;
     router = null
