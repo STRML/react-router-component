@@ -1,12 +1,20 @@
 var assert          = require('assert');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
+var EventConstants  = require('react/lib/EventConstants');
 var Router          = require('../index');
 
 var historyAPI = window.history !== undefined && window.history.pushState !== undefined;
 
 function getText(node) {
   return node.textContent || node.innerText;
+}
+
+function clickOn(component) {
+  ReactTestUtils.simulateNativeEventOnDOMComponent(
+    EventConstants.topLevelTypes.topClick,
+    component,
+    {});
 }
 
 describe('Routing', function() {
@@ -131,7 +139,7 @@ describe('Routing', function() {
 
     it('navigates via onClick event', function(done) {
       assert.equal(getText(host), 'mainpage');
-      router.refs.link.onClick();
+      clickOn(router.refs.link);
       setTimeout(function() {
         assert.equal(getText(host), 'hello');
         done();
@@ -140,7 +148,7 @@ describe('Routing', function() {
 
     it('navigates even if it is situated outside of the router context', function(done) {
       assert.equal(getText(host), 'mainpage');
-      app.refs.outside.onClick();
+      clickOn(app.refs.outside);
       setTimeout(function() {
         assert.equal(getText(host), 'hi');
         done();
@@ -229,7 +237,7 @@ describe('Contextual routers', function() {
     assert.equal(getText(host), 'mainpage');
     router.navigate('/__zuul/subcat/page', function() {
       assert.equal(getText(host), 'subcat/page');
-      router.refs.subcat.refs.router.refs.link.onClick();
+      clickOn(router.refs.subcat.refs.router.refs.link);
       setTimeout(function() {
         assert.equal(getText(host), 'subcat/root');
         done();
@@ -394,7 +402,7 @@ describe('Hash routing', function() {
 
     it('navigates via onClick event', function(done) {
       assert.equal(getText(host), 'mainpage');
-      router.refs.link.onClick();
+      clickOn(router.refs.link);
       setTimeout(function() {
         assert.equal(getText(host), 'hello');
         done();

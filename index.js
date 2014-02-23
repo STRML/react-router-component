@@ -252,12 +252,11 @@ var Link = React.createClass({
   },
 
   onClick: function(e) {
-    if (e) {
-      e.preventDefault();
-    }
+    e.preventDefault();
     this.navigate(this.props.href);
-    if (this.props.onClick)
+    if (this.props.onClick) {
       this.props.onClick(e);
+    }
   },
 
   render: function() {
