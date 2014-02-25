@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 0.7.0
+
+  - remove Hash namespace, use `hash` prop instead:
+
+    <Locations hash>...</Locations>
+
+  - add `'react-router-component/async'` module which exposes the same API but
+    with routers which can prefetch data for async components (which use
+    ReactAsyncMixin, defined in `'react-router-component/ReactAsyncMixin'`
+    module)
+
 ## 0.6.0
 
   - factor out RouterMixin for reusability
