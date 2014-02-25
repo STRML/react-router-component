@@ -1,9 +1,9 @@
 "use strict";
 
 var React   = require('react');
-var Router  = require('./AsyncRouter');
-var Route   = require('./Route');
-var Link    = require('./Link');
+var Router  = require('./lib/AsyncRouter');
+var Route   = require('./lib/Route');
+var Link    = require('./lib/Link');
 
 module.exports = {
   Locations: Router.Locations,

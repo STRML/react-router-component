@@ -2,7 +2,7 @@ var assert          = require('assert');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
-var ReactAsyncMixin = require('../ReactAsyncMixin');
+var ReactAsyncMixin = require('../lib/ReactAsyncMixin');
 var Router          = require('../index');
 
 var historyAPI = (
