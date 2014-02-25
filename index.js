@@ -1,6 +1,5 @@
 "use strict";
 
-var React   = require('react');
 var Router  = require('./lib/Router');
 var Route   = require('./lib/Route');
 var Link    = require('./lib/Link');

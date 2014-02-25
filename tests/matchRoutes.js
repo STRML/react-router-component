@@ -1,5 +1,5 @@
 var assert          = require('assert');
-var matchRoutes     = require('../matchRoutes');
+var matchRoutes     = require('../lib/matchRoutes');
 
 describe('matchRoutes', function() {
 
