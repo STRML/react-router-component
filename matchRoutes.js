@@ -62,8 +62,11 @@ function Match(path, route, match) {
     this.path;
 }
 
-Match.prototype.getChildren = function() {
-  var props = {key: this.matchedPath};
+Match.prototype.getChildren = function(ignoreRef) {
+  var props = {
+    key: this.matchedPath,
+    ref: !ignoreRef && this.route ? this.route.ref : undefined
+  };
   if (this.route && this.match) {
     mergeInto(props, this.match);
     mergeInto(props, this.route.props);

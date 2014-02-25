@@ -3,16 +3,22 @@
 var React       = require('react');
 var invariant   = require('react/lib/invariant');
 var matchRoutes = require('./matchRoutes');
+var Environment = require('./Environment');
 
 var RouterMixin = {
+  mixins: [Environment.Mixin],
 
   propTypes: {
     path: React.PropTypes.string,
     contextual: React.PropTypes.bool
   },
 
-  contextTypes: {
-    router: React.PropTypes.component,
+  getDefaultProps: function() {
+    return {
+      environment: this.props.hash ?
+        Environment.hashEnvironment :
+        Environment.defaultEnvironment
+    };
   },
 
   childContextTypes: {
@@ -23,6 +29,10 @@ var RouterMixin = {
     return {
       router: this
     };
+  },
+
+  contextTypes: {
+    router: React.PropTypes.component,
   },
 
   getInitialState: function() {
@@ -59,37 +69,61 @@ var RouterMixin = {
 
     return {
       match: matchRoutes(this.props.children, path),
-      previousMatch: null,
       prefix: prefix
     };
   },
 
   componentWillReceiveProps: function() {
-    this.setState(this.getInitialState());
+    this.replaceState(this.getInitialState());
   },
 
+  /**
+   * Return parent router or undefined.
+   */
+  getParentRouter: function() {
+    return this.context.router;
+  },
+
+  /**
+   * Return current match.
+   */
   getMatch: function() {
     return this.state.match;
   },
 
+  /**
+   * Make href scoped for the current router.
+   */
   makeHref: function(href) {
     return join(this.state.prefix, href);
   },
 
+  /**
+   * Navigate to a path
+   *
+   * @param {String} path
+   * @param {Callback} cb
+   */
   navigate: function(path, cb) {
     path = join(this.state.prefix, path);
     this.props.environment.setPath(path, cb);
   },
 
+  /**
+   * Set new path.
+   *
+   * This funciton is called by environment.
+   *
+   * @private
+   *
+   * @param {String} path
+   * @param {Callback} cb
+   */
   setPath: function(path, cb) {
-    this.setState({
+    this.replaceState({
       match: matchRoutes(this.props.children, path),
-      previousMatch: this.state.match
+      prefix: this.state.prefix,
     }, cb);
-  },
-
-  getParentRouter: function() {
-    return this.context.router;
   }
 
 };
