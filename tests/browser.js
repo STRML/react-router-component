@@ -340,11 +340,11 @@ describe('Hash routing', function() {
   var App = React.createClass({
 
     render: function() {
-      return Router.Hash.Locations({ref: 'router', className: 'App'},
-        Router.Hash.Location({path: '/'}, function(props) {
-          return Router.Hash.Link({ref: 'link', href: '/hello'}, 'mainpage')
+      return Router.Locations({ref: 'router', hash: true, className: 'App'},
+        Router.Location({path: '/'}, function(props) {
+          return Router.Link({ref: 'link', href: '/hello'}, 'mainpage')
         }),
-        Router.Hash.Location({path: '/:slug'}, function(props) {
+        Router.Location({path: '/:slug'}, function(props) {
           return props.slug
         })
       );

@@ -2,19 +2,22 @@
 
 var React                 = require('react');
 var merge                 = require('react/lib/merge');
+var toArray               = require('react/lib/toArray');
 var invariant             = require('react/lib/invariant');
 var ExecutionEnvironment  = require('react/lib/ExecutionEnvironment');
 var Environment           = require('./Environment');
-var RouterMixin           = require('./RouterMixin');
+var BaseRouterMixin       = require('./RouterMixin');
 
+var pathnameRoutingEnvironment;
+var hashRoutingEnvironment;
 var defaultEnvironment;
 
 if (ExecutionEnvironment.canUseDOM) {
 
-  var pathnameRoutingEnvironment = Environment.createEnvironment(
+  pathnameRoutingEnvironment = Environment.createEnvironment(
         Environment.PathnameRoutingMethod);
 
-  var hashRoutingEnvironment = Environment.createEnvironment(
+  hashRoutingEnvironment = Environment.createEnvironment(
         Environment.HashRoutingMethod);
 
   defaultEnvironment = (window.history === undefined) ?
@@ -23,25 +26,45 @@ if (ExecutionEnvironment.canUseDOM) {
 
 } else {
 
-  defaultEnvironment = Environment.createEnvironment(
+  var dummyEnvironment = Environment.createEnvironment(
         Environment.DummyRoutingMethod);
+
+  pathnameRoutingEnvironment = dummyEnvironment;
+  hashRoutingEnvironment = dummyEnvironment;
+  defaultEnvironment = dummyEnvironment;
 
 }
 
-function createRouter(component, environment) {
+/**
+ * Mixin for a router bound to an environment
+ */
+var RouterMixin = {
+  mixins: [Environment.Mixin, BaseRouterMixin],
 
-  environment = environment || defaultEnvironment;
+  getDefaultProps: function() {
+    return {
+      environment: this.props.hash ? hashRoutingEnvironment : defaultEnvironment,
+      component: React.DOM.div
+    };
+  },
+};
 
-  return React.createClass({
+var Router = React.createClass({
+  displayName: 'Router',
 
-    displayName: 'Router',
+  mixins: [RouterMixin],
 
-    mixins: [Environment.Mixin(environment), RouterMixin],
+  render: function() {
+    var children = this.state.match.getChildren();
+    return this.transferPropsTo(this.props.component(null, children));
+  }
+});
 
-    render: function() {
-      return this.transferPropsTo(component(null, this.state.match.getChildren()));
-    }
-  });
+function withProps(componentConstructor, predefinedProps) {
+  return function(props) {
+    var children = toArray(arguments).slice(1);
+    return componentConstructor(merge(predefinedProps, props), children);
+  }
 }
 
 /**
@@ -126,22 +149,33 @@ var Link = React.createClass({
   }
 });
 
+function deprecateHashNamespace(fn) {
+  return function() {
+    console.warn(
+      "Hash namespace is deprecated, pass `hash` prop to a regular router instead: " +
+      "<Locations hash>...</Locations>"
+    );
+    return fn.apply(this, arguments);
+  }
+}
+
 module.exports = {
   Hash: {
-    Pages: createRouter(React.DOM.body, hashRoutingEnvironment),
-    Page: Route,
+    Pages: deprecateHashNamespace(
+      withProps(Router, {component: React.DOM.body, environment: hashRoutingEnvironment})),
+    Page: deprecateHashNamespace(Route),
 
-    Locations: createRouter(React.DOM.div, hashRoutingEnvironment),
-    Location: Route,
+    Locations: deprecateHashNamespace(withProps(Router, {environment: hashRoutingEnvironment})),
+    Location: deprecateHashNamespace(Route),
 
-    NotFound: NotFound,
-    Link: Link
+    NotFound: deprecateHashNamespace(NotFound),
+    Link: deprecateHashNamespace(Link)
   },
 
-  Pages: createRouter(React.DOM.body),
+  Pages: withProps(Router, {component: React.DOM.body}),
   Page: Route,
 
-  Locations: createRouter(React.DOM.div),
+  Locations: Router,
   Location: Route,
 
   NotFound: NotFound,

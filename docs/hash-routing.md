@@ -9,23 +9,13 @@ Hash router dispatches to locations based on `location.hash` instead of
 That means you don't get nice URLs when transitioning from a location to another
 location but everything else will be working as expected.
 
-To use hash router you need to use an another set of components under `Hash`
-namespace:
-
-    var React = require('react')
-    var Router = require('react-router-component')
-
-    var Locations = Router.Hash.Locations
-    var Location = Router.Hash.Location
-
-These components behaves exactly like theirs components which work with History
-API:
+To use hash routing you need to pass a `hash` prop to a router:
 
     var App = React.createClass({
 
       render: function() {
         return (
-          <Locations>
+          <Locations hash>
             <Location path="/" handler={MainPage} />
             <Location path="/users/:username" handler={UserPage} />
           </Locations>

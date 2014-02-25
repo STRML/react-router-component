@@ -42,7 +42,7 @@ var RouterMixin = {
       prefix = match.matchedPath;
     } else {
 
-      path = this.props.path || this.getEnvironment().getPath();
+      path = this.props.path || this.props.environment.getPath();
 
       invariant(
         isString(path),
@@ -59,6 +59,7 @@ var RouterMixin = {
 
     return {
       match: matchRoutes(this.props.children, path),
+      previousMatch: null,
       prefix: prefix
     };
   },
@@ -77,11 +78,14 @@ var RouterMixin = {
 
   navigate: function(path, cb) {
     path = join(this.state.prefix, path);
-    this.getEnvironment().setPath(path, cb);
+    this.props.environment.setPath(path, cb);
   },
 
   setPath: function(path, cb) {
-    this.setState({match: matchRoutes(this.props.children, path)}, cb);
+    this.setState({
+      match: matchRoutes(this.props.children, path),
+      previousMatch: this.state.match
+    }, cb);
   },
 
   getParentRouter: function() {

@@ -148,21 +148,15 @@ function createEnvironment(method) {
   return env;
 }
 
-var Mixin = function(environment) {
-  return {
-    getEnvironment: function() {
-      return environment;
-    },
+var Mixin = {
+  componentDidMount: function() {
+    this.props.environment.register(this);
+  },
 
-    componentDidMount: function() {
-      environment.register(this);
-    },
-
-    componentWillUnmount: function() {
-      environment.unregister(this);
-    }
+  componentWillUnmount: function() {
+    this.props.environment.unregister(this);
   }
-}
+};
 
 module.exports.createEnvironment = createEnvironment;
 module.exports.PathnameRoutingMethod = PathnameRoutingMethod;
