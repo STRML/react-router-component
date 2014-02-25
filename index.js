@@ -80,15 +80,17 @@ var NavigatableMixin = {
     router: React.PropTypes.component,
   },
 
-  navigate: function(path, cb) {
-    var router = this.context.router || defaultEnvironment.getRouter();
+  getRouter: function() {
+    return this.context.router || defaultEnvironment.getRouter();
+  },
 
+  navigate: function(path, cb) {
+    var router = this.getRouter();
     invariant(
       router,
       this.displayName + " can't find an active router on a page"
     );
-
-    router.navigate(path, cb);
+    return router.navigate(path, cb);
   }
 };
 
@@ -115,8 +117,12 @@ var Link = React.createClass({
   },
 
   render: function() {
-    return this.transferPropsTo(
-      React.DOM.a({onClick: this.onClick}, this.props.children));
+    var router = this.getRouter();
+    var props = {
+      onClick: this.onClick,
+      href: router ? router.makeHref(this.props.href) : this.props.href
+    };
+    return this.transferPropsTo(React.DOM.a(props, this.props.children));
   }
 });
 

@@ -46,7 +46,8 @@ var RouterMixin = {
 
       invariant(
         isString(path),
-        "router operate in environment which cannot provide path, pass it a path prop"
+        ("router operate in environment which cannot provide path, " +
+         "pass it a path prop; or probably you want to make it contextual")
       );
 
       prefix = '';
@@ -68,6 +69,10 @@ var RouterMixin = {
 
   getMatch: function() {
     return this.state.match;
+  },
+
+  makeHref: function(href) {
+    return join(this.state.prefix, href);
   },
 
   navigate: function(path, cb) {
