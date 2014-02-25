@@ -2,6 +2,7 @@ var assert          = require('assert');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
+var ReactAsyncMixin = require('../ReactAsyncMixin');
 var Router          = require('../index');
 
 var historyAPI = (
@@ -11,11 +12,15 @@ var historyAPI = (
 
 var host, app, router, router1, router2;
 
-function assertRendered(text) {
+function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
   var node = content.getDOMNode();
+  return node.textContent || node.innerText;
+}
+
+function assertRendered(text) {
   assert.equal(
-    node.textContent || node.innerText,
+    getRenderedContent(),
     text
   );
 }
@@ -55,14 +60,24 @@ describe('Routing', function() {
     render: function() {
       return React.DOM.div(null,
         Router.Locations({ref: 'router', className: 'App'},
-          Router.Location({path: '/__zuul', foo: 'bar'}, function(props) {
-            return Router.Link({foo: props.foo, ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+          Router.Location({
+            path: '/__zuul',
+            foo: 'bar',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({
+                foo: props.foo,
+                href: '/__zuul/hello',
+                ref: props.ref
+              }, 'mainpage')
+            }
           }),
-          Router.Location({path: '/__zuul/:slug'}, function(props) {
-            return props.slug
+          Router.Location({
+            path: '/__zuul/:slug',
+            handler: function(props) { return props.slug }
           }),
-          Router.NotFound(null, function(props) {
-            return 'not_found'
+          Router.NotFound({
+            handler: function(props) { return 'not_found' }
           })
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'})
@@ -75,9 +90,6 @@ describe('Routing', function() {
 
   it('renders', function() {
     assertRendered('mainpage');
-    var dom = app.refs.router.getDOMNode();
-    if (dom.classList)
-      assert.ok(dom.classList.contains('App'));
   });
 
   it('passes props from location down to handler', function() {
@@ -145,6 +157,103 @@ describe('Routing', function() {
 
 });
 
+describe('Routing with async components', function() {
+
+  if (!historyAPI) return;
+
+  var Router = require('../async');
+
+  var App = React.createClass({
+
+    render: function() {
+      return Router.Locations({ref: 'router', className: 'App'},
+        Router.Location({path: '/__zuul', handler: Main, ref: 'main'}),
+        Router.Location({path: '/__zuul/about', handler: About, ref: 'about'})
+      );
+    }
+  });
+
+  var Main = React.createClass({
+    mixins: [ReactAsyncMixin.Mixin],
+
+    getInitialStateAsync: function(cb) {
+      setTimeout(function() {
+        cb(null, {message: 'main'});
+      }, 20);
+    },
+
+    render: function() {
+      return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
+    }
+  });
+
+  var About = React.createClass({
+    mixins: [ReactAsyncMixin.Mixin],
+
+    getInitialStateAsync: function(cb) {
+      setTimeout(function() {
+        cb(null, {message: 'about'});
+      }, 200);
+    },
+
+    render: function() {
+      return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
+    }
+  });
+
+  beforeEach(setUp(App));
+  afterEach(cleanUp);
+
+  it('renders async component', function(done) {
+    assertRendered('loading...');
+    setTimeout(function() {
+      assertRendered('main');
+      done();
+    }, 50);
+  });
+
+  it('renders async component and navigates', function(done) {
+    assertRendered('loading...');
+
+    setTimeout(function() {
+      assertRendered('main');
+
+      router.navigate('/__zuul/about', function(err) {
+        if (err) return done(err);
+        assertRendered('main');
+
+        setTimeout(function() {
+          assertRendered('about');
+          done();
+        }, 350);
+      });
+    }, 100);
+  });
+
+  it('cancels pending update on navigate', function(done) {
+    assertRendered('loading...');
+
+    setTimeout(function() {
+      assertRendered('main');
+
+      router.navigate('/__zuul/about', function(err) {
+        if (err) return done(err);
+        assertRendered('main');
+
+        router.navigate('/__zuul', function(err) {
+          if (err) return done(err);
+          assertRendered('main');
+
+          setTimeout(function() {
+            assertRendered('main');
+            done();
+          }, 250);
+        });
+      });
+    }, 100);
+  });
+});
+
 describe('Nested routers', function() {
 
   if (!historyAPI) return;
@@ -153,11 +262,17 @@ describe('Nested routers', function() {
     render: function() {
       return React.DOM.div(null,
         Router.Locations(null,
-          Router.Location({path: '/__zuul/nested/'}, function(props) {
-            return 'nested/root';
+          Router.Location({
+            path: '/__zuul/nested/',
+            handler: function(props) {
+              return 'nested/root';
+            }
           }),
-          Router.Location({path: '/__zuul/nested/page'}, function(props) {
-            return 'nested/page';
+          Router.Location({
+            path: '/__zuul/nested/page',
+            handler: function(props) {
+              return 'nested/page';
+            }
           })
         ));
     }
@@ -168,11 +283,16 @@ describe('Nested routers', function() {
     render: function() {
       return React.DOM.div(null,
         Router.Locations({ref: 'router', className: 'App'},
-          Router.Location({path: '/__zuul', foo: 'bar'}, function(props) {
-            return Router.Link({foo: props.foo, ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+          Router.Location({
+            path: '/__zuul',
+            foo: 'bar',
+            handler: function(props) {
+              return Router.Link({foo: props.foo, ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+            }
           }),
-          Router.Location({path: '/__zuul/nested/*'}, function(props) {
-            return NestedRouter();
+          Router.Location({
+            path: '/__zuul/nested/*',
+            handler: NestedRouter
           })
         )
       );
@@ -209,11 +329,15 @@ describe('Contextual routers', function() {
     render: function() {
       return React.DOM.div(null,
         Router.Locations({ref: 'router', contextual: true},
-          Router.Location({path: '/'}, function(props) {
-            return 'subcat/root';
+          Router.Location({
+            path: '/',
+            handler: function(props) { return 'subcat/root' }
           }),
-          Router.Location({path: '/page'}, function(props) {
-            return Router.Link({ref: 'link', href: '/'}, 'subcat/page');
+          Router.Location({
+            path: '/page',
+            handler: function(props) {
+              return Router.Link({ref: 'link', href: '/'}, 'subcat/page')
+            }
           })
         ));
     }
@@ -279,19 +403,32 @@ describe('Multiple active routers', function() {
 
     render: function() {
       var router1 = Router.Locations({ref: 'router1', className: 'App'},
-        Router.Location({path: '/__zuul'}, function(props) {
-          return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage1')
+        Router.Location({
+          path: '/__zuul',
+          handler: function(props) {
+            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage1')
+          }
         }),
-        Router.Location({path: '/__zuul/:slug'}, function(props) {
-          return props.slug + '1';
+        Router.Location({
+          path: '/__zuul/:slug',
+          handler: function(props) {
+            return props.slug + '1';
+          }
         })
       );
+
       var router2 = Router.Locations({ref: 'router2', className: 'App'},
-        Router.Location({path: '/__zuul'}, function(props) {
-          return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage2')
+        Router.Location({
+          path: '/__zuul',
+          handler: function(props) {
+            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage2')
+          }
         }),
-        Router.Location({path: '/__zuul/:slug'}, function(props) {
-          return props.slug + '2';
+        Router.Location({
+          path: '/__zuul/:slug',
+          handler: function(props) {
+            return props.slug + '2';
+          }
         })
       );
       return React.DOM.div({ref: 'content'}, router1, router2);
@@ -341,11 +478,15 @@ describe('Hash routing', function() {
 
     render: function() {
       return Router.Locations({ref: 'router', hash: true, className: 'App'},
-        Router.Location({path: '/'}, function(props) {
-          return Router.Link({ref: 'link', href: '/hello'}, 'mainpage')
+        Router.Location({
+          path: '/',
+          handler: function(props) {
+            return Router.Link({ref: 'link', href: '/hello'}, 'mainpage')
+          }
         }),
-        Router.Location({path: '/:slug'}, function(props) {
-          return props.slug
+        Router.Location({
+          path: '/:slug',
+          handler: function(props) { return props.slug }
         })
       );
     }
