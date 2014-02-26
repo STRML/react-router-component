@@ -1,26 +1,25 @@
 BIN = ./node_modules/.bin
-REPO = $(shell cat .git/config | grep url | xargs echo | sed -E 's/^url = //g')
-REPONAME = $(shell echo $(REPO) | sed -E 's_.+:([a-zA-Z0-9_\-]+)/([a-zA-Z0-9_\-]+)\.git_\1/\2_')
+PATH := $(BIN):$(PATH)
 
 install link:
 	@npm $@
 
 lint:
-	@$(BIN)/jshint index.js async.js lib/*.js
+	@jshint index.js async.js lib/*.js
 
 test: test-unit test-server
 
 test-unit:
-	@$(BIN)/mocha -R spec -b tests/matchRoutes.js
+	@mocha -R spec -b tests/matchRoutes.js
 
 test-server:
-	@$(BIN)/mocha -R spec -b tests/server.js
+	@mocha -R spec -b tests/server.js
 
 test-local:
-	@$(BIN)/zuul --local 3000  -- tests/browser.js
+	@zuul --local 3000  -- tests/browser.js
 
 test-cloud:
-	@$(BIN)/zuul -- tests/browser.js
+	@zuul -- tests/browser.js
 
 release-patch: test lint
 	@$(call release,patch)
