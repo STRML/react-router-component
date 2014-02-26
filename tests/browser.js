@@ -1,8 +1,8 @@
 var assert          = require('assert');
+var ReactAsync      = require('react-async');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
-var ReactAsyncMixin = require('../lib/ReactAsyncMixin');
 var Router          = require('../index');
 
 var historyAPI = (
@@ -172,7 +172,7 @@ describe('Routing with async components', function() {
   });
 
   var Main = React.createClass({
-    mixins: [ReactAsyncMixin.Mixin],
+    mixins: [ReactAsync.Mixin],
 
     getInitialStateAsync: function(cb) {
       setTimeout(function() {
@@ -186,7 +186,7 @@ describe('Routing with async components', function() {
   });
 
   var About = React.createClass({
-    mixins: [ReactAsyncMixin.Mixin],
+    mixins: [ReactAsync.Mixin],
 
     getInitialStateAsync: function(cb) {
       setTimeout(function() {
