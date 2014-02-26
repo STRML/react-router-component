@@ -25,6 +25,10 @@ function assertRendered(text) {
   );
 }
 
+function assertClass(comp, cls, expected) {
+  assert.equal(comp.getDOMNode().classList.contains(cls), expected);
+}
+
 function clickOn(component) {
   ReactTestUtils.simulateNativeEventOnDOMComponent(
     EventConstants.topLevelTypes.topClick,
@@ -73,6 +77,18 @@ describe('Routing', function() {
             }
           }),
           Router.Location({
+            path: '/__zuul/bye',
+            ref: 'activeLink',
+            handler: function (props) {
+              return Router.Link({
+                href: '/__zuul/bye',
+                className: 'other',
+                activeClass: 'active',
+                ref: props.ref + 'Self'
+              }, 'link')
+            }
+          }),
+          Router.Location({
             path: '/__zuul/:slug',
             handler: function(props) { return props.slug }
           }),
@@ -101,6 +117,15 @@ describe('Routing', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/hello', function() {
       assertRendered('hello');
+      done();
+    });
+  });
+
+  it('applies specified class when route matches', function(done) {
+    assertRendered('mainpage');
+    assertClass(router.refs.link, 'active', false);
+    router.navigate('/__zuul/bye', function () {
+      assertClass(app.refs.router.refs.activeLinkSelf, 'active', true);
       done();
     });
   });
