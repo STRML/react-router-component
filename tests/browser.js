@@ -10,7 +10,7 @@ var historyAPI = (
     window.history.pushState !== undefined
 );
 
-var host, app, router, router1, router2;
+var host, app, router;
 
 function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
@@ -46,8 +46,6 @@ function setUp(App) {
     host = document.createElement('div');
     app = React.renderComponent(App(), host);
     router = app.refs.router;
-    router1 = app.refs.router1;
-    router2 = app.refs.router2;
   }
 }
 
@@ -444,7 +442,7 @@ describe('Multiple active routers', function() {
 
   it('navigates to a different route', function(done) {
     assertRendered('mainpage1mainpage2');
-    router1.navigate('/__zuul/hello', function() {
+    app.refs.router1.navigate('/__zuul/hello', function() {
       assertRendered('hello1hello2');
       done();
     });
@@ -452,7 +450,7 @@ describe('Multiple active routers', function() {
 
   it('navigates to a different route (using another router)', function(done) {
     assertRendered('mainpage1mainpage2');
-    router2.navigate('/__zuul/hello', function() {
+    app.refs.router2.navigate('/__zuul/hello', function() {
       assertRendered('hello1hello2');
       done();
     });
@@ -460,7 +458,7 @@ describe('Multiple active routers', function() {
 
   it('handles "popstate" event', function(done) {
     assertRendered('mainpage1mainpage2');
-    router1.navigate('/__zuul/hello', function() {
+    app.refs.router1.navigate('/__zuul/hello', function() {
       assertRendered('hello1hello2');
       window.history.back();
       setTimeout(function() {
