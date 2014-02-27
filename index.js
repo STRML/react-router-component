@@ -13,4 +13,4 @@ module.exports = {
   NotFound: Route.NotFound,
 
   Link: Link
-}
+};
