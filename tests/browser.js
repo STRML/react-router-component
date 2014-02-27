@@ -336,6 +336,12 @@ describe('Contextual routers', function() {
             handler: function(props) {
               return Router.Link({ref: 'link', href: '/'}, 'subcat/page')
             }
+          }),
+          Router.Location({
+            path: '/escape',
+            handler: function(props) {
+              return Router.Link({global: true, ref: 'link', href: '/__zuul'}, 'subcat/escape')
+            }
           })
         ));
     }
@@ -397,6 +403,18 @@ describe('Contextual routers', function() {
       clickOn(router.refs.subcat.refs.router.refs.link);
       setTimeout(function() {
         assertRendered('subcat/root');
+        done();
+      }, 200);
+    });
+  });
+
+  it('does not scope global Link to a current context', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/subcat/escape', function() {
+      assertRendered('subcat/escape');
+      clickOn(router.refs.subcat.refs.router.refs.link);
+      setTimeout(function() {
+        assertRendered('mainpage');
         done();
       }, 200);
     });

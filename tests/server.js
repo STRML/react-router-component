@@ -73,6 +73,12 @@ describe('react-router-component (on server)', function() {
             handler: function(props) {
               return Router.Link({href: '/hi'});
             }
+          }),
+          Router.Location({
+            path: '/hello2',
+            handler: function(props) {
+              return Router.Link({global: true, href: '/hi'});
+            }
           })
         )
       }
@@ -90,11 +96,18 @@ describe('react-router-component (on server)', function() {
       }
     });
 
-    it ('render Link component with href scoped to its prefix', function() {
+    it ('renders Link component with href scoped to its prefix', function() {
       var markup = React.renderComponentToString(App({path: '/x/nice/hello'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="&#x2f;x&#x2f;nice&#x2f;hi"/));
+    });
+
+    it ('renders global Link component with correct href (not scoped to a router)', function() {
+      var markup = React.renderComponentToString(App({path: '/x/nice/hello2'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/class="X"/));
+      assert(markup.match(/href="&#x2f;hi"/));
     });
 
   });
