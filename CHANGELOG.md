@@ -2,14 +2,28 @@
 
 ## 0.7.0
 
+  - Router component now waits for async components (via react-async) before
+    updating itself
+
   - remove Hash namespace, use `hash` prop instead:
 
     <Locations hash>...</Locations>
 
-  - add `'react-router-component/async'` module which exposes the same API but
-    with routers which can prefetch data for async components (which use
-    ReactAsyncMixin, defined in `'react-router-component/ReactAsyncMixin'`
-    module)
+  - RouterMixin now doesn't access this.props.children directly but instead gets
+    routes via getRoutes() method
+
+  - rework NavigatableMixin: add getPath(), navigate(path, cb), makeHref(path)
+    methods, remove getRouter() method
+
+  - add AsyncRouteRenderingMixin
+
+  - add RouteRenderingMixin
+
+  - Link components now generate valid href when instantiated inside contextual
+    routers
+
+  - Link components now accept `global` prop to create a link which is forced to
+    operate outside of a local router's context
 
 ## 0.6.0
 
