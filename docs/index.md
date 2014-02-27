@@ -139,6 +139,20 @@ Advanced features include support for [full page server
 side rendering][server-side], [multiple routers][multiple] on the same page and
 [contextual routers][contextual].
 
+## Recipes
+
+These are the examples of what you can do with React Router component:
+
+  * [Create a custom Link component][rec-custom-link] which would have different appearance if the
+    current location matches its href.
+
+  * [A custom Router component][rec-custom-router] which allows to declare
+    routes as a prototype attribute (statically) as opposed to have routes
+    inferred from its children.
+
+[rec-custom-link]: recipes/custom-link
+[rec-custom-router]: recipes/custom-router
+
 [hash-routing]: hash-routing
 [server-side]: server-side
 [multiple]: multiple
