@@ -1,6 +1,7 @@
 "use strict";
 
 var Router            = require('./lib/Router');
+var RouterMixin       = require('./lib/RouterMixin');
 var Route             = require('./lib/Route');
 var Link              = require('./lib/Link');
 var NavigatableMixin  = require('./lib/NavigatableMixin');
@@ -15,5 +16,6 @@ module.exports = {
 
   Link: Link,
 
-  NavigatableMixin: NavigatableMixin
+  NavigatableMixin: NavigatableMixin,
+  RouterMixin: RouterMixin
 };
