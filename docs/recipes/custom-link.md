@@ -14,8 +14,7 @@ which wraps original `Link` component:
       mixins: [Router.NavigatableMixin],
 
       isActive: function() {
-        var router = this.getRouter()
-        return router.getPath() === this.props.href
+        return this.getPath() === this.props.href
       },
 
       render: function() {
