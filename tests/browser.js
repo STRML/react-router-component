@@ -12,6 +12,8 @@ var historyAPI = (
 
 var host, app, router;
 
+var div = React.DOM.div;
+
 function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
   var node = content.getDOMNode();
@@ -72,10 +74,10 @@ describe('Routing', function() {
           }),
           Router.Location({
             path: '/__zuul/:slug',
-            handler: function(props) { return props.slug }
+            handler: function(props) { return div(null, props.slug) }
           }),
           Router.NotFound({
-            handler: function(props) { return 'not_found' }
+            handler: function(props) { return div(null, 'not_found') }
           })
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'})
@@ -158,8 +160,6 @@ describe('Routing', function() {
 describe('Routing with async components', function() {
 
   if (!historyAPI) return;
-
-  var Router = require('../async');
 
   var App = React.createClass({
 
@@ -263,13 +263,13 @@ describe('Nested routers', function() {
           Router.Location({
             path: '/__zuul/nested/',
             handler: function(props) {
-              return 'nested/root';
+              return div(null, 'nested/root');
             }
           }),
           Router.Location({
             path: '/__zuul/nested/page',
             handler: function(props) {
-              return 'nested/page';
+              return div(null, 'nested/page');
             }
           })
         ));
@@ -329,7 +329,7 @@ describe('Contextual routers', function() {
         Router.Locations({ref: 'router', contextual: true},
           Router.Location({
             path: '/',
-            handler: function(props) { return 'subcat/root' }
+            handler: function(props) { return div(null, 'subcat/root') }
           }),
           Router.Location({
             path: '/page',
@@ -345,8 +345,18 @@ describe('Contextual routers', function() {
 
     render: function() {
       return Router.Locations({ref: 'router'},
-        Router.Location({path: '/__zuul', handler: function() { return "mainpage" }}),
-        Router.Location({path: '/__zuul/subcat/*', handler: SubCat, ref: 'subcat'}));
+        Router.Location({
+          path: '/__zuul',
+          handler: function() {
+            return div(null, "mainpage")
+          }
+        }),
+        Router.Location({
+          path: '/__zuul/subcat/*',
+          handler: SubCat,
+          ref: 'subcat'
+        })
+      );
     }
   });
 
@@ -410,7 +420,7 @@ describe('Multiple active routers', function() {
         Router.Location({
           path: '/__zuul/:slug',
           handler: function(props) {
-            return props.slug + '1';
+            return div(null, props.slug + '1');
           }
         })
       );
@@ -425,7 +435,7 @@ describe('Multiple active routers', function() {
         Router.Location({
           path: '/__zuul/:slug',
           handler: function(props) {
-            return props.slug + '2';
+            return div(null, props.slug + '2');
           }
         })
       );
@@ -484,7 +494,9 @@ describe('Hash routing', function() {
         }),
         Router.Location({
           path: '/:slug',
-          handler: function(props) { return props.slug }
+          handler: function(props) {
+            return div(null, props.slug);
+          }
         })
       );
     }

@@ -33,6 +33,8 @@ Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
 6).
 
+Its size is about 3kb gzipped.
+
 ## Installation
 
 React router component is packaged on npm:

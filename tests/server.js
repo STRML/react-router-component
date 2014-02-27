@@ -100,8 +100,6 @@ describe('react-router-component (on server)', function() {
   });
 
   describe('async router', function() {
-    var Router = require('../async');
-
     var App = React.createClass({
 
       render: function() {

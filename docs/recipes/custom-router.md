@@ -19,7 +19,7 @@ We are going to implement custom router as a mixin:
     var Router = require('react-router-component')
 
     var MyRouterMixin = {
-      mixins: [Router.RouterMixin],
+      mixins: [Router.RouterMixin, Router.AsyncRouteRenderingMixin],
 
       getRoutes: function() {
         var routes = []
@@ -29,11 +29,23 @@ We are going to implement custom router as a mixin:
       },
 
       renderRouterHandler: function() {
-        return this.transferPropsTo(this.state.match.getHandler())
+        return this.transferPropsTo(this.renderRouterHandler())
       }
     }
 
-Then we can use it like this:
+There are two things you need to notice.
+
+First, `Router.RouterMixin` implements routing machinery and triggers router's
+update when something changes (hash, pathname or something else, depending on
+the environment router works in).
+
+This mixin expects that you would implement `getRoutes` method which should
+return a list of route descriptions in form of `{path: ..., handler: ...}`.
+
+Second, `Router.AsyncRouteRenderingMixin` is a strategy which specifies how
+handler is rendered. It provides a method `renderRouterHandler()`.
+
+We can now define our custom routers like this:
 
     var Application = React.createClass({
       mixins: [MyRouterMixin],
