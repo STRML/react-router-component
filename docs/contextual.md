@@ -53,3 +53,13 @@ would trigger transition to `/photos/` URL.
 That allows to use contextual routers to write self-contained and reusable parts
 of an application which can be mounted several times under several different
 prefixes.
+
+### Navigate outside of the router's context
+
+Sometimes you want to navigate outside of the router's context. You can do this
+with `Link` component by creating it with a `global` boolean property:
+
+    <Link global href="/">Home</Link>
+
+That way `href` of a generate `<a/>` element will be equal to `'/'` (not
+prefixed with contextual router's prefix).
