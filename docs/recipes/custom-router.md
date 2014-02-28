@@ -43,7 +43,7 @@ This mixin expects that you would implement `getRoutes` method which should
 return a list of route descriptions in form of `{path: ..., handler: ...}`.
 
 Second, `Router.AsyncRouteRenderingMixin` is a strategy which specifies how
-handler is rendered. It provides a method `renderRouterHandler()`.
+handler is rendered. It provides a method `renderRouteHandler()`.
 
 We can now define our custom routers like this:
 
@@ -58,6 +58,6 @@ We can now define our custom routers like this:
       },
 
       render: function() {
-        return this.renderRouterHandler()
+        return this.renderRouteHandler()
       }
     });
