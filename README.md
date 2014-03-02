@@ -26,8 +26,8 @@ React router component can dispatch based on `location.pathname` or
 `location.hash` if browser doesn't support History API.
 
 Furthermore it provides advanced features like support for [full page server
-side rendering][server-side], [multiple routers][multiple] on the same page and
-[contextual routers][contextual].
+side rendering][server-side], [multiple routers][multiple] on the same page,
+[contextual routers][contextual] and support for [async components][async].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
@@ -48,6 +48,7 @@ See [docs][] for the usage.
 [multiple]: http://andreypopp.viewdocs.io/react-router-component/multiple
 [contextual]: http://andreypopp.viewdocs.io/react-router-component/contextual
 [url-pattern]: http://andreypopp.viewdocs.io/react-router-component/url-pattern
+[async]: http://andreypopp.viewdocs.io/react-router-component/async
 
 [docs]: http://andreypopp.viewdocs.io/react-router-component
 [React]: http://facebook.github.io/react/
