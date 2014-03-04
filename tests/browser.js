@@ -504,19 +504,19 @@ describe('Hash routing', function() {
 
     render: function() {
       return Router.Locations({ref: 'router', hash: true, className: 'App'},
-                              Router.Location({
-                                path: '/',
-                                handler: function(props) {
-                                  return Router.Link({ref: 'link', href: '/hello'}, 'mainpage');
-                                }
-                              }),
-                              Router.Location({
-                                path: '/:slug',
-                                handler: function(props) {
-                                  return div(null, props.slug);
-                                }
-                              })
-                             );
+        Router.Location({
+          path: '/',
+          handler: function(props) {
+            return Router.Link({ref: 'link', href: '/hello'}, 'mainpage');
+          }
+        }),
+        Router.Location({
+          path: '/:slug',
+          handler: function(props) {
+            return div(null, props.slug);
+          }
+        })
+      );
     }
   });
 
