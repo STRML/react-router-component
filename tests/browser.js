@@ -504,19 +504,19 @@ describe('Hash routing', function() {
 
     render: function() {
       return Router.Locations({ref: 'router', hash: true, className: 'App'},
-        Router.Location({
-          path: '/',
-          handler: function(props) {
-            return Router.Link({ref: 'link', href: '/hello'}, 'mainpage')
-          }
-        }),
-        Router.Location({
-          path: '/:slug',
-          handler: function(props) {
-            return div(null, props.slug);
-          }
-        })
-      );
+                              Router.Location({
+                                path: '/',
+                                handler: function(props) {
+                                  return Router.Link({ref: 'link', href: '/hello'}, 'mainpage');
+                                }
+                              }),
+                              Router.Location({
+                                path: '/:slug',
+                                handler: function(props) {
+                                  return div(null, props.slug);
+                                }
+                              })
+                             );
     }
   });
 
@@ -568,6 +568,67 @@ describe('Hash routing', function() {
         done();
       }, 200);
     });
+  });
+
+});
+
+describe('Contextual Hash routers', function() {
+
+  var SubCat = React.createClass({
+
+    render: function() {
+      return React.DOM.div(null,
+        Router.Locations({ref: 'router', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) { return div(null, 'subcat/root') }
+          }),
+          Router.Location({
+            path: '/escape',
+            handler: function(props) {
+              return Router.Link({globalHash: true, ref: 'link', href: '/'}, 'subcat/escape');
+            }
+          })
+        ));
+    }
+  });
+
+  var App = React.createClass({
+
+    render: function() {
+      return Router.Locations({ref: 'router', hash: true},
+        Router.Location({
+          path: '/',
+          handler: function() {
+            return div(null, "mainpage");
+          }
+        }),
+        Router.Location({
+          path: '/subcat/*',
+          handler: SubCat,
+          ref: 'subcat'
+        })
+      );
+    }
+  });
+
+  beforeEach(setUp(App));
+  afterEach(cleanUp);
+
+  describe('Link component', function() {
+
+    it('does not scope globalHash Link to a current context', function(done) {
+      assertRendered('mainpage');
+      router.navigate('/subcat/escape', function() {
+        assertRendered('subcat/escape');
+        clickOn(router.refs.subcat.refs.router.refs.link);
+        setTimeout(function() {
+          assertRendered('mainpage');
+          done();
+        }, 200);
+      });
+    });
+
   });
 
 });

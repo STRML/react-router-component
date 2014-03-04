@@ -57,7 +57,7 @@ prefixes.
 ### Navigate outside of the router's context
 
 Sometimes you want to navigate outside of the router's context. You can do this
-with `Link` component by creating it with a `global` boolean property:
+with `Link` component by creating it with a `global` boolean property, if you are only using `hash` routes use the `globalHash` property:
 
     <Link global href="/">Home</Link>
 
