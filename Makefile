@@ -5,7 +5,7 @@ install link:
 	@npm $@
 
 lint:
-	@jshint index.js async.js lib/*.js
+	@jshint index.js lib/*.js
 
 test: test-unit test-server
 
