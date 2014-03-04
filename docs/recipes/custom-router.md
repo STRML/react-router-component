@@ -28,8 +28,8 @@ We are going to implement custom router as a mixin:
         return routes
       },
 
-      renderRouterHandler: function() {
-        return this.transferPropsTo(this.renderRouterHandler())
+      renderRouteHandler: function() {
+        return this.transferPropsTo(this.renderRouteHandler())
       }
     }
 
