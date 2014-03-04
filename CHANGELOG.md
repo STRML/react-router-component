@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.8.0
+
+  - `globalHash` property for `Link` to force it to navigate using
+    `hashEnvironment`
+
 ## 0.7.0
 
   - Router component now waits for async components (via react-async) before
