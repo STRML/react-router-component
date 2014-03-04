@@ -26,10 +26,6 @@ We are going to implement custom router as a mixin:
         for (var path in this.routes)
           routes.push({path: path, handler: this.routes[path]})
         return routes
-      },
-
-      renderRouteHandler: function() {
-        return this.transferPropsTo(this.renderRouteHandler())
       }
     }
 
@@ -58,6 +54,6 @@ We can now define our custom routers like this:
       },
 
       render: function() {
-        return this.renderRouteHandler()
+        return this.transferPropsTo(this.renderRouteHandler());
       }
     });
