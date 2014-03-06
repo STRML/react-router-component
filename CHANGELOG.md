@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.9.0
+
+  - Custom routers can now have access to per-navigation params via
+    `this.state.navigation`. For example navigation occurred as a result of
+    popstate/hashchange event no has `this.state.navigate.isPopState` set to
+    `true`.
+
 ## 0.8.0
 
   - `globalHash` property for `Link` to force it to navigate using
