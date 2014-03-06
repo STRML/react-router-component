@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.1
+
+  - Fix hash router to normalize path correctly ('' coerces to '/')
+
 ## 0.9.0
 
   - Custom routers can now have access to per-navigation params via
