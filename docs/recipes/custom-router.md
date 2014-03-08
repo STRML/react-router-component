@@ -21,7 +21,7 @@ We are going to implement custom router as a mixin:
     var MyRouterMixin = {
       mixins: [Router.RouterMixin, Router.AsyncRouteRenderingMixin],
 
-      getRoutes: function() {
+      getRoutes: function(props) {
         var routes = []
         for (var path in this.routes)
           routes.push({path: path, handler: this.routes[path]})
