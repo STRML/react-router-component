@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.2
+
+  - Fix recalculating router's state on new props
+
 ## 0.9.1
 
   - Fix hash router to normalize path correctly ('' coerces to '/')
