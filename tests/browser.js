@@ -12,7 +12,17 @@ var historyAPI = (
 
 var host, app, router;
 
+var timeout = 250;
+
 var div = React.DOM.div;
+
+function delay(ms, func) {
+  if (func === undefined) {
+    func = ms;
+    ms = timeout;
+  }
+  setTimeout(func, ms);
+}
 
 function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
@@ -40,7 +50,7 @@ function cleanUp(done) {
     window.history.pushState({}, '', '/__zuul');
   }
   window.location.hash = '';
-  setTimeout(done, 200);
+  delay(done);
 }
 
 function setUp(App) {
@@ -71,6 +81,10 @@ describe('Routing', function() {
                 ref: props.ref
               }, 'mainpage')
             }
+          }),
+          Router.Location({
+            path: '/__zuul/transient',
+            handler: function(props) { return div(null, "i'm transient") }
           }),
           Router.Location({
             path: '/__zuul/:slug',
@@ -110,10 +124,25 @@ describe('Routing', function() {
     router.navigate('/__zuul/hello', function() {
       assertRendered('hello');
       history.back();
-      setTimeout(function() {
+      delay(function() {
         assertRendered('mainpage');
         done();
-      }, 200);
+      });
+    });
+  });
+
+  it('navigates to a different route (replacing current history record)', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/hello', function() {
+      assertRendered('hello');
+      router.navigate('/__zuul/transient', {replace: true}, function() {
+        assertRendered("i'm transient");
+        history.back();
+        delay(function() {
+          assertRendered('mainpage');
+          done();
+        });
+      });
     });
   });
 
@@ -138,19 +167,19 @@ describe('Routing', function() {
     it('navigates via onClick event', function(done) {
       assertRendered('mainpage');
       clickOn(router.refs.link);
-      setTimeout(function() {
+      delay(function() {
         assertRendered('hello');
         done();
-      }, 200);
+      });
     });
 
     it('navigates even if it is situated outside of the router context', function(done) {
       assertRendered('mainpage');
       clickOn(app.refs.outside);
-      setTimeout(function() {
+      delay(function() {
         assertRendered('hi');
         done();
-      }, 200);
+      });
     });
 
   });
@@ -189,9 +218,9 @@ describe('Routing with async components', function() {
     mixins: [ReactAsync.Mixin],
 
     getInitialStateAsync: function(cb) {
-      setTimeout(function() {
+      delay(function() {
         cb(null, {message: 'about'});
-      }, 200);
+      });
     },
 
     render: function() {
@@ -401,10 +430,10 @@ describe('Contextual routers', function() {
     router.navigate('/__zuul/subcat/page', function() {
       assertRendered('subcat/page');
       clickOn(router.refs.subcat.refs.router.refs.link);
-      setTimeout(function() {
+      delay(function() {
         assertRendered('subcat/root');
         done();
-      }, 200);
+      });
     });
   });
 
@@ -413,10 +442,10 @@ describe('Contextual routers', function() {
     router.navigate('/__zuul/subcat/escape', function() {
       assertRendered('subcat/escape');
       clickOn(router.refs.subcat.refs.router.refs.link);
-      setTimeout(function() {
+      delay(function() {
         assertRendered('mainpage');
         done();
-      }, 200);
+      });
     });
   });
 });
@@ -489,10 +518,10 @@ describe('Multiple active routers', function() {
     app.refs.router1.navigate('/__zuul/hello', function() {
       assertRendered('hello1hello2');
       window.history.back();
-      setTimeout(function() {
+      delay(function() {
         assertRendered('mainpage1mainpage2');
         done();
-      }, 200);
+      });
     });
   });
 
@@ -508,6 +537,12 @@ describe('Hash routing', function() {
           path: '/',
           handler: function(props) {
             return Router.Link({ref: 'link', href: '/hello'}, 'mainpage');
+          }
+        }),
+        Router.Location({
+          path: '/transient',
+          handler: function(props) {
+            return div(null, "i'm transient");
           }
         }),
         Router.Location({
@@ -530,6 +565,23 @@ describe('Hash routing', function() {
       assert.ok(dom.classList.contains('App'));
   });
 
+  it('navigates to a different route (replacing current history record)', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/hello', function() {
+      assertRendered('hello');
+      delay(function() {
+        router.navigate('/transient', {replace: true}, function() {
+          assertRendered("i'm transient");
+          history.back();
+          delay(function() {
+            assertRendered('mainpage');
+            done();
+          });
+        });
+      });
+    });
+  });
+
   it('navigates to a different route', function(done) {
     assertRendered('mainpage');
     router.navigate('/hello', function() {
@@ -543,10 +595,10 @@ describe('Hash routing', function() {
     router.navigate('/hello', function() {
       assertRendered('hello');
       window.location.hash = '/';
-      setTimeout(function() {
+      delay(function() {
         assertRendered('mainpage');
         done();
-      }, 200);
+      });
     });
   });
 
@@ -563,10 +615,10 @@ describe('Hash routing', function() {
     it('navigates via onClick event', function(done) {
       assertRendered('mainpage');
       clickOn(router.refs.link);
-      setTimeout(function() {
+      delay(function() {
         assertRendered('hello');
         done();
-      }, 200);
+      });
     });
   });
 
@@ -622,10 +674,10 @@ describe('Contextual Hash routers', function() {
       router.navigate('/subcat/escape', function() {
         assertRendered('subcat/escape');
         clickOn(router.refs.subcat.refs.router.refs.link);
-        setTimeout(function() {
+        delay(function() {
           assertRendered('mainpage');
           done();
-        }, 200);
+        });
       });
     });
 
