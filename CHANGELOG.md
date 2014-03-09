@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.10.0
+
+  - Handle Router.naviagte(path, {replace: true) and `<Link replace />` by
+    replacing a current history record instead creating a new one.
+
 ## 0.9.2
 
   - Fix recalculating router's state on new props
