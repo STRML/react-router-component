@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.10.1
+## 0.10.2
 
   - Use envify transform for browserify
 
