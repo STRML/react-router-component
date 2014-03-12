@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.10.1
+
+  - Fix bug with router unregistration.
+
 ## 0.10.0
 
   - Handle Router.navigate(path, {replace: true) and `<Link replace />` by
