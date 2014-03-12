@@ -1,6 +1,6 @@
 {
   "name": "react-router-component",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
@@ -20,7 +20,9 @@
     "zuul": "~1.5.2"
   },
   "browserify": {
-    "transform": ["envify"]
+    "transform": [
+      "envify"
+    ]
   },
   "scripts": {
     "test": "make test"
