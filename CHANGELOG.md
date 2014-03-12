@@ -2,6 +2,10 @@
 
 ## 0.10.1
 
+  - Use envify transform for browserify
+
+## 0.10.1
+
   - Fix bug with router unregistration.
 
 ## 0.10.0
