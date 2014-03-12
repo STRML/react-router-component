@@ -2,8 +2,8 @@
 
 ## 0.10.0
 
-  - Handle Router.naviagte(path, {replace: true) and `<Link replace />` by
-    replacing a current history record instead creating a new one.
+  - Handle Router.navigate(path, {replace: true) and `<Link replace />` by
+    replacing the current history record instead creating a new one.
 
 ## 0.9.2
 
