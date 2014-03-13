@@ -70,7 +70,7 @@ describe('Routing', function() {
 
     render: function() {
       return React.DOM.div(null,
-        Router.Locations({ref: 'router', className: 'App', eventHandler: this.props.eventHandler },
+        Router.Locations({ref: 'router', className: 'App', onNavigation: this.props.navigationHandler, onBeforeNavigation: this.props.beforeNavigationHandler },
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
@@ -156,34 +156,21 @@ describe('Routing', function() {
   });
 
   describe('On navigate', function () {
-    it('calls eventHandler on start and success', function(done) {
+    it('calls onBeforeNaviation and onNavigation', function(done) {
       assertRendered('mainpage');
       var called = [];
       app.setProps({
-        eventHandler: function (ev, nextPath) {
-          called.push(ev);
+        beforeNavigationHandler: function (nextPath) {
+          called.push(nextPath);
+        },
+        navigationHandler: function () {
+          called.push('onNavigation');
         }
       });
       router.navigate('/__zuul/hello', function () {
         assert.equal(called.length, 2);
-        assert.equal(called[0], 'navigateStart');
-        assert.equal(called[1], 'navigateSuccess');
-        done();
-      });
-    });
-
-    it('handles eventHandler being an eventEmitter', function(done) {
-      assertRendered('mainpage');
-      var called;
-      var emitter = new Emitter();
-      emitter.on('navigateStart', function (path) {
-        called = path;
-      });
-      app.setProps({
-        eventHandler: emitter
-      });
-      router.navigate('/__zuul/hello', function () {
-        assert.equal(called, '/__zuul/hello');
+        assert.equal(called[0], '/__zuul/hello');
+        assert.equal(called[1], 'onNavigation');
         done();
       });
     });
