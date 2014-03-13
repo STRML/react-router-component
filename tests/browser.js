@@ -3,6 +3,7 @@ var ReactAsync      = require('react-async');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
+var Emitter         = require('events').EventEmitter;
 var Router          = require('../index');
 
 var historyAPI = (
@@ -69,7 +70,7 @@ describe('Routing', function() {
 
     render: function() {
       return React.DOM.div(null,
-        Router.Locations({ref: 'router', className: 'App'},
+        Router.Locations({ref: 'router', className: 'App', eventHandler: this.props.eventHandler },
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
@@ -151,6 +152,40 @@ describe('Routing', function() {
     router.navigate('/wow', function() {
       assertRendered('not_found');
       done();
+    });
+  });
+
+  describe('On navigate', function () {
+    it('calls eventHandler on start and success', function(done) {
+      assertRendered('mainpage');
+      var called = [];
+      app.setProps({
+        eventHandler: function (ev, nextPath) {
+          called.push(ev);
+        }
+      });
+      router.navigate('/__zuul/hello', function () {
+        assert.equal(called.length, 2);
+        assert.equal(called[0], 'navigateStart');
+        assert.equal(called[1], 'navigateSuccess');
+        done();
+      });
+    });
+
+    it('handles eventHandler being an eventEmitter', function(done) {
+      assertRendered('mainpage');
+      var called;
+      var emitter = new Emitter();
+      emitter.on('navigateStart', function (path) {
+        called = path;
+      });
+      app.setProps({
+        eventHandler: emitter
+      });
+      router.navigate('/__zuul/hello', function () {
+        assert.equal(called, '/__zuul/hello');
+        done();
+      });
     });
   });
 
