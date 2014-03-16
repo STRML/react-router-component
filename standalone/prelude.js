@@ -1,12 +1,14 @@
 ;(function() {
 
+  window.__ReactShim = window.__ReactShim || {};
+
   window.__ReactShim.invariant = function(check, msg) {
     if (!check) {
       throw new Error(msg);
     }
   }
 
-  window.__ReactShim.mergeInto = function(dst, src) {
+  var mergeInto = window.__ReactShim.mergeInto = function(dst, src) {
     for (var k in src) {
       if (src.hasOwnProperty(k)) {
         dst[k] = src[k];
