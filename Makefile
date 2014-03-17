@@ -1,3 +1,5 @@
+.DELETE_ON_ERROR:
+
 BIN = ./node_modules/.bin
 PATH := $(BIN):$(PATH)
 
@@ -33,6 +35,9 @@ release-major: test lint
 publish:
 	git push --tags origin HEAD:master
 	npm publish
+
+standalone::
+	$(MAKE) -C standalone build
 
 define release
 	npm version $(1)

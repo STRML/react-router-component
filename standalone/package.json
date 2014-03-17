@@ -1,0 +1,21 @@
+{
+  "name": "react-router-component-standalone",
+  "main": "./index.js",
+  "browserify": {
+    "transform": [
+      "envify"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React",
+    "react/lib/cloneWithProps": "global:React.addons.cloneWithProps",
+    "react/lib/invariant": "global:__ReactShim.invariant",
+    "react/lib/merge": "global:__ReactShim.merge",
+    "react/lib/mergeInto": "global:__ReactShim.mergeInto",
+    "react/lib/ReactUpdates": "global:__ReactShim.ReactUpdates",
+    "react/lib/ExecutionEnvironment": "global:__ReactShim.ExecutionEnvironment",
+    "react/lib/emptyFunction": "global:__ReactShim.emptyFunction",
+    "react-async/lib/isAsyncComponent": "global:ReactAsync.isAsyncComponent",
+    "react-async/lib/prefetchAsyncState": "global:ReactAsync.prefetchAsyncState"
+  }
+}
