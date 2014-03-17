@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.11.0
+
+  - Add onNavigation and onBeforeNavigation callbacks. Thanks to Dave Mac
+    (https://github.com/DveMac).
+
 ## 0.10.2
 
   - Use envify transform for browserify
