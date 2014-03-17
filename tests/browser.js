@@ -3,6 +3,7 @@ var ReactAsync      = require('react-async');
 var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
+var Emitter         = require('events').EventEmitter;
 var Router          = require('../index');
 
 var historyAPI = (
@@ -69,7 +70,7 @@ describe('Routing', function() {
 
     render: function() {
       return React.DOM.div(null,
-        Router.Locations({ref: 'router', className: 'App'},
+        Router.Locations({ref: 'router', className: 'App', onNavigation: this.props.navigationHandler, onBeforeNavigation: this.props.beforeNavigationHandler },
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
@@ -151,6 +152,27 @@ describe('Routing', function() {
     router.navigate('/wow', function() {
       assertRendered('not_found');
       done();
+    });
+  });
+
+  describe('On navigate', function () {
+    it('calls onBeforeNaviation and onNavigation', function(done) {
+      assertRendered('mainpage');
+      var called = [];
+      app.setProps({
+        beforeNavigationHandler: function (nextPath) {
+          called.push(nextPath);
+        },
+        navigationHandler: function () {
+          called.push('onNavigation');
+        }
+      });
+      router.navigate('/__zuul/hello', function () {
+        assert.equal(called.length, 2);
+        assert.equal(called[0], '/__zuul/hello');
+        assert.equal(called[1], 'onNavigation');
+        done();
+      });
     });
   });
 
