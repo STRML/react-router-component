@@ -41,7 +41,11 @@
     "history",
     "pushState"
   ],
-  "author": "Andrey Popp <8mayday@gmail.com>",
+  "author": "Andrey Popp <8mayday@gmail.com> (https://github.com/andreypopp)",
+  "contributors": {
+    "Dave Mac (https://github.com/DveMac)",
+    "Simen Brekken <simen.brekken@gmail.com> (https://github.com/sbrekken)"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/andreypopp/react-router-component/issues"
