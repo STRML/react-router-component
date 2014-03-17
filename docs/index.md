@@ -135,6 +135,18 @@ call its `.navigate(href)` method to do a transition to a different location.
 You can acquire a reference to a router by using React's [Refs][React-Refs]
 mechanism.
 
+## Navigation callbacks
+
+Routers also accept callbacks `onBeforeNavigation` and `onNavigation` as
+properties which will be called before and after navigation correspondingly:
+
+    <Locations
+        onBeforeNavigation={this.showProgressBar}
+        onNavigation={this.hideProgressBar}>
+      <Location path="/" handler={MainPage} />
+      ...
+    </Locations>
+
 ## Advanced usage
 
 Advanced features include support for [full page server
