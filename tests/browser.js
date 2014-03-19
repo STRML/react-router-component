@@ -123,6 +123,15 @@ describe('Routing', function() {
     });
   });
 
+  it('navigates to a different route (w/o callback)', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/hello');
+    delay(function() {
+      assertRendered('hello');
+      done();
+    });
+  });
+
   it('handles "popstate" event', function(done) {
     assertRendered('mainpage');
     router.navigate('/__zuul/hello', function() {
