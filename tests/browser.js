@@ -98,8 +98,13 @@ describe('Routing', function() {
             handler: function(props) { return div(null, 'not_found') }
           })
         ),
-        Router.Link({ref: 'outside', href: '/__zuul/hi'})
+        Router.Link({ref: 'outside', href: '/__zuul/hi'}),
+        Router.Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick})
       );
+    },
+
+    handlePreventedLinkClick: function (event) {
+      event.preventDefault();
     }
   });
 
@@ -212,6 +217,15 @@ describe('Routing', function() {
       clickOn(app.refs.outside);
       delay(function() {
         assertRendered('hi');
+        done();
+      });
+    });
+
+    it("doesn't navigate if the default is prevented", function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.prevented);
+      delay(function() {
+        assertRendered('mainpage');
         done();
       });
     });
