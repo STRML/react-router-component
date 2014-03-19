@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.12.0
+
+  - `Link.props.onClick` now can prevent navigation by calling
+    `event.preventDefault()`. Thanks to Matthew Dapena-Tretter
+    (https://github.com/matthewwithanm).
+
 ## 0.11.0
 
   - Add onNavigation and onBeforeNavigation callbacks. Thanks to Dave Mac
