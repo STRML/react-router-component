@@ -10,6 +10,8 @@ var RouteRenderingMixin       = require('./lib/RouteRenderingMixin');
 
 var NavigatableMixin          = require('./lib/NavigatableMixin');
 
+var Environment               = require('./lib/Environment');
+
 module.exports = {
   Locations: Router.Locations,
   Pages: Router.Pages,
@@ -19,6 +21,8 @@ module.exports = {
   NotFound: Route.NotFound,
 
   Link: Link,
+
+  Environment: Environment,
 
   RouterMixin: RouterMixin,
   RouteRenderingMixin: RouteRenderingMixin,
