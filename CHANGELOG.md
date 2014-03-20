@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.12.1
+
+  - Do not set `key` prop on handler, this fixed a bug when the same handler
+    will make DOM to reappear. Also that didn't work with async components.
+
 ## 0.12.0
 
   - `Link.props.onClick` now can prevent navigation by calling
