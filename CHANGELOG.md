@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.13.0
+
+  - Contextual routers are only can be in context of other routers if they share
+    the same environment.
+
+  - If contextual routers isn't given an environment (via `hash` or
+    `environment` prop) then it is default to an environment from parent's
+    router if any.
+
 ## 0.12.1
 
   - Do not set `key` prop on handler, this fixes a bug when the same handler
