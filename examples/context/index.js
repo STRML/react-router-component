@@ -14,6 +14,10 @@ var Link      = Router.Link;
 var Context = {
   mixins: [Router.RouterMixin],
 
+  getDefaultProps: function() {
+    return {contextual: true};
+  },
+
   getRoutes: function() {
     return [{path: '*', handler: null}];
   }
