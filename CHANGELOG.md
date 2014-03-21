@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.14.0
+
+  - Expose environment and environment implementations.
+
 ## 0.13.0
 
   - Contextual routers are only can be in context of other routers if they share
