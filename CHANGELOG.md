@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.15.0
+
+  - Update react dep to 0.10.0. Fix few warnings in test suite.
+
 ## 0.14.0
 
   - Expose environment and environment implementations.
