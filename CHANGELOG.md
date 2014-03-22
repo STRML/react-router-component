@@ -2,15 +2,13 @@
 
 ## 0.16.0
 
-  - *breaking change*, `require('react-router-component/lib/Environment')` now
-    does not work, use `require('react-router-component/lib/environment')`
-    instead (note the lowercase `e` in `environment`).
-
   - Add `QuerystringKeyEnvironment` which keeps routing state as param in a
     querystring.
 
   - Add `LocalStorageKeyEnvironment` which keeps routing state as value in the
     localStorage.
+
+  - Fixes to environments, now they properly unsubscribe event listeners.
 
 ## 0.15.0
 
