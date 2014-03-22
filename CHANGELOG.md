@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.16.0
+
+  - *breaking change*, `require('react-router-component/lib/Environment')` now
+    does not work, use `require('react-router-component/lib/environment')`
+    instead (note the lowercase `e` in `environment`).
+
+  - separate `Environment` module into several submodules.
+
 ## 0.15.0
 
   - Update react dep to 0.10.0. Fix few warnings in test suite.
