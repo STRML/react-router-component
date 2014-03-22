@@ -37,7 +37,7 @@ publish:
 	npm publish
 
 standalone::
-	$(MAKE) -C standalone build
+	$(MAKE) --no-print-directory -C standalone build
 
 define release
 	npm version $(1)
