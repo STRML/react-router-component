@@ -6,7 +6,11 @@
     does not work, use `require('react-router-component/lib/environment')`
     instead (note the lowercase `e` in `environment`).
 
-  - separate `Environment` module into several submodules.
+  - Add `QuerystringKeyEnvironment` which keeps routing state as param in a
+    querystring.
+
+  - Add `LocalStorageKeyEnvironment` which keeps routing state as value in the
+    localStorage.
 
 ## 0.15.0
 
