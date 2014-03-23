@@ -1,6 +1,3 @@
 .idea
 node_modules/
 bundle.js
-standalone/react-router-component.js
-standalone/react-router-component.min.js
-standalone/react-router-component.prod.js
