@@ -7,8 +7,8 @@
     ]
   },
   "browserify-shim": {
-    "react": "global:React",
-    "react/lib/cloneWithProps": "global:React.addons.cloneWithProps",
+    "react": "global:__ReactShim.React",
+    "react/lib/cloneWithProps": "global:__ReactShim.cloneWithProps",
     "react/lib/invariant": "global:__ReactShim.invariant",
     "react/lib/merge": "global:__ReactShim.merge",
     "react/lib/mergeInto": "global:__ReactShim.mergeInto",

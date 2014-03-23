@@ -1,14 +1,24 @@
-;(function() {
+;(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['react'], factory);
+  } else {
+    root.ReactRouter = factory(root.React);
+  }
+})(this, function(React) {
 
-  window.__ReactShim = window.__ReactShim || {};
+  var Shim = window.__ReactShim = window.__ReactShim || {};
 
-  window.__ReactShim.invariant = function(check, msg) {
+  Shim.React = React;
+
+  Shim.cloneWithProps = React.addons.cloneWithProps;
+
+  Shim.invariant = function(check, msg) {
     if (!check) {
       throw new Error(msg);
     }
   }
 
-  var mergeInto = window.__ReactShim.mergeInto = function(dst, src) {
+  var mergeInto = Shim.mergeInto = function(dst, src) {
     for (var k in src) {
       if (src.hasOwnProperty(k)) {
         dst[k] = src[k];
@@ -16,22 +26,22 @@
     }
   }
 
-  window.__ReactShim.merge = function(a, b) {
+  Shim.merge = function(a, b) {
     var c = {};
     mergeInto(c, a);
     mergeInto(c, b);
     return c;
   }
 
-  window.__ReactShim.emptyFunction = function() {
+  Shim.emptyFunction = function() {
   }
 
-  window.__ReactShim.ExecutionEnvironment = {
+  Shim.ExecutionEnvironment = {
     canUseDOM: true
   };
 
-  window.__ReactShim.ReactUpdates = {
+  Shim.ReactUpdates = {
     batchedUpdates: function(cb) { cb(); }
   };
 
-})();
+});
