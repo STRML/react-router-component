@@ -8,6 +8,11 @@
   - Add `LocalStorageKeyEnvironment` which keeps routing state as value in the
     localStorage.
 
+
+## 0.15.1
+
+  - Bump react-async to 0.8.0.
+
   - Fixes to environments, now they properly unsubscribe event listeners.
 
 ## 0.15.0
