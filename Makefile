@@ -36,9 +36,6 @@ publish:
 	git push --tags origin HEAD:master
 	npm publish
 
-standalone::
-	$(MAKE) --no-print-directory -C standalone build
-
 define release
 	npm version $(1)
 endef
