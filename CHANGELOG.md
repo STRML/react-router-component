@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.16.0
+## 0.16.0 (unreleased)
 
   - Add `QuerystringKeyEnvironment` which keeps routing state as param in a
     querystring.
@@ -8,6 +8,14 @@
   - Add `LocalStorageKeyEnvironment` which keeps routing state as value in the
     localStorage.
 
+## 0.15.3
+
+  - RouterMixin doesn't specify onNavigation/onBeforeNavigation in
+    getDefaultProps and thus allows to specify them in user code (#22).
+
+## 0.15.2
+
+  - Fix bug with require('./environment') using an invalid case.
 
 ## 0.15.1
 
