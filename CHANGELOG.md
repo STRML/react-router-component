@@ -1,12 +1,17 @@
 # CHANGELOG
 
-## 0.16.0 (unreleased)
+## 0.16.0
 
-  - Add `QuerystringKeyEnvironment` which keeps routing state as param in a
-    querystring.
+  - RouterMixin now delegates state update to setRoutingState method if it's
+    available.
 
-  - Add `LocalStorageKeyEnvironment` which keeps routing state as value in the
-    localStorage.
+  - AsyncRouteRenderingMixin now provides implementation of setRoutingState
+    store pendingState update in router's state.
+
+  - AsyncRouteRenderingMixin now provides hasPendingUpdate() which returns t
+    if router has active pendingState. This fixes #23.
+
+  - Handler component is now instantiated during state update.
 
 ## 0.15.3
 
