@@ -3,6 +3,7 @@
 var Router                    = require('./lib/Router');
 var Route                     = require('./lib/Route');
 var Link                      = require('./lib/Link');
+var CaptureClicks             = require('./lib/CaptureClicks');
 
 var RouterMixin               = require('./lib/RouterMixin');
 var AsyncRouteRenderingMixin  = require('./lib/AsyncRouteRenderingMixin');
@@ -15,6 +16,7 @@ var environment               = require('./lib/environment');
 module.exports = {
   Locations: Router.Locations,
   Pages: Router.Pages,
+  CaptureClicks: CaptureClicks,
 
   Location: Route.Route,
   Page: Route.Route,
