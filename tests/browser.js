@@ -437,6 +437,11 @@ describe('Nested routers', function() {
             path: '/__zuul/nested/*',
             handler: NestedRouter
           })
+        ),
+        Router.CaptureClicks(null,
+          a({ref: 'anchor', href: '/__zuul/nested/page'}),
+          a({ref: 'anchorNestedRoot', href: '/__zuul/nested'}),
+          a({ref: 'anchorUnhandled', href: '/__zuul/nested/404'})
         )
       );
     }
@@ -459,6 +464,41 @@ describe('Nested routers', function() {
       assertRendered('nested/root');
       done();
     });
+  });
+
+  describe('CaptureClicks component', function() {
+    it('navigates to a subroute via onClick event', function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.anchor);
+      delay(function() {
+        assertRendered('nested/page');
+        done();
+      });
+    });
+
+    it("doesn't navigate if route matches but subroute doesn't", function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        onClick: function(event) {
+          // Make sure that the event has bubbled past the CaptureClicks
+          // component.
+          event.preventDefault();
+          assertRendered('mainpage');
+          done();
+        }
+      });
+      clickOn(app.refs.anchorUnhandled);
+    });
+
+    it('navigates to a subroute via onClick event (root case)', function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.anchorNestedRoot);
+      delay(function() {
+        assertRendered('nested/root');
+        done();
+      });
+    });
+
   });
 
 });
