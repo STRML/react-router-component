@@ -15,6 +15,7 @@ var host, app, router;
 var timeout = 250;
 
 var div = React.DOM.div;
+var a = React.DOM.a;
 
 function delay(ms, func) {
   if (func === undefined) {
@@ -96,6 +97,9 @@ describe('Routing', function() {
           Router.NotFound({
             handler: function(props) { return div(null, 'not_found') }
           })
+        ),
+        Router.CaptureClicks(null,
+          a({ref: 'anchor', href: '/__zuul/hi'})
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'}),
         Router.Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick})
@@ -229,6 +233,17 @@ describe('Routing', function() {
       });
     });
 
+  });
+
+  describe('CaptureClicks component', function() {
+    it('navigates via onClick event', function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.anchor);
+      delay(function() {
+        assertRendered('hi');
+        done();
+      });
+    });
   });
 
 });
