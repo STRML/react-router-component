@@ -100,6 +100,7 @@ describe('Routing', function() {
         ),
         Router.CaptureClicks(null,
           a({ref: 'anchor', href: '/__zuul/hi'}),
+          a({ref: 'anchorUnhandled', href: '/__zuul/goodbye'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'}),
@@ -258,6 +259,20 @@ describe('Routing', function() {
         }
       });
       clickOn(app.refs.anchorExternal);
+    });
+
+    it("doesn't navigate if the href has no matching route", function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        onClick: function(event) {
+          // Make sure that the event has bubbled past the CaptureClicks
+          // component.
+          event.preventDefault();
+          assertRendered('mainpage');
+          done();
+        }
+      });
+      clickOn(app.refs.anchorUnhandled);
     });
   });
 
