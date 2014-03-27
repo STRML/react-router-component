@@ -10,14 +10,14 @@ describe('react-router-component (on server)', function() {
       return Router.Locations({className: 'App', path: this.props.path},
         Router.Location({
           path: '/',
-          handler: function(props) { return 'mainpage' }
+          handler: function(props) { return React.DOM.div(null, 'mainpage'); }
         }),
         Router.Location({
           path: '/x/:slug',
-          handler: function(props) { return props.slug }
+          handler: function(props) { return React.DOM.div(null, props.slug); }
         }),
         Router.NotFound({
-          handler: function(props) { return 'not_found' }
+          handler: function(props) { return React.DOM.div(null, 'not_found'); }
         })
       );
     }
@@ -49,7 +49,7 @@ describe('react-router-component (on server)', function() {
         return Router.Pages({className: 'App', path: this.props.path},
           Router.Location({
             path: '/',
-            handler: function(props) { return 'mainpage' }
+            handler: function(props) { return React.DOM.div(null, 'mainpage') }
           })
         );
       }
@@ -57,7 +57,7 @@ describe('react-router-component (on server)', function() {
 
     it('renders to <body>', function() {
       var markup = React.renderComponentToString(App({path: '/'}));
-      assert(markup.match(/<body [^>]+>mainpage<\/body>/));
+      assert(markup.match(/<body [^>]+><div [^>]+>mainpage<\/div><\/body>/));
     });
 
   });
@@ -119,7 +119,7 @@ describe('react-router-component (on server)', function() {
         return Router.Locations({className: 'App', path: this.props.path},
           Router.Location({
             path: '/',
-            handler: function(props) { return 'mainpage' }
+            handler: function(props) { return React.DOM.div(null, 'mainpage') }
           })
         );
       }

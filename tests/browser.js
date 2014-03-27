@@ -82,7 +82,6 @@ describe('Routing', function() {
               return Router.Link({
                 foo: props.foo,
                 href: '/__zuul/hello',
-                ref: props.ref
               }, 'mainpage')
             }
           }),
@@ -238,6 +237,10 @@ describe('Routing with async components', function() {
 
   if (!historyAPI) return;
 
+  var mainWasInLoadingState;
+  var aboutWasInLoadingState;
+  var mainSeenPendingUpdate;
+
   var App = React.createClass({
 
     render: function() {
@@ -249,7 +252,7 @@ describe('Routing with async components', function() {
   });
 
   var Main = React.createClass({
-    mixins: [ReactAsync.Mixin],
+    mixins: [ReactAsync.Mixin, Router.NavigatableMixin],
 
     getInitialStateAsync: function(cb) {
       setTimeout(function() {
@@ -258,6 +261,13 @@ describe('Routing with async components', function() {
     },
 
     render: function() {
+      if (!this.state.message) {
+        mainWasInLoadingState = true;
+      }
+
+      if (this.context.router.hasPendingUpdate()) {
+        mainSeenPendingUpdate = true;
+      }
       return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
     }
   });
@@ -272,8 +282,18 @@ describe('Routing with async components', function() {
     },
 
     render: function() {
+      if (!this.state.message) {
+        aboutWasInLoadingState = true;
+      }
       return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
     }
+  });
+
+  beforeEach(function() {
+    mainWasInLoadingState = false; 
+    aboutWasInLoadingState = false;
+
+    mainSeenPendingUpdate = false;
   });
 
   beforeEach(setUp(App));
@@ -283,6 +303,8 @@ describe('Routing with async components', function() {
     assertRendered('loading...');
     setTimeout(function() {
       assertRendered('main');
+      assert(!mainSeenPendingUpdate);
+      assert(mainWasInLoadingState);
       done();
     }, 50);
   });
@@ -295,12 +317,11 @@ describe('Routing with async components', function() {
 
       router.navigate('/__zuul/about', function(err) {
         if (err) return done(err);
-        assertRendered('main');
-
-        setTimeout(function() {
-          assertRendered('about');
-          done();
-        }, 350);
+        assertRendered('about');
+        assert(mainWasInLoadingState);
+        assert(mainSeenPendingUpdate);
+        assert(!aboutWasInLoadingState);
+        done();
       });
     }, 100);
   });
@@ -313,18 +334,19 @@ describe('Routing with async components', function() {
 
       router.navigate('/__zuul/about', function(err) {
         if (err) return done(err);
-        assertRendered('main');
-
-        router.navigate('/__zuul', function(err) {
-          if (err) return done(err);
-          assertRendered('main');
-
-          setTimeout(function() {
-            assertRendered('main');
-            done();
-          }, 250);
-        });
+        assert(false);
       });
+
+      router.navigate('/__zuul', function(err) {
+        if (err) return done(err);
+
+        assertRendered('main');
+        assert(mainSeenPendingUpdate);
+        assert(mainWasInLoadingState);
+        assert(!aboutWasInLoadingState);
+        done();
+      });
+
     }, 100);
   });
 });
@@ -361,8 +383,9 @@ describe('Nested routers', function() {
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
+            ref: 'link',
             handler: function(props) {
-              return Router.Link({foo: props.foo, ref: 'link', href: '/__zuul/hello'}, 'mainpage')
+              return Router.Link({foo: props.foo, href: '/__zuul/hello'}, 'mainpage')
             }
           }),
           Router.Location({
@@ -410,14 +433,16 @@ describe('Contextual routers', function() {
           }),
           Router.Location({
             path: '/page',
+            ref: 'link',
             handler: function(props) {
-              return Router.Link({ref: 'link', href: '/'}, 'subcat/page')
+              return Router.Link({href: '/'}, 'subcat/page')
             }
           }),
           Router.Location({
             path: '/escape',
+            ref: 'link',
             handler: function(props) {
-              return Router.Link({global: true, ref: 'link', href: '/__zuul'}, 'subcat/escape')
+              return Router.Link({global: true, href: '/__zuul'}, 'subcat/escape')
             }
           })
         ));
@@ -508,8 +533,9 @@ describe('Multiple active routers', function() {
       var router1 = Router.Locations({ref: 'router1', className: 'App'},
         Router.Location({
           path: '/__zuul',
+          ref: 'link',
           handler: function(props) {
-            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage1')
+            return Router.Link({href: '/__zuul/hello'}, 'mainpage1')
           }
         }),
         Router.Location({
@@ -523,8 +549,9 @@ describe('Multiple active routers', function() {
       var router2 = Router.Locations({ref: 'router2', className: 'App'},
         Router.Location({
           path: '/__zuul',
+          ref: 'link',
           handler: function(props) {
-            return Router.Link({ref: 'link', href: '/__zuul/hello'}, 'mainpage2')
+            return Router.Link({href: '/__zuul/hello'}, 'mainpage2')
           }
         }),
         Router.Location({
@@ -583,8 +610,9 @@ describe('Hash routing', function() {
       return Router.Locations({ref: 'router', hash: true, className: 'App'},
         Router.Location({
           path: '/',
+          ref: 'link',
           handler: function(props) {
-            return Router.Link({ref: 'link', href: '/hello'}, 'mainpage');
+            return Router.Link({href: '/hello'}, 'mainpage');
           }
         }),
         Router.Location({
@@ -685,8 +713,9 @@ describe('Contextual Hash routers', function() {
           }),
           Router.Location({
             path: '/escape',
+            ref: 'link',
             handler: function(props) {
-              return Router.Link({globalHash: true, ref: 'link', href: '/'}, 'subcat/escape');
+              return Router.Link({globalHash: true, href: '/'}, 'subcat/escape');
             }
           })
         ));
