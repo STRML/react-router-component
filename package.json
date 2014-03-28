@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "url-pattern": "~0.4.0",
-    "envify": "^1.2.1"
+    "envify": "^1.2.1",
+    "urllite": "~0.4.0"
   },
   "peerDependencies": {
     "react": "~0.10.0",
