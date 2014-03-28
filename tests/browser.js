@@ -251,8 +251,9 @@ describe('Routing', function() {
       assertRendered('mainpage');
       app.setProps({
         onClick: function(event) {
-          // Make sure that the event has bubbled past the CaptureClicks
-          // component.
+          // Make sure that the event hasn't had its default prevented by the
+          // CaptureClicks component.
+          assert(!event.defaultPrevented);
           event.preventDefault();
           assertRendered('mainpage');
           done();
@@ -265,8 +266,9 @@ describe('Routing', function() {
       assertRendered('mainpage');
       app.setProps({
         onClick: function(event) {
-          // Make sure that the event has bubbled past the CaptureClicks
-          // component.
+          // Make sure that the event hasn't had its default prevented by the
+          // CaptureClicks component.
+          assert(!event.defaultPrevented);
           event.preventDefault();
           assertRendered('mainpage');
           done();
@@ -480,8 +482,9 @@ describe('Nested routers', function() {
       assertRendered('mainpage');
       app.setProps({
         onClick: function(event) {
-          // Make sure that the event has bubbled past the CaptureClicks
-          // component.
+          // Make sure that the event hasn't had its default prevented by the
+          // CaptureClicks component.
+          assert(!event.defaultPrevented);
           event.preventDefault();
           assertRendered('mainpage');
           done();
