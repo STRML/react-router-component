@@ -490,16 +490,6 @@ describe('Nested routers', function() {
       });
     });
 
-    it("follows the link if route matches but subroute doesn't", function(done) {
-      assertRendered('mainpage');
-      app.setProps({
-        gotoURL: function() {
-          done();
-        }
-      });
-      clickOn(app.refs.anchorUnhandled);
-    });
-
     it('navigates to a subroute via onClick event (root case)', function(done) {
       assertRendered('mainpage');
       clickOn(app.refs.anchorNestedRoot);
