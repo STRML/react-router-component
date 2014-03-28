@@ -15,6 +15,7 @@ var host, app, router;
 var timeout = 250;
 
 var div = React.DOM.div;
+var a = React.DOM.a;
 
 function delay(ms, func) {
   if (func === undefined) {
@@ -68,7 +69,7 @@ describe('Routing', function() {
   var App = React.createClass({
 
     render: function() {
-      return React.DOM.div(null,
+      return React.DOM.div({onClick: this.props.onClick},
         Router.Locations({
             ref: 'router', className: 'App',
             onNavigation: this.props.navigationHandler,
@@ -97,9 +98,20 @@ describe('Routing', function() {
             handler: function(props) { return div(null, 'not_found') }
           })
         ),
+        Router.CaptureClicks({gotoURL: this.gotoURL},
+          a({ref: 'anchor', href: '/__zuul/hi'}),
+          a({ref: 'anchorUnhandled', href: '/goodbye'}),
+          a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
+        ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'}),
         Router.Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick})
       );
+    },
+
+    gotoURL: function(url) {
+      if (this.props.gotoURL) {
+        this.props.gotoURL(url);
+      }
     },
 
     handlePreventedLinkClick: function (event) {
@@ -229,6 +241,42 @@ describe('Routing', function() {
       });
     });
 
+  });
+
+  describe('CaptureClicks component', function() {
+    it('navigates via onClick event', function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.anchor);
+      delay(function() {
+        assertRendered('hi');
+        done();
+      });
+    });
+
+    it("doesn't navigate if the href has another host", function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        onClick: function(event) {
+          // Make sure that the event hasn't had its default prevented by the
+          // CaptureClicks component.
+          assert(!event.defaultPrevented);
+          event.preventDefault();
+          assertRendered('mainpage');
+          done();
+        }
+      });
+      clickOn(app.refs.anchorExternal);
+    });
+
+    it('follows the link if the href has no matching route', function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        gotoURL: function(url) {
+          done();
+        }
+      });
+      clickOn(app.refs.anchorUnhandled);
+    });
   });
 
 });
@@ -392,8 +440,19 @@ describe('Nested routers', function() {
             path: '/__zuul/nested/*',
             handler: NestedRouter
           })
+        ),
+        Router.CaptureClicks({gotoURL: this.gotoURL},
+          a({ref: 'anchor', href: '/__zuul/nested/page'}),
+          a({ref: 'anchorNestedRoot', href: '/__zuul/nested'}),
+          a({ref: 'anchorUnhandled', href: '/__zuul/nested/404'})
         )
       );
+    },
+
+    gotoURL: function(url) {
+      if (this.props.gotoURL) {
+        this.props.gotoURL(url);
+      }
     }
   });
 
@@ -414,6 +473,37 @@ describe('Nested routers', function() {
       assertRendered('nested/root');
       done();
     });
+  });
+
+  describe('CaptureClicks component', function() {
+    it('navigates to a subroute via onClick event', function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        gotoURL: function(url) {
+          done(new Error('Followed link to ' + url));
+        }
+      });
+      clickOn(app.refs.anchor);
+      delay(function() {
+        assertRendered('nested/page');
+        done();
+      });
+    });
+
+    it('navigates to a subroute via onClick event (root case)', function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        gotoURL: function(url) {
+          done(new Error('Followed link to ' + url));
+        }
+      });
+      clickOn(app.refs.anchorNestedRoot);
+      delay(function() {
+        assertRendered('nested/root');
+        done();
+      });
+    });
+
   });
 
 });
