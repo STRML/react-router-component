@@ -100,7 +100,7 @@ describe('Routing', function() {
         ),
         Router.CaptureClicks(null,
           a({ref: 'anchor', href: '/__zuul/hi'}),
-          a({ref: 'anchorUnhandled', href: '/__zuul/goodbye'}),
+          a({ref: 'anchorUnhandled', href: '/goodbye'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
         ),
         Router.Link({ref: 'outside', href: '/__zuul/hi'}),
