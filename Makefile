@@ -7,7 +7,7 @@ install link:
 	@npm $@
 
 lint:
-	@jshint index.js lib/*.js
+	@jshint index.js `find lib -name '*.js'`
 
 test: test-unit test-server
 
