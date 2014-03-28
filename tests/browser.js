@@ -443,7 +443,7 @@ describe('Nested routers', function() {
         ),
         Router.CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/nested/page'}),
-          a({ref: 'anchorNestedRoot', href: '/__zuul/nested'}),
+          a({ref: 'anchorNestedRoot', href: '/__zuul/nested/'}),
           a({ref: 'anchorUnhandled', href: '/__zuul/nested/404'})
         )
       );
