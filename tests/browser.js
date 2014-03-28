@@ -98,7 +98,7 @@ describe('Routing', function() {
             handler: function(props) { return div(null, 'not_found') }
           })
         ),
-        Router.CaptureClicks(null,
+        Router.CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/hi'}),
           a({ref: 'anchorUnhandled', href: '/goodbye'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
@@ -106,6 +106,12 @@ describe('Routing', function() {
         Router.Link({ref: 'outside', href: '/__zuul/hi'}),
         Router.Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick})
       );
+    },
+
+    gotoURL: function(url) {
+      if (this.props.gotoURL) {
+        this.props.gotoURL(url);
+      }
     },
 
     handlePreventedLinkClick: function (event) {
@@ -262,15 +268,10 @@ describe('Routing', function() {
       clickOn(app.refs.anchorExternal);
     });
 
-    it("doesn't navigate if the href has no matching route", function(done) {
+    it('follows the link if the href has no matching route', function(done) {
       assertRendered('mainpage');
       app.setProps({
-        onClick: function(event) {
-          // Make sure that the event hasn't had its default prevented by the
-          // CaptureClicks component.
-          assert(!event.defaultPrevented);
-          event.preventDefault();
-          assertRendered('mainpage');
+        gotoURL: function(url) {
           done();
         }
       });
@@ -440,12 +441,18 @@ describe('Nested routers', function() {
             handler: NestedRouter
           })
         ),
-        Router.CaptureClicks(null,
+        Router.CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/nested/page'}),
           a({ref: 'anchorNestedRoot', href: '/__zuul/nested'}),
           a({ref: 'anchorUnhandled', href: '/__zuul/nested/404'})
         )
       );
+    },
+
+    gotoURL: function(url) {
+      if (this.props.gotoURL) {
+        this.props.gotoURL(url);
+      }
     }
   });
 
@@ -471,6 +478,11 @@ describe('Nested routers', function() {
   describe('CaptureClicks component', function() {
     it('navigates to a subroute via onClick event', function(done) {
       assertRendered('mainpage');
+      app.setProps({
+        gotoURL: function(url) {
+          done(new Error('Navigated to ' + url));
+        }
+      })
       clickOn(app.refs.anchor);
       delay(function() {
         assertRendered('nested/page');
@@ -478,15 +490,10 @@ describe('Nested routers', function() {
       });
     });
 
-    it("doesn't navigate if route matches but subroute doesn't", function(done) {
+    it("follows the link if route matches but subroute doesn't", function(done) {
       assertRendered('mainpage');
       app.setProps({
-        onClick: function(event) {
-          // Make sure that the event hasn't had its default prevented by the
-          // CaptureClicks component.
-          assert(!event.defaultPrevented);
-          event.preventDefault();
-          assertRendered('mainpage');
+        gotoURL: function() {
           done();
         }
       });
