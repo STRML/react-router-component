@@ -480,9 +480,9 @@ describe('Nested routers', function() {
       assertRendered('mainpage');
       app.setProps({
         gotoURL: function(url) {
-          done(new Error('Navigated to ' + url));
+          done(new Error('Followed link to ' + url));
         }
-      })
+      });
       clickOn(app.refs.anchor);
       delay(function() {
         assertRendered('nested/page');
@@ -492,6 +492,11 @@ describe('Nested routers', function() {
 
     it('navigates to a subroute via onClick event (root case)', function(done) {
       assertRendered('mainpage');
+      app.setProps({
+        gotoURL: function(url) {
+          done(new Error('Followed link to ' + url));
+        }
+      });
       clickOn(app.refs.anchorNestedRoot);
       delay(function() {
         assertRendered('nested/root');
