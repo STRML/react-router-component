@@ -13,14 +13,16 @@ Just wrap these sections with a `CaptureClicks` component:
     var Router = require('react-router-component')
     var Locations = Router.Locations
     var Location = Router.Location
-    var CaptureClicks = Router.CaptureClicks;
+    var CaptureClicks = require('react-router-component/lib/CaptureClicks')
 
     var Page = React.createClass({
       render: function() {
         return (
           <div>
             <ThirdPartyComponentWithAElements />
-            <div dangerouslySetInnerHTML={{__html: '<a href="/message">Click me!</a>'}} />
+            <div dangerouslySetInnerHTML={
+              {__html: '<a href="/message">Click me!</a>'}
+            } />
           </div>
         )
       }

@@ -4,6 +4,7 @@ var React           = require('react');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
 var Router          = require('../index');
+var CaptureClicks   = require('../lib/CaptureClicks');
 
 var historyAPI = (
     window.history !== undefined &&
@@ -69,7 +70,7 @@ describe('Routing', function() {
   var App = React.createClass({
 
     render: function() {
-      return React.DOM.div({onClick: this.props.onClick},
+      return div({onClick: this.props.onClick},
         Router.Locations({
             ref: 'router', className: 'App',
             onNavigation: this.props.navigationHandler,
@@ -98,7 +99,7 @@ describe('Routing', function() {
             handler: function(props) { return div(null, 'not_found') }
           })
         ),
-        Router.CaptureClicks({gotoURL: this.gotoURL},
+        CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/hi'}),
           a({ref: 'anchorUnhandled', href: '/goodbye'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
@@ -316,7 +317,7 @@ describe('Routing with async components', function() {
       if (this.context.router.hasPendingUpdate()) {
         mainSeenPendingUpdate = true;
       }
-      return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
+      return div(null, this.state.message ? this.state.message : 'loading...');
     }
   });
 
@@ -333,7 +334,7 @@ describe('Routing with async components', function() {
       if (!this.state.message) {
         aboutWasInLoadingState = true;
       }
-      return React.DOM.div(null, this.state.message ? this.state.message : 'loading...');
+      return div(null, this.state.message ? this.state.message : 'loading...');
     }
   });
 
@@ -405,7 +406,7 @@ describe('Nested routers', function() {
 
   var NestedRouter = React.createClass({
     render: function() {
-      return React.DOM.div(null,
+      return div(null,
         Router.Locations(null,
           Router.Location({
             path: '/__zuul/nested/',
@@ -426,7 +427,7 @@ describe('Nested routers', function() {
   var App = React.createClass({
 
     render: function() {
-      return React.DOM.div(null,
+      return div(null,
         Router.Locations({ref: 'router', className: 'App'},
           Router.Location({
             path: '/__zuul',
@@ -441,7 +442,7 @@ describe('Nested routers', function() {
             handler: NestedRouter
           })
         ),
-        Router.CaptureClicks({gotoURL: this.gotoURL},
+        CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/nested/page'}),
           a({ref: 'anchorNestedRoot', href: '/__zuul/nested/'}),
           a({ref: 'anchorUnhandled', href: '/__zuul/nested/404'})
@@ -515,7 +516,7 @@ describe('Contextual routers', function() {
   var SubCat = React.createClass({
 
     render: function() {
-      return React.DOM.div(null,
+      return div(null,
         Router.Locations({ref: 'router', contextual: true},
           Router.Location({
             path: '/',
@@ -651,7 +652,7 @@ describe('Multiple active routers', function() {
           }
         })
       );
-      return React.DOM.div({ref: 'content'}, router1, router2);
+      return div({ref: 'content'}, router1, router2);
     }
   });
 
@@ -795,7 +796,7 @@ describe('Contextual Hash routers', function() {
   var SubCat = React.createClass({
 
     render: function() {
-      return React.DOM.div(null,
+      return div(null,
         Router.Locations({ref: 'router', contextual: true},
           Router.Location({
             path: '/',
