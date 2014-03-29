@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.17.0
+
+  - Add `<CaptureClicks>` component to capture clicks on `<a>`-elements and turn
+    them into in-app navigation actions. Thanks to Matthew Dapena-Tretter
+    (@matthewwithanm on GitHub).
+
 ## 0.16.0
 
   - RouterMixin now delegates state update to setRoutingState method if it's
@@ -55,12 +61,12 @@
 
   - `Link.props.onClick` now can prevent navigation by calling
     `event.preventDefault()`. Thanks to Matthew Dapena-Tretter
-    (https://github.com/matthewwithanm).
+    (@matthewwithanm on GitHub).
 
 ## 0.11.0
 
   - Add onNavigation and onBeforeNavigation callbacks. Thanks to Dave Mac
-    (https://github.com/DveMac).
+    (@DveMac in GitHub).
 
 ## 0.10.2
 
