@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.18.00
+
+  - **breaking change** Router now only prefetches async state (via react-async)
+    if and only if current handler's type is different from next handler's type.
+
+    This now matches the behaviour of getInitialState which is only called once
+    for each component instance.
+
+    If you have your async state dependent on props, you need to initiate async
+    state update in `componentWillReceiveProps(nextProps)` by using values from
+    `nextProps`.
+
 ## 0.17.0
 
   - Add `<CaptureClicks>` component to capture clicks on `<a>`-elements and turn
