@@ -290,12 +290,16 @@ describe('Routing with async components', function() {
   var aboutWasInLoadingState;
   var mainSeenPendingUpdate;
 
+  var mainAsyncStateCount;
+  var aboutAsyncStateCount;
+
   var App = React.createClass({
 
     render: function() {
       return Router.Locations({ref: 'router', className: 'App'},
         Router.Location({path: '/__zuul', handler: Main, ref: 'main'}),
-        Router.Location({path: '/__zuul/about', handler: About, ref: 'about'})
+        Router.Location({path: '/__zuul/about', handler: About, ref: 'about'}),
+        Router.Location({path: '/__zuul/about2', handler: About, ref: 'about2'})
       );
     }
   });
@@ -304,6 +308,7 @@ describe('Routing with async components', function() {
     mixins: [ReactAsync.Mixin, Router.NavigatableMixin],
 
     getInitialStateAsync: function(cb) {
+      mainAsyncStateCount += 1;
       setTimeout(function() {
         cb(null, {message: 'main'});
       }, 20);
@@ -325,6 +330,7 @@ describe('Routing with async components', function() {
     mixins: [ReactAsync.Mixin],
 
     getInitialStateAsync: function(cb) {
+      aboutAsyncStateCount += 1;
       delay(function() {
         cb(null, {message: 'about'});
       });
@@ -343,6 +349,9 @@ describe('Routing with async components', function() {
     aboutWasInLoadingState = false;
 
     mainSeenPendingUpdate = false;
+
+    mainAsyncStateCount = 0;
+    aboutAsyncStateCount = 0;
   });
 
   beforeEach(setUp(App));
@@ -350,18 +359,20 @@ describe('Routing with async components', function() {
 
   it('renders async component', function(done) {
     assertRendered('loading...');
-    setTimeout(function() {
+    delay(50, function() {
       assertRendered('main');
       assert(!mainSeenPendingUpdate);
       assert(mainWasInLoadingState);
+      assert.equal(mainAsyncStateCount, 1);
+      assert.equal(aboutAsyncStateCount, 0);
       done();
-    }, 50);
+    });
   });
 
   it('renders async component and navigates', function(done) {
     assertRendered('loading...');
 
-    setTimeout(function() {
+    delay(100, function() {
       assertRendered('main');
 
       router.navigate('/__zuul/about', function(err) {
@@ -370,15 +381,17 @@ describe('Routing with async components', function() {
         assert(mainWasInLoadingState);
         assert(mainSeenPendingUpdate);
         assert(!aboutWasInLoadingState);
+        assert.equal(mainAsyncStateCount, 1);
+        assert.equal(aboutAsyncStateCount, 1);
         done();
       });
-    }, 100);
+    });
   });
 
   it('cancels pending update on navigate', function(done) {
     assertRendered('loading...');
 
-    setTimeout(function() {
+    delay(100, function() {
       assertRendered('main');
 
       router.navigate('/__zuul/about', function(err) {
@@ -393,10 +406,37 @@ describe('Routing with async components', function() {
         assert(mainSeenPendingUpdate);
         assert(mainWasInLoadingState);
         assert(!aboutWasInLoadingState);
+        assert.equal(mainAsyncStateCount, 1);
+        assert.equal(aboutAsyncStateCount, 1);
         done();
       });
 
-    }, 100);
+    });
+  });
+
+  it('does not trigger async state load if type of the next component is the same', function(done) {
+    assertRendered('loading...');
+
+    delay(100, function() {
+      assertRendered('main');
+
+      router.navigate('/__zuul/about', function(err) {
+        if (err) return done(err);
+        assertRendered('about');
+
+        router.navigate('/__zuul/about2', function(err) {
+          if (err) return done(err);
+          assertRendered('about');
+          assert(mainWasInLoadingState);
+          assert(mainSeenPendingUpdate);
+          assert(!aboutWasInLoadingState);
+          assert.equal(mainAsyncStateCount, 1);
+          assert.equal(aboutAsyncStateCount, 1);
+          done();
+        });
+      });
+    });
+
   });
 });
 
