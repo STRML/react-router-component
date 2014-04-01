@@ -79,7 +79,6 @@ describe('Routing', function() {
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
-            ref: 'link',
             handler: function(props) {
               return Router.Link({
                 foo: props.foo,
@@ -129,7 +128,7 @@ describe('Routing', function() {
 
   it('passes props from location down to handler', function() {
     assertRendered('mainpage');
-    assert.equal(router.refs.link.props.foo, 'bar');
+    assert.equal(router.getRendered().props.foo, 'bar');
   });
 
   it('navigates to a different route', function(done) {
@@ -209,7 +208,7 @@ describe('Routing', function() {
 
     it('navigates via .navigate(path) call', function(done) {
       assertRendered('mainpage');
-      router.refs.link.navigate('/__zuul/hello', function() {
+      router.getRendered().navigate('/__zuul/hello', function() {
         assertRendered('hello');
         done();
       });
@@ -217,7 +216,7 @@ describe('Routing', function() {
 
     it('navigates via onClick event', function(done) {
       assertRendered('mainpage');
-      clickOn(router.refs.link);
+      clickOn(router.getRendered());
       delay(function() {
         assertRendered('hello');
         done();
@@ -288,6 +287,10 @@ describe('Routing with async components', function() {
 
   var mainWasInLoadingState;
   var aboutWasInLoadingState;
+
+  var mainWasInLoadedState;
+  var aboutWasInLoadedState;
+
   var mainSeenPendingUpdate;
 
   var mainAsyncStateCount;
@@ -297,9 +300,9 @@ describe('Routing with async components', function() {
 
     render: function() {
       return Router.Locations({ref: 'router', className: 'App'},
-        Router.Location({path: '/__zuul', handler: Main, ref: 'main'}),
-        Router.Location({path: '/__zuul/about', handler: About, ref: 'about'}),
-        Router.Location({path: '/__zuul/about2', handler: About, ref: 'about2'})
+        Router.Location({path: '/__zuul', handler: Main}),
+        Router.Location({path: '/__zuul/about', handler: About}),
+        Router.Location({path: '/__zuul/about2', handler: About})
       );
     }
   });
@@ -317,6 +320,8 @@ describe('Routing with async components', function() {
     render: function() {
       if (!this.state.message) {
         mainWasInLoadingState = true;
+      } else {
+        mainWasInLoadedState = true;
       }
 
       if (this.context.router.hasPendingUpdate()) {
@@ -339,6 +344,8 @@ describe('Routing with async components', function() {
     render: function() {
       if (!this.state.message) {
         aboutWasInLoadingState = true;
+      } else {
+        aboutWasInLoadedState = true;
       }
       return div(null, this.state.message ? this.state.message : 'loading...');
     }
@@ -347,6 +354,9 @@ describe('Routing with async components', function() {
   beforeEach(function() {
     mainWasInLoadingState = false; 
     aboutWasInLoadingState = false;
+
+    mainWasInLoadedState = false; 
+    aboutWasInLoadedState = false;
 
     mainSeenPendingUpdate = false;
 
@@ -377,13 +387,16 @@ describe('Routing with async components', function() {
 
       router.navigate('/__zuul/about', function(err) {
         if (err) return done(err);
-        assertRendered('about');
-        assert(mainWasInLoadingState);
-        assert(mainSeenPendingUpdate);
-        assert(!aboutWasInLoadingState);
-        assert.equal(mainAsyncStateCount, 1);
-        assert.equal(aboutAsyncStateCount, 1);
-        done();
+        assertRendered('main');
+        delay(300, function() {
+          assertRendered('about');
+          assert(mainWasInLoadingState);
+          assert(mainSeenPendingUpdate);
+          assert(!aboutWasInLoadingState);
+          assert.equal(mainAsyncStateCount, 1);
+          assert.equal(aboutAsyncStateCount, 1);
+          done();
+        });
       });
     });
   });
@@ -396,7 +409,6 @@ describe('Routing with async components', function() {
 
       router.navigate('/__zuul/about', function(err) {
         if (err) return done(err);
-        assert(false);
       });
 
       router.navigate('/__zuul', function(err) {
@@ -406,6 +418,7 @@ describe('Routing with async components', function() {
         assert(mainSeenPendingUpdate);
         assert(mainWasInLoadingState);
         assert(!aboutWasInLoadingState);
+        assert(!aboutWasInLoadedState);
         assert.equal(mainAsyncStateCount, 1);
         assert.equal(aboutAsyncStateCount, 1);
         done();
@@ -422,17 +435,21 @@ describe('Routing with async components', function() {
 
       router.navigate('/__zuul/about', function(err) {
         if (err) return done(err);
-        assertRendered('about');
+        assertRendered('main');
 
-        router.navigate('/__zuul/about2', function(err) {
-          if (err) return done(err);
+        delay(300, function() {
           assertRendered('about');
-          assert(mainWasInLoadingState);
-          assert(mainSeenPendingUpdate);
-          assert(!aboutWasInLoadingState);
-          assert.equal(mainAsyncStateCount, 1);
-          assert.equal(aboutAsyncStateCount, 1);
-          done();
+
+          router.navigate('/__zuul/about2', function(err) {
+            if (err) return done(err);
+            assertRendered('about');
+            assert(mainWasInLoadingState);
+            assert(mainSeenPendingUpdate);
+            assert(!aboutWasInLoadingState);
+            assert.equal(mainAsyncStateCount, 1);
+            assert.equal(aboutAsyncStateCount, 1);
+            done();
+          });
         });
       });
     });
@@ -472,7 +489,6 @@ describe('Nested routers', function() {
           Router.Location({
             path: '/__zuul',
             foo: 'bar',
-            ref: 'link',
             handler: function(props) {
               return Router.Link({foo: props.foo, href: '/__zuul/hello'}, 'mainpage')
             }
@@ -564,14 +580,12 @@ describe('Contextual routers', function() {
           }),
           Router.Location({
             path: '/page',
-            ref: 'link',
             handler: function(props) {
               return Router.Link({href: '/'}, 'subcat/page')
             }
           }),
           Router.Location({
             path: '/escape',
-            ref: 'link',
             handler: function(props) {
               return Router.Link({global: true, href: '/__zuul'}, 'subcat/escape')
             }
@@ -592,8 +606,7 @@ describe('Contextual routers', function() {
         }),
         Router.Location({
           path: '/__zuul/subcat/*',
-          handler: SubCat,
-          ref: 'subcat'
+          handler: SubCat
         })
       );
     }
@@ -622,7 +635,7 @@ describe('Contextual routers', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/subcat/', function() {
       assertRendered('subcat/root');
-      router.refs.subcat.refs.router.navigate('/page', function() {
+      router.getRendered().refs.router.navigate('/page', function() {
         assertRendered('subcat/page');
         done();
       });
@@ -633,7 +646,7 @@ describe('Contextual routers', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/subcat/page', function() {
       assertRendered('subcat/page');
-      clickOn(router.refs.subcat.refs.router.refs.link);
+      clickOn(router.getRendered().refs.router.getRendered());
       delay(function() {
         assertRendered('subcat/root');
         done();
@@ -645,7 +658,7 @@ describe('Contextual routers', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/subcat/escape', function() {
       assertRendered('subcat/escape');
-      clickOn(router.refs.subcat.refs.router.refs.link);
+      clickOn(router.getRendered().refs.router.getRendered());
       delay(function() {
         assertRendered('mainpage');
         done();
@@ -664,7 +677,6 @@ describe('Multiple active routers', function() {
       var router1 = Router.Locations({ref: 'router1', className: 'App'},
         Router.Location({
           path: '/__zuul',
-          ref: 'link',
           handler: function(props) {
             return Router.Link({href: '/__zuul/hello'}, 'mainpage1')
           }
@@ -680,7 +692,6 @@ describe('Multiple active routers', function() {
       var router2 = Router.Locations({ref: 'router2', className: 'App'},
         Router.Location({
           path: '/__zuul',
-          ref: 'link',
           handler: function(props) {
             return Router.Link({href: '/__zuul/hello'}, 'mainpage2')
           }
@@ -741,7 +752,6 @@ describe('Hash routing', function() {
       return Router.Locations({ref: 'router', hash: true, className: 'App'},
         Router.Location({
           path: '/',
-          ref: 'link',
           handler: function(props) {
             return Router.Link({href: '/hello'}, 'mainpage');
           }
@@ -813,7 +823,7 @@ describe('Hash routing', function() {
 
     it('navigates via .navigate(path) call', function(done) {
       assertRendered('mainpage');
-      router.refs.link.navigate('/hello', function() {
+      router.getRendered().navigate('/hello', function() {
         assertRendered('hello');
         done();
       });
@@ -821,7 +831,7 @@ describe('Hash routing', function() {
 
     it('navigates via onClick event', function(done) {
       assertRendered('mainpage');
-      clickOn(router.refs.link);
+      clickOn(router.getRendered());
       delay(function() {
         assertRendered('hello');
         done();
@@ -844,7 +854,6 @@ describe('Contextual Hash routers', function() {
           }),
           Router.Location({
             path: '/escape',
-            ref: 'link',
             handler: function(props) {
               return Router.Link({globalHash: true, href: '/'}, 'subcat/escape');
             }
@@ -865,8 +874,7 @@ describe('Contextual Hash routers', function() {
         }),
         Router.Location({
           path: '/subcat/*',
-          handler: SubCat,
-          ref: 'subcat'
+          handler: SubCat
         })
       );
     }
@@ -881,7 +889,7 @@ describe('Contextual Hash routers', function() {
       assertRendered('mainpage');
       router.navigate('/subcat/escape', function() {
         assertRendered('subcat/escape');
-        clickOn(router.refs.subcat.refs.router.refs.link);
+        clickOn(router.getRendered().refs.router.getRendered());
         delay(function() {
           assertRendered('mainpage');
           done();

@@ -4,9 +4,8 @@ var Router                    = require('./lib/Router');
 var Route                     = require('./lib/Route');
 var Link                      = require('./lib/Link');
 
-var RouterMixin               = require('./lib/RouterMixin');
-var AsyncRouteRenderingMixin  = require('./lib/AsyncRouteRenderingMixin');
-var RouteRenderingMixin       = require('./lib/RouteRenderingMixin');
+var RoutingStateMixin         = require('./lib/RoutingStateMixin');
+var RoutingEnvironmentMixin   = require('./lib/RoutingEnvironmentMixin');
 
 var NavigatableMixin          = require('./lib/NavigatableMixin');
 
@@ -24,9 +23,8 @@ module.exports = {
 
   environment: environment,
 
-  RouterMixin: RouterMixin,
-  RouteRenderingMixin: RouteRenderingMixin,
-  AsyncRouteRenderingMixin: AsyncRouteRenderingMixin,
+  RoutingStateMixin: RoutingStateMixin,
+  RoutingEnvironmentMixin: RoutingEnvironmentMixin,
 
   NavigatableMixin: NavigatableMixin
 };
