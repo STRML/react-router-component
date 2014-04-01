@@ -4,7 +4,6 @@ var Router                    = require('./lib/Router');
 var Route                     = require('./lib/Route');
 var Link                      = require('./lib/Link');
 
-var RoutingStateMixin         = require('./lib/RoutingStateMixin');
 var RoutingEnvironmentMixin   = require('./lib/RoutingEnvironmentMixin');
 
 var NavigatableMixin          = require('./lib/NavigatableMixin');
@@ -23,7 +22,6 @@ module.exports = {
 
   environment: environment,
 
-  RoutingStateMixin: RoutingStateMixin,
   RoutingEnvironmentMixin: RoutingEnvironmentMixin,
 
   NavigatableMixin: NavigatableMixin
