@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## 0.18.00
+## 0.18.1
+
+  - fix IE9 not to use pathnameEnvironment by default (pushState is absent
+    there).
+
+## 0.18.0
 
   - **breaking change** Router now only prefetches async state (via react-async)
     if and only if current handler's type is different from next handler's type.
