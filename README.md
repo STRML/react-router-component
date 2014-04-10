@@ -13,7 +13,7 @@ component's `render()` method:
 
 Alternatively, if you don't prefer JSX:
 
-    Locations(
+    Locations(null,
       Location({path: "/", handler: MainPage}),
       Location({path: "/users/:username", handler: UserPage}))
 
