@@ -11,7 +11,6 @@ describe('matchRoutes', function() {
   var routes = [
     {path: '(/)', handler: handler({name: 'root'})},
     {path: '/cat/:id', handler: handler({name: 'cat'})},
-    {path: '/mod/*', handler: handler({name: 'mod'})},
     {path: /\/regex\/([a-zA-Z]*)$/, handler: handler({name: 'regex'})},
     {path: null, handler: handler({name: 'notfound'})}
   ];
@@ -20,7 +19,7 @@ describe('matchRoutes', function() {
     var match = matchRoutes(routes, '');
     assert(match.route);
     assert.strictEqual(match.route.handler.name, 'root');
-    assert.deepEqual(match.match, {});
+    assert.deepEqual(match.match, {namedParams: {}, queryParams: {}});
     assert.strictEqual(match.path, '');
     assert.strictEqual(match.matchedPath, '');
     assert.strictEqual(match.unmatchedPath, null);
@@ -30,7 +29,7 @@ describe('matchRoutes', function() {
     var match = matchRoutes(routes, '/');
     assert(match.route);
     assert.strictEqual(match.route.handler.name, 'root');
-    assert.deepEqual(match.match, {});
+    assert.deepEqual(match.match, {namedParams: {}, queryParams: {}});
     assert.strictEqual(match.path, '/');
     assert.strictEqual(match.matchedPath, '/');
     assert.strictEqual(match.unmatchedPath, null);
@@ -40,20 +39,10 @@ describe('matchRoutes', function() {
     var match = matchRoutes(routes, '/cat/hello');
     assert(match.route);
     assert.strictEqual(match.route.handler.name, 'cat');
-    assert.deepEqual(match.match, {id: 'hello'});
+    assert.deepEqual(match.match, {namedParams: {id: 'hello'}, queryParams: {}});
     assert.strictEqual(match.path, '/cat/hello');
     assert.strictEqual(match.matchedPath, '/cat/hello');
     assert.strictEqual(match.unmatchedPath, null);
-  });
-
-  it('matches /mod/wow/here', function() {
-    var match = matchRoutes(routes, '/mod/wow/here');
-    assert(match.route);
-    assert.strictEqual(match.route.handler.name, 'mod');
-    assert.deepEqual(match.match, {_: ['wow/here']});
-    assert.strictEqual(match.path, '/mod/wow/here');
-    assert.strictEqual(match.matchedPath, '/mod/');
-    assert.strictEqual(match.unmatchedPath, 'wow/here');
   });
 
   it('matches /regex/text', function() {

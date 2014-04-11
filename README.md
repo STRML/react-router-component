@@ -51,7 +51,7 @@ See [docs][] for the usage.
 [server-side]: http://strml.viewdocs.io/react-router-component/server-side
 [multiple]: http://strml.viewdocs.io/react-router-component/multiple
 [contextual]: http://strml.viewdocs.io/react-router-component/contextual
-[url-pattern]: http://strml.viewdocs.io/react-router-component/url-pattern
+[url-match]: http://strml.viewdocs.io/react-router-component/url-pattern
 [async]: http://strml.viewdocs.io/react-router-component/async
 
 [docs]: http://strml.viewdocs.io/react-router-component
