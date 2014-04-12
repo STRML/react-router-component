@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "react": "~0.10.0",
-    "react-async": "~0.8.0",
+    "react-async": "~0.9.1",
     "semver": "~2.2.1",
     "mocha": "~1.17.1",
     "jshint": "~2.4.3",
