@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.18.2
+
+  - update react-async dep
+
 ## 0.18.1
 
   - fix IE9 not to use pathnameEnvironment by default (pushState is absent
