@@ -4,10 +4,26 @@ var Router = require('../index');
 
 describe('react-router-component (on server)', function() {
 
+  var dispatchCount;
+  var dispatchPath;
+
+  beforeEach(function() {
+    dispatchCount = 0;
+    dispatchPath = null;
+  });
+
   var App = React.createClass({
 
+    handleDispatch: function(path) {
+      dispatchCount += 1;
+      dispatchPath = path;
+    },
+
     render: function() {
-      return Router.Locations({className: 'App', path: this.props.path},
+      return Router.Locations({
+          className: 'App',
+          path: this.props.path,
+          onDispatch: this.handleDispatch},
         Router.Location({
           path: '/',
           handler: function(props) { return React.DOM.div(null, 'mainpage'); }
@@ -39,6 +55,16 @@ describe('react-router-component (on server)', function() {
     var markup = React.renderComponentToString(App({path: '/notfound'}));
     assert(markup.match(/class="App"/));
     assert(markup.match(/not_found/));
+  });
+
+  it('invokes the onDispatch callback with the initial path', function() {
+    React.renderComponentToString(App({path: '/x/hello'}));
+    assert.equal(dispatchPath, '/x/hello');
+  });
+
+  it('invokes the onDispatch callback once for the initial path', function() {
+    React.renderComponentToString(App());
+    assert.equal(dispatchCount, 1);
   });
 
   describe('pages router', function() {
