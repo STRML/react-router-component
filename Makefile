@@ -12,7 +12,7 @@ lint:
 test: test-unit test-server
 
 test-unit:
-	@mocha -R spec -b tests/matchRoutes.js
+	@mocha -R spec -b tests/matchRoutes.js tests/getContentMeta.js
 
 test-server:
 	@mocha -R spec -b tests/server.js
