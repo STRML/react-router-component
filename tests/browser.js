@@ -74,7 +74,8 @@ describe('Routing', function() {
         Router.Locations({
             ref: 'router', className: 'App',
             onNavigation: this.props.navigationHandler,
-            onBeforeNavigation: this.props.beforeNavigationHandler
+            onBeforeNavigation: this.props.beforeNavigationHandler,
+            onDispatch: this.props.dispatchHandler
           },
           Router.Location({
             path: '/__zuul',
@@ -184,7 +185,7 @@ describe('Routing', function() {
   });
 
   describe('Navigation lifecycle callbacks', function () {
-    it('calls onBeforeNaviation and onNavigation', function(done) {
+    it('calls onBeforeNaviation, onNavigation, and onDispatch', function(done) {
       assertRendered('mainpage');
       var called = [];
       app.setProps({
@@ -193,12 +194,16 @@ describe('Routing', function() {
         },
         navigationHandler: function () {
           called.push('onNavigation');
+        },
+        dispatchHandler: function (path) {
+          called.push(path)
         }
       });
       router.navigate('/__zuul/hello', function () {
-        assert.equal(called.length, 2);
+        assert.equal(called.length, 3);
         assert.equal(called[0], '/__zuul/hello');
         assert.equal(called[1], 'onNavigation');
+        assert.equal(called[2], '/__zuul/hello');
         done();
       });
     });
