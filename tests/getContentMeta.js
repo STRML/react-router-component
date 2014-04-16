@@ -6,7 +6,7 @@ describe('getContentMeta', function() {
   it('finds doctype by content type', function() {
     assert.strictEqual(
       getContentMeta(null, 'text/html').doctype,
-      '<!DOCTYPE HTML>'
+      '<!DOCTYPE html>'
     );
     assert.strictEqual(
       getContentMeta(null, 'application/xhtml+xml').doctype,
@@ -81,14 +81,14 @@ describe('getContentMeta', function() {
   it('defaults to html5', function() {
     assert.deepEqual(
       getContentMeta(),
-      {doctype: '<!DOCTYPE HTML>', contentType: 'text/html'}
+      {doctype: '<!DOCTYPE html>', contentType: 'text/html'}
     );
   });
 
   it('defaults to html5', function() {
     assert.deepEqual(
       getContentMeta(),
-      {doctype: '<!DOCTYPE HTML>', contentType: 'text/html'}
+      {doctype: '<!DOCTYPE html>', contentType: 'text/html'}
     );
   });
 
