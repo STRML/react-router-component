@@ -76,6 +76,13 @@ describe('getContentMeta', function() {
       getContentMeta(4, 'text/html').doctype,
       '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">'
     );
+    assert.deepEqual(
+      getContentMeta('strict', 'text/html'),
+      {
+        doctype: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+        contentType: 'text/html'
+      }
+    );
   });
 
   it('defaults to html5', function() {
