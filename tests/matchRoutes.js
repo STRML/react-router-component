@@ -8,11 +8,21 @@ describe('matchRoutes', function() {
   }
 
   var routes = [
-    {path: '/', handler: handler({name: 'root'})},
+    {path: '(/)', handler: handler({name: 'root'})},
     {path: '/cat/:id', handler: handler({name: 'cat'})},
     {path: '/mod/*', handler: handler({name: 'mod'})},
     {path: null, handler: handler({name: 'notfound'})}
   ];
+
+  it('matches ""', function() {
+    var match = matchRoutes(routes, '');
+    assert(match.route);
+    assert.strictEqual(match.route.handler.name, 'root');
+    assert.deepEqual(match.match, {});
+    assert.strictEqual(match.path, '');
+    assert.strictEqual(match.matchedPath, '');
+    assert.strictEqual(match.unmatchedPath, null);
+  });
 
   it('matches /', function() {
     var match = matchRoutes(routes, '/');
