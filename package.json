@@ -4,7 +4,7 @@
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
-    "url-pattern": "~0.4.0",
+    "url-pattern": "~0.6.0",
     "envify": "^1.2.1",
     "urllite": "~0.4.0"
   },
