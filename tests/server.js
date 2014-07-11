@@ -64,6 +64,19 @@ describe('react-router-component (on server)', function() {
 
   describe('contextual router', function() {
 
+    var InnerContextualRouter = React.createClass({
+      render: function() {
+        return Router.Locations({className: 'Y', contextual: true},
+          Router.Location({
+            path: '/hello',
+            handler: function(props) {
+              return Router.Link({href: '/hi'});
+            }
+          })
+        )
+      }
+    });
+
     var ContextualRouter = React.createClass({
 
       render: function() {
@@ -79,11 +92,15 @@ describe('react-router-component (on server)', function() {
             handler: function(props) {
               return Router.Link({global: true, href: '/hi'});
             }
+          }),
+          Router.Location({
+            path: '/y/*',
+            handler: InnerContextualRouter
           })
         )
       }
     });
-    
+
     var App = React.createClass({
 
       render: function() {
@@ -101,6 +118,14 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="&#x2f;x&#x2f;nice&#x2f;hi"/));
+    });
+
+    it ('renders Link proper href within nested contextual routers', function() {
+      var markup = React.renderComponentToString(App({path: '/x/nice/y/hello'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/class="Y"/));
+      assert(!markup.match(/href="&#x2f;y&#x2f;hi"/));
+      assert(markup.match(/href="&#x2f;x&#x2f;nice&#x2f;y&#x2f;hi"/));
     });
 
     it ('renders global Link component with correct href (not scoped to a router)', function() {
@@ -133,3 +158,4 @@ describe('react-router-component (on server)', function() {
   });
 
 });
+
