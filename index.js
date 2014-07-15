@@ -12,6 +12,8 @@ var NavigatableMixin          = require('./lib/NavigatableMixin');
 
 var environment               = require('./lib/environment');
 
+var CaptureClicks             = require('./lib/CaptureClicks');
+
 module.exports = {
   Locations: Router.Locations,
   Pages: Router.Pages,
@@ -28,5 +30,6 @@ module.exports = {
   RouteRenderingMixin: RouteRenderingMixin,
   AsyncRouteRenderingMixin: AsyncRouteRenderingMixin,
 
-  NavigatableMixin: NavigatableMixin
+  NavigatableMixin: NavigatableMixin,
+  CaptureClicks: CaptureClicks
 };
