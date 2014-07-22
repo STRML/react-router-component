@@ -1,5 +1,7 @@
 "use strict";
 
+/* globals describe, it, beforeEach, afterEach */
+
 var assert                    = require('assert');
 var QuerystringKeyEnvironment = require('../lib/environment/QuerystringKeyEnvironment');
 
