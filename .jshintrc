@@ -5,15 +5,6 @@
   "expr": true,
   "globalstrict": true,
   "newcap": false,
-  "globals": {
-    "window": false,
-    "Buffer": false,
-    "require": false,
-    "process": false,
-    "module": false,
-    "exports": false,
-    "console": false,
-    "document": false,
-    "setTimeout": false
-  }
+  "node": true,
+  "browser": true
 }
