@@ -4,6 +4,7 @@
   "asi": true,
   "expr": true,
   "globalstrict": true,
+  "newcap": false,
   "globals": {
     "window": false,
     "Buffer": false,
