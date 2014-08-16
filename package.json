@@ -4,17 +4,18 @@
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
-    "url-pattern": "~0.6.0",
     "envify": "^1.2.1",
+    "react": "^0.11.1",
+    "url-pattern": "~0.6.0",
     "urllite": "~0.4.0"
   },
   "peerDependencies": {
-    "react": "~0.10.0",
-    "react-async": "~0.9.1"
+    "react": "~0.11.0",
+    "react-async": "~1.0.1"
   },
   "devDependencies": {
-    "react": "~0.10.0",
-    "react-async": "~0.9.1",
+    "react": "~0.11.0",
+    "react-async": "~1.0.1",
     "semver": "~2.2.1",
     "mocha": "~1.17.1",
     "jshint": "~2.4.3",
