@@ -100,14 +100,14 @@ describe('react-router-component (on server)', function() {
       var markup = React.renderComponentToString(App({path: '/x/nice/hello'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
-      assert(markup.match(/href="&#x2f;x&#x2f;nice&#x2f;hi"/));
+      assert(markup.match(/href="\/x\/nice\/hi"/));
     });
 
     it ('renders global Link component with correct href (not scoped to a router)', function() {
       var markup = React.renderComponentToString(App({path: '/x/nice/hello2'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
-      assert(markup.match(/href="&#x2f;hi"/));
+      assert(markup.match(/href="\/hi"/));
     });
 
   });
