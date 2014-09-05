@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.20.0
+
+  - Updated to React 0.11.
+  - Fixed intra-page hash routing (scrolling to anchors).
+
+## 0.19.0
+
+  - Updated `url-pattern`, supports optional patterns.
+
+## 0.18.4
+
+  - IE8 compat fixes
+
+## 0.18.3
+
+  - Made `getParentRouter()` method optional when implementing new routers.
+
 ## 0.18.2
 
   - update react-async dep
