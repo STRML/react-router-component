@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.20.1
+
+  - Fixed `reactify` devdep in examples.
+  - Fixed crash on null/undefined inside `<Locations>`. You may now use
+    ternary expressions to remove a `<Location>` based on a condition.
+
 ## 0.20.0
 
   - Updated to React 0.11.
