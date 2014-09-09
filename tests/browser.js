@@ -553,6 +553,26 @@ describe('Contextual routers', function() {
 
   if (!historyAPI) return;
 
+  var SubSubCat = React.createClass({
+
+    render: function() {
+      return div(null,
+        Router.Locations({ref: 'router', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) { return div(null, 'subsub/root') }
+          }),
+          Router.Location({
+            path: '/page',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '/'}, 'subsub/page')
+            }
+          })
+        ));
+    }
+  });
+
   var SubCat = React.createClass({
 
     render: function() {
@@ -575,6 +595,11 @@ describe('Contextual routers', function() {
             handler: function(props) {
               return Router.Link({global: true, href: '/__zuul'}, 'subcat/escape')
             }
+          }),
+          Router.Location({
+            path: '/sub/*',
+            ref: 'subsubcat',
+            handler: SubSubCat
           })
         ));
     }
@@ -636,6 +661,18 @@ describe('Contextual routers', function() {
       clickOn(router.refs.subcat.refs.router.refs.link);
       delay(function() {
         assertRendered('subcat/root');
+        done();
+      });
+    });
+  });
+
+  it('nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/subcat/sub/page', function() {
+      assertRendered('subsub/page');
+      clickOn(router.refs.subcat.refs.router.refs.subsubcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('subsub/root');
         done();
       });
     });
