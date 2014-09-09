@@ -1,3 +1,7 @@
+"use strict";
+
+/* globals describe, it */
+
 var assert          = require('assert');
 var matchRoutes     = require('../lib/matchRoutes');
 

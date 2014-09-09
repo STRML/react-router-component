@@ -1,3 +1,7 @@
+"use strict";
+
+/* globals describe, it */
+
 var assert = require('assert');
 var React  = require('react');
 var Router = require('../index');
@@ -83,7 +87,7 @@ describe('react-router-component (on server)', function() {
         )
       }
     });
-    
+
     var App = React.createClass({
 
       render: function() {

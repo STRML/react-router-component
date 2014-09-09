@@ -1,3 +1,7 @@
+"use strict";
+
+/* globals describe, it, beforeEach, afterEach */
+
 var assert          = require('assert');
 var ReactAsync      = require('react-async');
 var React           = require('react');
