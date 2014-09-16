@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.20.3
+  - Fixed mismatch in arities when using `navigate()` and `setPath()`.
+
+## 0.20.2
+  - Fixed middle-click and ctrl/meta click on <Link> components not opening
+    in a new tab.
+
 ## 0.20.1
 
   - Fixed `reactify` devdep in examples.

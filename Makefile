@@ -10,6 +10,7 @@ lint:
 	@jshint index.js `find lib -name '*.js'`
 
 test: test-unit test-server
+	@echo "The browser test suite should be run before commit. Run 'make test-local' to run it."
 
 test-unit:
 	@mocha -R spec -b tests/matchRoutes.js
