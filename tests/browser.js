@@ -345,7 +345,7 @@ describe('Routing with async components', function() {
   });
 
   beforeEach(function() {
-    mainWasInLoadingState = false; 
+    mainWasInLoadingState = false;
     aboutWasInLoadingState = false;
 
     mainSeenPendingUpdate = false;
@@ -553,6 +553,33 @@ describe('Contextual routers', function() {
 
   if (!historyAPI) return;
 
+  var SubSubCat = React.createClass({
+
+    render: function() {
+      return div(null,
+        Router.Locations({ref: 'router', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) { return div(null, 'subcat/subsubcat/root') }
+          }),
+          Router.Location({
+            path: '/back_to_parent',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../'}, 'subcat/subsubcat/back_to_parent')
+            }
+          }),
+          Router.Location({
+            path: '/back_to_root',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../../__zuul'}, 'subcat/subsubcat/back_to_root')
+            }
+          })
+        ));
+    }
+  });
+
   var SubCat = React.createClass({
 
     render: function() {
@@ -575,6 +602,18 @@ describe('Contextual routers', function() {
             handler: function(props) {
               return Router.Link({global: true, href: '/__zuul'}, 'subcat/escape')
             }
+          }),
+          Router.Location({
+            path: '/back_to_parent',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../__zuul'}, 'subcat/back_to_parent')
+            }
+          }),
+          Router.Location({
+            path: '/subsubcat/*',
+            handler: SubSubCat,
+            ref: 'subsubcat'
           })
         ));
     }
@@ -646,6 +685,42 @@ describe('Contextual routers', function() {
     router.navigate('/__zuul/subcat/escape', function() {
       assertRendered('subcat/escape');
       clickOn(router.refs.subcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('mainpage');
+        done();
+      });
+    });
+  });
+
+  it('does navigate to root context from nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/subcat/back_to_parent', function() {
+      assertRendered('subcat/back_to_parent');
+      clickOn(router.refs.subcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('mainpage');
+        done();
+      });
+    });
+  });
+
+  it('does navigate to nested context from double nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/subcat/subsubcat/back_to_parent', function() {
+      assertRendered('subcat/subsubcat/back_to_parent');
+      clickOn(router.refs.subcat.refs.router.refs.subsubcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('subcat/root');
+        done();
+      });
+    });
+  });
+
+  it('does navigate to root context from double nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/__zuul/subcat/subsubcat/back_to_root', function() {
+      assertRendered('subcat/subsubcat/back_to_root');
+      clickOn(router.refs.subcat.refs.router.refs.subsubcat.refs.router.refs.link);
       delay(function() {
         assertRendered('mainpage');
         done();
@@ -833,6 +908,33 @@ describe('Hash routing', function() {
 
 describe('Contextual Hash routers', function() {
 
+  var SubSubCat = React.createClass({
+
+    render: function() {
+      return div(null,
+        Router.Locations({ref: 'router', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) { return div(null, 'subcat/subsubcat/root') }
+          }),
+          Router.Location({
+            path: '/back_to_parent',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../'}, 'subcat/subsubcat/back_to_parent')
+            }
+          }),
+          Router.Location({
+            path: '/back_to_root',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../../'}, 'subcat/subsubcat/back_to_root')
+            }
+          })
+        ));
+    }
+  });
+
   var SubCat = React.createClass({
 
     render: function() {
@@ -848,6 +950,18 @@ describe('Contextual Hash routers', function() {
             handler: function(props) {
               return Router.Link({globalHash: true, href: '/'}, 'subcat/escape');
             }
+          }),
+          Router.Location({
+            path: '/back_to_parent',
+            ref: 'link',
+            handler: function(props) {
+              return Router.Link({href: '../'}, 'subcat/back_to_parent')
+            }
+          }),
+          Router.Location({
+            path: '/subsubcat/*',
+            handler: SubSubCat,
+            ref: 'subsubcat'
           })
         ));
     }
@@ -888,6 +1002,43 @@ describe('Contextual Hash routers', function() {
         });
       });
     });
+
+
+  it('does navigate to root context from nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/subcat/back_to_parent', function() {
+      assertRendered('subcat/back_to_parent');
+      clickOn(router.refs.subcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('mainpage');
+        done();
+      });
+    });
+  });
+
+  it('does navigate to nested context from double nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/subcat/subsubcat/back_to_parent', function() {
+      assertRendered('subcat/subsubcat/back_to_parent');
+      clickOn(router.refs.subcat.refs.router.refs.subsubcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('subcat/root');
+        done();
+      });
+    });
+  });
+
+  it('does navigate to root context from double nested', function(done) {
+    assertRendered('mainpage');
+    router.navigate('/subcat/subsubcat/back_to_root', function() {
+      assertRendered('subcat/subsubcat/back_to_root');
+      clickOn(router.refs.subcat.refs.router.refs.subsubcat.refs.router.refs.link);
+      delay(function() {
+        assertRendered('mainpage');
+        done();
+      });
+    });
+  });
 
   });
 
