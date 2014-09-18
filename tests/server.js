@@ -1,3 +1,4 @@
+'use strict';
 var assert = require('assert');
 var React  = require('react');
 var Router = require('../index');
@@ -15,6 +16,10 @@ describe('react-router-component (on server)', function() {
         Router.Location({
           path: '/x/:slug',
           handler: function(props) { return React.DOM.div(null, props.slug); }
+        }),
+        Router.Location({
+          path: /\/y(.*)/,
+          handler: function(props) { return React.DOM.div(null, props._[0]);}
         }),
         Router.NotFound({
           handler: function(props) { return React.DOM.div(null, 'not_found'); }
@@ -34,6 +39,12 @@ describe('react-router-component (on server)', function() {
     assert(markup.match(/class="App"/));
     assert(markup.match(/hello/));
   });
+
+  it('renders with regex', function() {
+    var markup = React.renderComponentToString(App({path: '/y/ohhai'}));
+    assert(markup.match(/class="App"/));
+    assert(markup.match(/ohhai/));
+  })
 
   it('renders to empty on notfound', function() {
     var markup = React.renderComponentToString(App({path: '/notfound'}));

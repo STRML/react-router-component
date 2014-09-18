@@ -1,3 +1,4 @@
+'use strict';
 var assert          = require('assert');
 var ReactAsync      = require('react-async');
 var React           = require('react');
