@@ -182,4 +182,4 @@ These are the examples of what you can do with React Router component:
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
 [React-Shims]: http://facebook.github.io/react/docs/working-with-the-browser.html#polyfills-needed-to-support-older-browsers
-[Saucelabs]: saucelabs.com
+[Saucelabs]: https://saucelabs.com
