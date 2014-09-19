@@ -47,14 +47,14 @@ React router component is packaged on npm:
 
 See [docs][] for the usage.
 
-[hash-routing]: http://andreypopp.viewdocs.io/react-router-component/hash-routing
-[server-side]: http://andreypopp.viewdocs.io/react-router-component/server-side
-[multiple]: http://andreypopp.viewdocs.io/react-router-component/multiple
-[contextual]: http://andreypopp.viewdocs.io/react-router-component/contextual
-[url-pattern]: http://andreypopp.viewdocs.io/react-router-component/url-pattern
-[async]: http://andreypopp.viewdocs.io/react-router-component/async
+[hash-routing]: http://strml.viewdocs.io/react-router-component/hash-routing
+[server-side]: http://strml.viewdocs.io/react-router-component/server-side
+[multiple]: http://strml.viewdocs.io/react-router-component/multiple
+[contextual]: http://strml.viewdocs.io/react-router-component/contextual
+[url-pattern]: http://strml.viewdocs.io/react-router-component/url-pattern
+[async]: http://strml.viewdocs.io/react-router-component/async
 
-[docs]: http://andreypopp.viewdocs.io/react-router-component
+[docs]: http://strml.viewdocs.io/react-router-component
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html
 [React-Shims]: http://facebook.github.io/react/docs/working-with-the-browser.html#polyfills-needed-to-support-older-browsers

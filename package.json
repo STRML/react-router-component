@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreypopp/react-router-component"
+    "url": "git://github.com/strml/react-router-component"
   },
   "keywords": [
     "react",
@@ -49,11 +49,12 @@
     "Dave Mac (https://github.com/DveMac)",
     "Matthew Dapena-Tretter (https://github.com/matthewwithanm)",
     "Mitchel Kuijpers (https://github.com/mitchelkuijpers)",
-    "Simen Brekken <simen.brekken@gmail.com> (https://github.com/sbrekken)"
+    "Simen Brekken <simen.brekken@gmail.com> (https://github.com/sbrekken)",
+    "Samuel Reed <samuel.trace.reed@gmail.com> (https://github.com/strml)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andreypopp/react-router-component/issues"
+    "url": "https://github.com/strml/react-router-component/issues"
   },
-  "homepage": "http://andreypopp.viewdocs.io/react-router-component"
+  "homepage": "http://strml.viewdocs.io/react-router-component"
 }
