@@ -4,6 +4,7 @@
   "asi": true,
   "expr": true,
   "globalstrict": true,
+  "eqnull": true,
   "globals": {
     "window": false,
     "Buffer": false,
