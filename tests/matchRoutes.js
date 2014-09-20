@@ -11,6 +11,8 @@ describe('matchRoutes', function() {
     {path: '/', handler: handler({name: 'root'})},
     {path: '/cat/:id', handler: handler({name: 'cat'})},
     {path: '/mod/*', handler: handler({name: 'mod'})},
+    {path: '/dog/*/pups', keys: [{name: 'lineage'}], handler: handler({name: 'dog'})},
+    {pattern: /^\/catalogue\/([0-9]+)\/([0-9]+)$/, keys: [{name: 'category'}, {name: 'product'}], handler: handler({name: 'catalogue'})},
     {path: null, handler: handler({name: 'notfound'})}
   ];
 
@@ -38,10 +40,29 @@ describe('matchRoutes', function() {
     var match = matchRoutes(routes, '/mod/wow/here');
     assert(match.route);
     assert.strictEqual(match.route.handler.name, 'mod');
-    assert.deepEqual(match.match, {_: ['wow/here']});
     assert.strictEqual(match.path, '/mod/wow/here');
     assert.strictEqual(match.matchedPath, '/mod/');
     assert.strictEqual(match.unmatchedPath, 'wow/here');
+  });
+
+  it('matches /dog/first/second/pups', function() {
+    var match = matchRoutes(routes, '/dog/first/second/pups');
+    assert(match.route);
+    assert.strictEqual(match.route.handler.name, 'dog');
+    assert.deepEqual(match.match, {lineage: 'first/second'});
+    assert.strictEqual(match.path, '/dog/first/second/pups');
+    assert.strictEqual(match.matchedPath, '/dog/first/second/pups');
+    assert.strictEqual(match.unmatchedPath, null);
+  });
+
+  it('matches /catalogue/42/1337', function() {
+    var match = matchRoutes(routes, '/catalogue/42/1337');
+    assert(match.route);
+    assert.strictEqual(match.route.handler.name, 'catalogue');
+    assert.deepEqual(match.match, {category: 42, product: 1337});
+    assert.strictEqual(match.path, '/catalogue/42/1337');
+    assert.strictEqual(match.matchedPath, '/catalogue/42/1337');
+    assert.strictEqual(match.unmatchedPath, null);
   });
 
   it('handles not found', function() {

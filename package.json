@@ -4,8 +4,8 @@
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
-    "url-pattern": "~0.4.0",
     "envify": "^1.2.1",
+    "path-to-regexp": "~0.1.2",
     "urllite": "~0.4.0"
   },
   "peerDependencies": {
