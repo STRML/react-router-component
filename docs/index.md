@@ -74,6 +74,8 @@ into `Locations` router:
       }
     })
 
+**Note:** See [hash routing][hash-routing] to enable `location.hash`.
+ 
 Direct children of `Locations` router must be `Location` route descriptors.
 
 Each descriptor accepts a `path` property which specifies URL pattern and a
