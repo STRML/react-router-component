@@ -27,7 +27,7 @@ can return a different set of allowed locations for anonymous and signed-in
 users.
 
 React router component can dispatch based on `location.pathname` or
-`location.hash` if browser doesn't support History API.
+`location.hash` if browser doesn't support History API (see [hash routing][hash-routing]).
 
 Furthermore it provides advanced features like support for [full page server
 side rendering][server-side], [multiple routers][multiple] on the same page,
