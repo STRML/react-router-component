@@ -10,7 +10,7 @@ component's `render()` method:
       <Location path="/" handler={MainPage} />
       <Location path="/users/:username" handler={UserPage} />
       <Location path="/search/*" handler={SearchPage} />
-      <Location path=/\/product\/([0-9]*)/ handler={ProductPage} />
+      <Location path={/\/product\/([0-9]*)/} handler={ProductPage} />
     </Locations>
 
 Alternatively, if you don't prefer JSX:
