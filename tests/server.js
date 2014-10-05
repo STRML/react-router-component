@@ -90,6 +90,19 @@ describe('react-router-component (on server)', function() {
             handler: function(props) {
               return Router.Link({global: true, href: '/hi'});
             }
+           }),
+           Router.Location({
+            path: '/hello3/*',
+            handler: function(props) {
+              return Router.Locations({className: 'Y', contextual: true},
+                Router.Location({
+                  path: '/:subslug',
+                  handler: function(props) {
+                    return Router.Link({href: '/sup-' + props.subslug});
+                  }
+                })
+              );
+            }
           })
         )
       }
@@ -119,6 +132,14 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="\/hi"/));
+    });
+
+    it ('renders Link component with href scoped to its nested context prefix', function() {
+      var markup = React.renderComponentToString(App({path: '/x/nice/hello3/welcome'}));
+      assert(markup.match(/class="App"/));      
+      assert(markup.match(/class="X"/));
+      assert(markup.match(/class="Y"/));
+      assert(markup.match(/href="\/x\/nice\/hello3\/sup-welcome"/));
     });
 
   });
