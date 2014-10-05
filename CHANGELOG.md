@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.22.0
+  - Fixes for nested contextual routers
+    * Fixed `prefix` in routers nested > 1 level deep.
+    * Matching on `/` inside a contextual router now works as expected.
+
+## 0.21.2
+  - Documentation fixes
+  - Cancel `<Link>` navigation on everything but a vanilla left click (no modifiers).
+
+## 0.21.1
+  - IE8 compat fixes
+
+## 0.21.0
+  - Added regex support in `<Location>`'s path attribute.
+
 ## 0.20.3
   - Fixed mismatch in arities when using `navigate()` and `setPath()`.
 
