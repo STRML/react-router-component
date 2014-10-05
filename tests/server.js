@@ -123,6 +123,83 @@ describe('react-router-component (on server)', function() {
 
   });
 
+
+  describe('nested contextual routers', function() {
+
+    var Level2 = React.createClass({
+
+      render: function() {
+        return Router.Locations({className: 'L2', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) {
+              return Router.Link({href: '/hello'});
+            }
+          }),
+          Router.Location({
+            path: '/:slug',
+            handler: function(props) {
+              return Router.Link({global: true, href: '/hi'});
+            }
+          })
+        )
+      }
+    });
+
+    var Level1 = React.createClass({
+
+      render: function() {
+        return Router.Locations({className: 'L1', contextual: true},
+          Router.Location({
+            path: '/',
+            handler: function(props) {
+              return Router.Link({href: '/l2'});
+            }
+          }),
+          Router.Location({
+            path: '/:slug(/*)',
+            handler: Level2
+          })
+        )
+      }
+    });
+
+    var App = React.createClass({
+
+      render: function() {
+        return Router.Locations({className: 'App', path: this.props.path},
+          Router.Location({
+            path: '/l1/:slug(/*)',
+            handler: Level1
+          })
+        );
+      }
+    });
+
+    it ('renders Link component with href scoped to its prefix', function() {
+      var markup = React.renderComponentToString(App({path: '/l1/nice'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/class="L1"/));
+      assert(markup.match(/href="&#x2f;l1&#x2f;nice&#x2f;l2"/));
+    });
+
+    it ('renders nested Link component with href scoped to its prefix', function() {
+      var markup = React.renderComponentToString(App({path: '/l1/nice/l2'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/class="L1"/));
+      assert(markup.match(/class="L2"/));
+      assert(markup.match(/href="&#x2f;l1&#x2f;nice&#x2f;l2&#x2f;hello"/));
+    });
+
+    it ('renders global Link component with correct href (not scoped to a router)', function() {
+      var markup = React.renderComponentToString(App({path: '/l1/nice/l2/foo'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/class="L2"/));
+      assert(markup.match(/href="&#x2f;hi"/));
+    });
+
+  });
+
   describe('async router', function() {
     var App = React.createClass({
 
