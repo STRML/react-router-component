@@ -33,7 +33,7 @@ describe('matchRoutes', function() {
     assert.deepEqual(match.match, {});
     assert.strictEqual(match.path, '/');
     assert.strictEqual(match.matchedPath, '/');
-    assert.strictEqual(match.unmatchedPath, null);
+    assert.strictEqual(match.unmatchedPath, '/');
   });
 
   it('matches /cat/:id', function() {
@@ -43,7 +43,7 @@ describe('matchRoutes', function() {
     assert.deepEqual(match.match, {id: 'hello'});
     assert.strictEqual(match.path, '/cat/hello');
     assert.strictEqual(match.matchedPath, '/cat/hello');
-    assert.strictEqual(match.unmatchedPath, null);
+    assert.strictEqual(match.unmatchedPath, '/');
   });
 
   it('matches /mod/wow/here', function() {
@@ -83,6 +83,6 @@ describe('matchRoutes', function() {
     assert.deepEqual(match.match, null);
     assert.strictEqual(match.path, '/hm');
     assert.strictEqual(match.matchedPath, '/hm');
-    assert.strictEqual(match.unmatchedPath, null);
+    assert.strictEqual(match.unmatchedPath, '/');
   });
 });
