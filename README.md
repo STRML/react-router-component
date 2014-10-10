@@ -17,8 +17,8 @@ Alternatively, if you don't prefer JSX:
 
     Locations(null,
       Location({path: "/", handler: MainPage}),
-      Location({path: "/users/:username", handler: UserPage}))
-      Location({path: "/search/*", handler: SearchPage}))
+      Location({path: "/users/:username", handler: UserPage}),
+      Location({path: "/search/*", handler: SearchPage}),
       Location({path: /\/product\/([0-9]*)/, handler: ProductPage}))
 
 Having routes defined as a part of your component hierarchy allows to
