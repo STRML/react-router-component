@@ -10,7 +10,7 @@ unmatched part of the parent router.
         return (
           <Locations>
             <Location path="/" handler={MainPage} />
-            <Location path="/photos/*" handler={Photos} />
+            <Location path="/photos(/*)" handler={Photos} />
           </Locations>
         )
       }
@@ -31,7 +31,7 @@ unmatched part of the parent router.
 Now the application would have the following routes:
 
   - `/` dispatches to a `MainPage`
-  - `/photos/` dispatches to a `AlbumPage`
+  - `/photos/` or `/photos` dispatches to a `AlbumPage`
   - `/photos/:slug` dispatches to a `PhotoPage`
 
 If you use `Link` components inside a contextual router, its `href` would be
