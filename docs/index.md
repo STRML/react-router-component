@@ -15,6 +15,8 @@ component's `render()` method:
 
 Alternatively, if you don't prefer JSX:
 
+    var Locations = React.createFactory(Router.Locations);
+    var Location = React.createFactory(Router.Location);
     Locations(null,
       Location({path: "/", handler: MainPage}),
       Location({path: "/users/:username", handler: UserPage}))
@@ -59,6 +61,11 @@ scope, cause JSX doesn't support namespaces yet:
     var Locations = Router.Locations
     var Location = Router.Location
 
+Otherwise, as of React 0.12, you must create factories:
+
+    var Locations = React.createFactory(Router.Locations)
+    var Location = React.createFactory(Router.Location)
+
 Now you can define your application as a regular React component which renders
 into `Locations` router:
 
@@ -90,7 +97,7 @@ successful location match.
 
 The final part is to render your `App` component which activates your router:
 
-    React.renderComponent(App(), document.body)
+    React.renderComponent(React.createElement(App), document.body)
 
 In case no location is matched router would render into an empty set of
 elements.
