@@ -7,22 +7,22 @@ install link:
 	@npm $@
 
 lint:
-	@jshint index.js `find lib -name '*.js'`
+	@./node_modules/.bin/jshint index.js `find lib -name '*.js'`
 
 test: test-unit test-server
 	@echo "The browser test suite should be run before commit. Run 'make test-local' to run it."
 
 test-unit:
-	@mocha -R spec -b tests/matchRoutes.js
+	@./node_modules/.bin/mocha -R spec -b tests/matchRoutes.js
 
 test-server:
-	@mocha -R spec -b tests/server.js
+	@./node_modules/.bin/mocha -R spec -b tests/server.js
 
 test-local:
-	@zuul --local 3000  -- tests/browser.js
+	@./node_modules/.bin/zuul --local 3000  -- tests/browser.js
 
 test-cloud:
-	@zuul -- tests/browser.js
+	@./node_modules/.bin/zuul -- tests/browser.js
 
 release-patch: test lint
 	@$(call release,patch)
