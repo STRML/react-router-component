@@ -17,7 +17,7 @@ describe('QuerystringKeyEnvironment', function() {
 
   it('updates the corresponding key in querystring on setPath', function() {
     env.setPath('/x', {});
-    assert.equal(location.search, '?key=x');
+    assert.equal(window.location.search, '?key=x');
   });
 
   it('returns a corresponding key from querystring via getPath', function() {

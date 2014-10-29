@@ -159,7 +159,7 @@ describe('Routing', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/hello', function() {
       assertRendered('hello');
-      history.back();
+      window.history.back();
       delay(function() {
         assertRendered('mainpage');
         done();
@@ -173,7 +173,7 @@ describe('Routing', function() {
       assertRendered('hello');
       router.navigate('/__zuul/transient', {replace: true}, function() {
         assertRendered("i'm transient");
-        history.back();
+        window.history.back();
         delay(function() {
           assertRendered('mainpage');
           done();
@@ -787,7 +787,7 @@ describe('Hash routing', function() {
       delay(function() {
         router.navigate('/transient', {replace: true}, function() {
           assertRendered("i'm transient");
-          history.back();
+          window.history.back();
           delay(function() {
             assertRendered('mainpage');
             done();
@@ -898,5 +898,5 @@ describe('Contextual Hash routers', function() {
     });
 
   });
-
 });
+
