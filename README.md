@@ -1,5 +1,7 @@
 # React Router Component
 
+For React 0.12 support, see the [react-0.12](https://github.com/STRML/react-router-component/tree/react-0.12) branch. It should be stable, but please help us bugtest it.
+
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
@@ -44,6 +46,10 @@ Its size is about 3.5kb gzipped.
 React router component is packaged on npm:
 
     % npm install react-router-component
+    
+## Compatibility
+
+Compatible with React 0.10 and 0.11. Support for 0.12 is experimental. See the [branch](https://github.com/STRML/react-router-component/tree/react-0.12).
 
 See [docs][] for the usage.
 
