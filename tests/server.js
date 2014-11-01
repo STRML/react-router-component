@@ -209,6 +209,8 @@ describe('react-router-component (on server)', function() {
       }
     });
 
+    App = React.createFactory(App);
+
     it ('renders Link component with href scoped to its prefix', function() {
       var markup = React.renderToString(App({path: '/l1/nice'}));
       assert(markup.match(/class="App"/));
@@ -256,6 +258,8 @@ describe('react-router-component (on server)', function() {
         );
       }
     });
+
+    App = React.createFactory(App);
 
     it('renders to /', function() {
       var markup = React.renderToString(App({path: '/'}));
