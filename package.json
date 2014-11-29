@@ -20,7 +20,8 @@
     "reactify": "^0.15.1",
     "semver": "~2.2.1",
     "uglify-js": "^2.4.13",
-    "zuul": "~1.5.2"
+    "zuul": "~1.5.2",
+    "object-assign": "~2.0.0"
   },
   "browserify": {
     "transform": [
