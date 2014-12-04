@@ -5,13 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "envify": "^1.2.1",
-    "react": "^0.11.1",
     "url-pattern": "~0.6.0",
     "urllite": "~0.4.0"
-  },
-  "peerDependencies": {
-    "react": "~0.11.0",
-    "react-async": "~1.0.1"
   },
   "devDependencies": {
     "react": "~0.11.0",
