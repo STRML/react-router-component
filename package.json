@@ -10,7 +10,7 @@
   },
   "peerDependencies": {
     "react": "~0.11.0",
-    "react-async": "~1.0.1",
+    "react-async": "~1.0.1"
   },
   "devDependencies": {
     "react": "~0.11.0",
