@@ -69,6 +69,8 @@ into `Locations` router:
           <Locations>
             <Location path="/" handler={MainPage} />
             <Location path="/users/:username" handler={UserPage} />
+            <Location path={/\/friends\/(\d+)\/(photos|wall)/} handler={FriendsPage}
+              matchKeys={['id', 'pageName']} />
           </Locations>
         )
       }
@@ -92,6 +94,18 @@ The final part is to render your `App` component which activates your router:
 
 In case no location is matched router would render into an empty set of
 elements.
+
+## Regular expressions
+
+Regular expressions are an easy way to accomplish more advanced routing.
+
+When using a regular expression, parameters extracted from the regex will be 
+passed as an array with the name `_`. This may be inconvenient if your components
+are reused. If you specify an array of keys and pass it as the `matchKeys` prop,
+matches from the regex will be translated.
+
+For example, in the App above, the path `/friends/39/wall` would pass the props
+`{id: '39', pageName: 'wall'}` to the handler, `FriendsPage`.
 
 ## Handling "404 Not Found" case
 

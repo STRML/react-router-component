@@ -13,6 +13,8 @@ describe('matchRoutes', function() {
     {path: '/cat/:id', handler: handler({name: 'cat'})},
     {path: '/mod/*', handler: handler({name: 'mod'})},
     {path: /\/regex\/([a-zA-Z]*)$/, handler: handler({name: 'regex'})},
+    {path: /\/(.*?)\/(\d)\/([a-zA-Z]*)$/, handler: handler({name: 'regexMatch'}),
+      matchKeys: ['name', 'num', 'text']},
     {path: null, handler: handler({name: 'notfound'})}
   ];
 
@@ -73,6 +75,16 @@ describe('matchRoutes', function() {
     assert.deepEqual(match.match, null);
     assert.strictEqual(match.path, '/regex/1text');
     assert.strictEqual(match.matchedPath, '/regex/1text');
+    assert.strictEqual(match.unmatchedPath, null);
+  });
+
+  it('matches /regexMatch/2/foobar', function() {
+    var match = matchRoutes(routes, '/regexMatch/2/foobar');
+    assert(match.route);
+    assert.strictEqual(match.route.handler.name, 'regexMatch');
+    assert.deepEqual(match.match, {name: 'regexMatch', num: '2', text: 'foobar'});
+    assert.strictEqual(match.path, '/regexMatch/2/foobar');
+    assert.strictEqual(match.matchedPath, '/regexMatch/2/foobar');
     assert.strictEqual(match.unmatchedPath, null);
   });
 
