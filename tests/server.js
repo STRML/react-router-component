@@ -21,6 +21,11 @@ describe('react-router-component (on server)', function() {
           path: /\/y(.*)/,
           handler: function(props) { return React.DOM.div(null, props._[0]);}
         }),
+        Router.Location({
+          path: /\/z\/(.*)\/(.*)/,
+          matchKeys: ['match1', 'match2'],
+          handler: function(props) { return React.DOM.div(null, props.match1 + props.match2);}
+        }),
         Router.NotFound({
           handler: function(props) { return React.DOM.div(null, 'not_found'); }
         })
@@ -44,6 +49,12 @@ describe('react-router-component (on server)', function() {
     var markup = React.renderComponentToString(App({path: '/y/ohhai'}));
     assert(markup.match(/class="App"/));
     assert(markup.match(/ohhai/));
+  })
+
+  it('renders with regex and matchKeys', function() {
+    var markup = React.renderComponentToString(App({path: '/z/one/two'}));
+    assert(markup.match(/class="App"/));
+    assert(markup.match(/onetwo/));
   })
 
   it('renders to empty on notfound', function() {
