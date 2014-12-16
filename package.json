@@ -56,5 +56,8 @@
   "bugs": {
     "url": "https://github.com/strml/react-router-component/issues"
   },
-  "homepage": "http://strml.viewdocs.io/react-router-component"
+  "homepage": "http://strml.viewdocs.io/react-router-component",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
 }
