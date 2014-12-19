@@ -2,72 +2,88 @@
 var assert    = require('assert');
 var React     = require('react');
 var Router    = require('../index');
-var Location  = React.createFactory(Router.Location);
 var Locations = React.createFactory(Router.Locations);
 var Pages     = React.createFactory(Router.Pages);
+var Location  = React.createFactory(Router.Location);
 var NotFound  = React.createFactory(Router.NotFound);
-var Link      = React.createFactory(Router.Link);
 
 describe('react-router-component (on server)', function() {
 
-  var App = React.createClass({
+  describe('basic rendering', function() {
+    var App = React.createClass({
+      render: function() {
+        return Locations({className: 'App', path: this.props.path},
+          Location({
+            path: '/',
+            // Note that `handler` can take an Element...
+            handler: React.createElement('div', null, 'mainpage')
+          }),
+          Location({
+            path: '/x/:slug',
+            // Or a component.
+            handler: React.createClass({
+              render: function() {
+                return React.createElement('div', null, this.props.slug); 
+              }
+            })
+          }),
+          Location({
+            path: /\/y(.*)/,
+            handler: React.createClass({
+              render: function() {
+                return React.createElement('div', null, this.props._[0]); 
+              }
+            })
+          }),
+          Router.Location({
+            path: /\/z\/(.*)\/(.*)/,
+            matchKeys: ['match1', 'match2'],
+            handler: React.createClass({
+              render: function() {
+                return React.DOM.div(null, this.props.match1 + this.props.match2);
+              }
+            })
+          }),
+          NotFound({
+            handler: React.createElement('div', null, 'not_found')
+          })
+        );
+      }
+    });
 
-    render: function() {
-      return Locations({className: 'App', path: this.props.path},
-        Location({
-          path: '/',
-          handler: function(props) { return React.DOM.div(null, 'mainpage'); }
-        }),
-        Location({
-          path: '/x/:slug',
-          handler: function(props) { return React.DOM.div(null, props.slug); }
-        }),
-        Location({
-          path: /\/y(.*)/,
-          handler: function(props) { return React.DOM.div(null, props._[0]);}
-        }),
-        Router.Location({
-          path: /\/z\/(.*)\/(.*)/,
-          matchKeys: ['match1', 'match2'],
-          handler: function(props) { return React.DOM.div(null, props.match1 + props.match2);}
-        }),
-        NotFound({
-          handler: function(props) { return React.DOM.div(null, 'not_found'); }
-        })
-      );
-    }
-  });
+    App = React.createFactory(App);
 
-  App = React.createFactory(App);
+    it('renders to /', function() {
+      var markup = React.renderToString(App({path: '/'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/mainpage/));
+    });
 
-  it('renders to /', function() {
-    var markup = React.renderToString(App({path: '/'}));
-    assert(markup.match(/class="App"/));
-    assert(markup.match(/mainpage/));
-  });
+    it('renders to /:slug', function() {
+      var markup = React.renderToString(App({path: '/x/hello'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/hello/));
+    });
 
-  it('renders to /:slug', function() {
-    var markup = React.renderToString(App({path: '/x/hello'}));
-    assert(markup.match(/class="App"/));
-    assert(markup.match(/hello/));
-  });
 
-  it('renders with regex', function() {
-    var markup = React.renderToString(App({path: '/y/ohhai'}));
-    assert(markup.match(/class="App"/));
-    assert(markup.match(/ohhai/));
-  })
+    it('renders with regex', function() {
+      var markup = React.renderToString(App({path: '/y/ohhai'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/ohhai/));
+    })
 
-  it('renders with regex and matchKeys', function() {
-    var markup = React.renderComponentToString(App({path: '/z/one/two'}));
-    assert(markup.match(/class="App"/));
-    assert(markup.match(/onetwo/));
-  })
+    it('renders with regex and matchKeys', function() {
+      var markup = React.renderComponentToString(App({path: '/z/one/two'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/onetwo/));
+    });
 
-  it('renders to empty on notfound', function() {
-    var markup = React.renderToString(App({path: '/notfound'}));
-    assert(markup.match(/class="App"/));
-    assert(markup.match(/not_found/));
+    it('renders to empty on notfound', function() {
+      var markup = React.renderToString(App({path: '/notfound'}));
+      assert(markup.match(/class="App"/));
+      assert(markup.match(/not_found/));
+    });
+
   });
 
   describe('pages router', function() {
@@ -78,15 +94,16 @@ describe('react-router-component (on server)', function() {
         return Pages({className: 'App', path: this.props.path},
           Location({
             path: '/',
-            handler: function(props) { return React.DOM.div(null, 'mainpage') }
+            handler: React.createElement('div', null, 'mainpage')
           })
         );
       }
     });
 
+    App = React.createFactory(App);
 
     it('renders to <body>', function() {
-      var markup = React.renderToString(React.createElement(App, {path: '/'}));
+      var markup = React.renderToString(App({path: '/'}));
       assert(markup.match(/<body [^>]+><div [^>]+>mainpage<\/div><\/body>/));
     });
 
@@ -100,28 +117,25 @@ describe('react-router-component (on server)', function() {
         return Locations({className: 'X', contextual: true},
           Location({
             path: '/hello',
-            handler: function(props) {
-              return Link({href: '/hi'});
-            }
+            handler: React.createElement(Router.Link, {href: '/hi'})
           }),
           Location({
             path: '/hello2',
-            handler: function(props) {
-              return Link({global: true, href: '/hi'});
-            }
-           }),
-           Location({
+            handler: React.createElement(Router.Link, {global: true, href: '/hi'})
+          }),
+          Location({
             path: '/hello3/*',
-            handler: function(props) {
-              return Locations({className: 'Y', contextual: true},
+            handler: 
+              Locations({className: 'Y', contextual: true},
                 Location({
                   path: '/:subslug',
-                  handler: function(props) {
-                    return Link({href: '/sup-' + props.subslug});
-                  }
+                  handler: React.createClass({
+                    render: function() {
+                      return React.createElement(Router.Link, {href: '/sup-' + this.props.subslug});
+                    }
+                  })
                 })
-              );
-            }
+              )
           })
         )
       }
@@ -169,36 +183,32 @@ describe('react-router-component (on server)', function() {
   describe('nested contextual routers', function() {
 
     var Level2 = React.createClass({
-
       render: function() {
         var thisSlug = this.props.slug;
         return Locations({className: 'L2', contextual: true},
           Location({
             path: '/',
-            handler: function(props) {
-              return Link({href: '/hello', 'data-slug': thisSlug});
-            }
+            handler: React.createElement(Router.Link, {href: '/hello', 'data-slug': thisSlug})
           }),
           Location({
             path: '/:slug',
-            handler: function(props) {
-              return Link({global: true, href: '/hi', 'data-slug': props.slug});
-            }
+            handler: React.createClass({
+              render: function() {
+                return React.createElement(Router.Link, {global: true, href: '/hi', 'data-slug': this.props.slug});
+              }
+            })
           })
         )
       }
     });
 
     var Level1 = React.createClass({
-
       render: function() {
         var thisSlug = this.props.slug;
         return Locations({className: 'L1', contextual: true},
           Location({
             path: '/',
-            handler: function(props) {
-              return Link({href: '/l2', 'data-slug': thisSlug});
-            }
+            handler: React.createElement(Router.Link, {href: '/l2', 'data-slug': thisSlug})
           }),
           Location({
             path: '/:slug(/*)',
@@ -209,7 +219,6 @@ describe('react-router-component (on server)', function() {
     });
 
     var App = React.createClass({
-
       render: function() {
         return Locations({className: 'App', path: this.props.path},
           Location({
@@ -219,6 +228,8 @@ describe('react-router-component (on server)', function() {
         );
       }
     });
+
+    App = React.createFactory(App);
 
     it ('renders Link component with href scoped to its prefix', function() {
       var markup = React.renderToString(App({path: '/l1/nice'}));
@@ -262,11 +273,13 @@ describe('react-router-component (on server)', function() {
         return Locations({className: 'App', path: this.props.path},
           Location({
             path: '/',
-            handler: function(props) { return React.DOM.div(null, 'mainpage') }
+            handler: React.createElement('div', null, 'mainpage')
           })
         );
       }
     });
+
+    App = React.createFactory(App);
 
     it('renders to /', function() {
       var markup = React.renderToString(App({path: '/'}));

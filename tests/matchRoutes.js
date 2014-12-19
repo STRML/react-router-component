@@ -3,22 +3,19 @@ var assert      = require('assert');
 var matchRoutes = require('../lib/matchRoutes');
 var React       = require('react');
 var Router      = require('../');
-var Location       = React.createFactory(Router.Location);
+var Location    = React.createFactory(Router.Location);
 var NotFound    = React.createFactory(Router.NotFound);
 
 describe('matchRoutes', function() {
 
-  function handler(props) {
-    return React.DOM.div(props);
-  }
   var routes = [
-    Location({path: '(/)', handler: handler({name: 'root'})}),
-    Location({path: '/cat/:id', handler: handler({name: 'cat'})}),
-    Location({path: '/mod/*', handler: handler({name: 'mod'})}),
-    Location({path: /\/regex\/([a-zA-Z]*)$/, handler: handler({name: 'regex'})}),
-    Location({path: /\/(.*?)\/(\d)\/([a-zA-Z]*)$/, handler: handler({name: 'regexMatch'}),
+    Location({path: '(/)', handler: React.createElement('div', {name: 'root'})}),
+    Location({path: '/cat/:id', handler: React.createElement('div', {name: 'cat'})}),
+    Location({path: '/mod/*', handler: React.createElement('div', {name: 'mod'})}),
+    Location({path: /\/regex\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regex'})}),
+    Location({path: /\/(.*?)\/(\d)\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regexMatch'}),
       matchKeys: ['name', 'num', 'text']}),
-    NotFound({handler: handler({name: 'notfound'})})
+    NotFound({handler: React.createElement('div', {name: 'notfound'})})
   ];
 
   it('matches ""', function() {
