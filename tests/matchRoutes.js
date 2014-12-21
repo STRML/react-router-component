@@ -81,7 +81,7 @@ describe('matchRoutes', function() {
   it('matches /regexMatch/2/foobar', function() {
     var match = matchRoutes(routes, '/regexMatch/2/foobar');
     assert(match.route);
-    assert.strictEqual(match.route.handler.name, 'regexMatch');
+    assert.strictEqual(match.route.props.handler.props.name, 'regexMatch');
     assert.deepEqual(match.match, {name: 'regexMatch', num: '2', text: 'foobar'});
     assert.strictEqual(match.path, '/regexMatch/2/foobar');
     assert.strictEqual(match.matchedPath, '/regexMatch/2/foobar');

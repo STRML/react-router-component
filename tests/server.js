@@ -35,12 +35,12 @@ describe('react-router-component (on server)', function() {
               }
             })
           }),
-          Router.Location({
+          Location({
             path: /\/z\/(.*)\/(.*)/,
             matchKeys: ['match1', 'match2'],
             handler: React.createClass({
               render: function() {
-                return React.DOM.div(null, this.props.match1 + this.props.match2);
+                return React.createElement('div', null, this.props.match1 + this.props.match2);
               }
             })
           }),
@@ -73,7 +73,7 @@ describe('react-router-component (on server)', function() {
     })
 
     it('renders with regex and matchKeys', function() {
-      var markup = React.renderComponentToString(App({path: '/z/one/two'}));
+      var markup = React.renderToString(App({path: '/z/one/two'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/onetwo/));
     });
