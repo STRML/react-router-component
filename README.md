@@ -1,6 +1,7 @@
 # React Router Component
 
-For React 0.12 support, see the [react-0.12](https://github.com/STRML/react-router-component/tree/react-0.12) branch. It should be stable, but please help us bugtest it.
+*React-Router-Component >= 0.23 uses React 0.12. If you need React 0.11 support,*
+*please use versions 0.20 through 0.22.2.*
 
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
@@ -49,7 +50,7 @@ React router component is packaged on npm:
     
 ## Compatibility
 
-Compatible with React 0.10 and 0.11. Support for 0.12 is experimental. See the [branch](https://github.com/STRML/react-router-component/tree/react-0.12).
+Compatible with React 0.12. Older versions work with older versions of React, see the commit log.
 
 See [docs][] for the usage.
 

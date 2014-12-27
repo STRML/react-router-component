@@ -93,9 +93,13 @@ describe('Routing', function() {
             path: '/__zuul',
             foo: 'bar',
             ref: 'link',
+            // To reach through a Location boundary, you must put a ref
+            // on the Location itself, and the handler. We used to be able to just clone
+            // the handler with the ref, but React now throws warnings on that use.
             handler: React.createClass({
               render: function() {
                 return Link({
+                  ref: 'inner',
                   foo: this.props.foo,
                   href: '/__zuul/hello'
                 }, 'mainpage')
@@ -226,7 +230,7 @@ describe('Routing', function() {
 
     it('navigates via .navigate(path) call', function(done) {
       assertRendered('mainpage');
-      router.refs.link.navigate('/__zuul/hello', function() {
+      router.refs.link.refs.inner.navigate('/__zuul/hello', function() {
         assertRendered('hello');
         done();
       });
