@@ -32,7 +32,7 @@ var TitleSwitcher = React.createClass({
 
   setTitle: function() {
     var match = this.getMatch(), pageTitle;
-    var path = match.route.path;
+    var path = match.route.props.path;
     if (path) {
       if (typeof path !== "string") {
         path = match.matchedPath;
