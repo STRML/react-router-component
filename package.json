@@ -1,6 +1,6 @@
 {
   "name": "react-router-component",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "description": "Declarative router component for React",
   "main": "index.js",
   "dependencies": {
