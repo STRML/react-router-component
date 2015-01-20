@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.23.3
+  - PathnameEnvironment usable in non-html5 history api browser; falls back on window.location.pathname.
+    * See #113. Thanks @spicydonuts
+
+## 0.23.2
+  - Fix typo
+
+## 0.23.1
+  - Move React & React-async to peerDependencies. Fixes #102
+
+## 0.23.0
+  - React 0.12 compatibility.
+
+## 0.22.2
+  - Bugfix for regex match keys.
+
+## 0.22.1
+  - Allow specifying key names for regex matches.
+  - Documentation fixes.
+
 ## 0.22.0
   - Fixes for nested contextual routers
     * Fixed `prefix` in routers nested > 1 level deep.
