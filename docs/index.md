@@ -1,5 +1,17 @@
 # React Router Component
 
+##### Table of contents
+
+* [Implementation Visualization][implementation]
+* [Hash Routing][hash-routing]
+* [Server-side Rendering][server-side]
+* [Multiple Routers][multiple]
+* [Contextual Routers][contextual]
+* [Asynchronous Routes][async]
+* [Capturing Clicks on anchor elements][a-elements]
+* [A custom Link component][rec-custom-link]
+* [A custom Router component][rec-custom-router]
+
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
@@ -201,6 +213,7 @@ These are the examples of what you can do with React Router component:
 [contextual]: contextual
 [async]: async
 [a-elements]: a-elements
+[implementation]: implementation
 
 [React]: http://facebook.github.io/react/
 [React-Refs]: http://facebook.github.io/react/docs/more-about-refs.html

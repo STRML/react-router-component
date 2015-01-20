@@ -6,6 +6,21 @@
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
+## Docs
+
+* [Overview][docs]
+* [Implementation Visualization][implementation]
+* [Hash Routing][hash-routing]
+* [Server-side Rendering][server-side]
+* [Multiple Routers][multiple]
+* [Contextual Routers][contextual]
+* [Asynchronous Routes][async]
+* [Capturing Clicks on anchor elements][a-elements]
+* [A custom Link component][rec-custom-link]
+* [A custom Router component][rec-custom-router]
+
+## Project Overview
+
 Usage is as simple as just returning a configured router component from your
 component's `render()` method:
 
@@ -47,7 +62,7 @@ Its size is about 3.5kb gzipped.
 React router component is packaged on npm:
 
     % npm install react-router-component
-    
+
 ## Compatibility
 
 Compatible with React 0.12. Older versions work with older versions of React, see the commit log.
@@ -58,8 +73,11 @@ See [docs][] for the usage.
 [server-side]: http://strml.viewdocs.io/react-router-component/server-side
 [multiple]: http://strml.viewdocs.io/react-router-component/multiple
 [contextual]: http://strml.viewdocs.io/react-router-component/contextual
-[url-pattern]: http://strml.viewdocs.io/react-router-component/url-pattern
+[a-elements]: http://strml.viewdocs.io/react-router-component/a-elements
+[rec-custom-link]: http://strml.viewdocs.io/react-router-component/recipes/custom-link
+[rec-custom-router]: http://strml.viewdocs.io/react-router-component/recipes/custom-router
 [async]: http://strml.viewdocs.io/react-router-component/async
+[implementation]: http://strml.viewdocs.io/react-router-component/implementation
 
 [docs]: http://strml.viewdocs.io/react-router-component
 [React]: http://facebook.github.io/react/
