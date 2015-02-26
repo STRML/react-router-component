@@ -124,7 +124,11 @@ describe('Routing', function() {
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
         ),
         Link({ref: 'outside', href: '/__zuul/hi'}),
-        Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick})
+        Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick}),
+        Link({ref: 'externalHttp', href: 'http://github.com/andreypopp/react-router-component'}),
+        Link({ref: 'externalHttps', href: 'https://github.com/andreypopp/react-router-component'}),
+        Link({ref: 'externalOtherScheme', href: 'foo:bar'}),
+        Link({ref: 'externalSchemeRelative', href: '//github.com/andreypopp/react-router-component'})
       );
     },
 
@@ -263,6 +267,48 @@ describe('Routing', function() {
       });
     });
 
+    it("doesn't navigate if the default is prevented", function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.prevented);
+      delay(function() {
+        assertRendered('mainpage');
+        done();
+      });
+    });
+
+    var assertNotNavigated = function(done) {
+      assertRendered('mainpage');
+      app.setProps({
+        onClick: function(event) {
+          // Make sure that the event hasn't had its default prevented by the
+          // CaptureClicks component.
+          assert(!event.defaultPrevented);
+          event.preventDefault();
+          assertRendered('mainpage');
+          done();
+        }
+      });
+    };
+
+    it("doesn't navigate if the href is an absolute http url", function(done) {
+      assertNotNavigated(done);
+      clickOn(app.refs.externalHttp);
+    });
+
+    it("doesn't navigate if the href is an absolute https url", function(done) {
+      assertNotNavigated(done);
+      clickOn(app.refs.externalHttps);
+    });
+
+    it("doesn't navigate if the href is a url using another scheme", function(done) {
+      assertNotNavigated(done);
+      clickOn(app.refs.externalOtherScheme);
+    });
+
+    it("doesn't navigate if the href is a scheme-relative url", function(done) {
+      assertNotNavigated(done);
+      clickOn(app.refs.externalSchemeRelative);
+    });
   });
 
   describe('CaptureClicks component', function() {
@@ -366,7 +412,7 @@ describe('Routing with async components', function() {
   });
 
   beforeEach(function() {
-    mainWasInLoadingState = false; 
+    mainWasInLoadingState = false;
     aboutWasInLoadingState = false;
 
     mainSeenPendingUpdate = false;
@@ -898,4 +944,3 @@ describe('Contextual Hash routers', function() {
 
   });
 });
-
