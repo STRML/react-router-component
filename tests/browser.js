@@ -123,6 +123,7 @@ describe('Routing', function() {
           a({ref: 'anchorUnhandled', href: '/goodbye'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
         ),
+        Link({ref: 'externalUrl', rel: '_external', href: 'http://github.com'}),
         Link({ref: 'outside', href: '/__zuul/hi'}),
         Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick}),
         Link({ref: 'externalHttp', href: 'http://github.com/andreypopp/react-router-component'}),
@@ -245,6 +246,17 @@ describe('Routing', function() {
       clickOn(router.refs.link);
       delay(function() {
         assertRendered('hello');
+        done();
+      });
+    });
+
+     it('navigates to external Urls', function(done) {
+      assertRendered('mainpage');
+      clickOn(app.refs.externalUrl);
+      delay(function() {
+        // Not sure how to vefify this case and continue.
+        // Browser gets redirected to external.
+        assertRendered('github.com page opened');
         done();
       });
     });
