@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.24.0
+  - External links are no longer navigated to, even if used in a <Link> component. This should not cause
+    breakage but if it does please open an issue.
+    * Reference: #111
+
 ## 0.23.3
   - PathnameEnvironment usable in non-html5 history api browser; falls back on window.location.pathname.
     * See #113. Thanks @spicydonuts
