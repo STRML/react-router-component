@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.24.1
+  - Infinite loop fix when getting parent router in alternative environment.
+  - Set default LocalStorageKeyEnvironment path to the empty string instead of undefined/null.
+
 ## 0.24.0
   - External links are no longer navigated to, even if used in a <Link> component. This should not cause
     breakage but if it does please open an issue.
