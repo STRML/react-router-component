@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.24.2
+  - Fix LocalStorageEnvironment failure in browsers' private modes. Android, iOS, and Safari all keep LocalStorage
+    available, but throw when you use it.
+
 ## 0.24.1
   - Infinite loop fix when getting parent router in alternative environment.
   - Set default LocalStorageKeyEnvironment path to the empty string instead of undefined/null.
