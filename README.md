@@ -65,7 +65,7 @@ React router component is packaged on npm:
 
 ## Compatibility
 
-Compatible with React 0.12. Older versions work with older versions of React, see the commit log.
+Compatible with React 0.12 and React 0.13. Older versions work with older versions of React, see the commit log.
 
 See [docs][] for the usage.
 
