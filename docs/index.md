@@ -109,7 +109,7 @@ successful location match.
 
 The final part is to render your `App` component which activates your router:
 
-    React.renderComponent(React.createElement(App), document.body)
+    React.render(React.createElement(App), document.body)
 
 In case no location is matched router would render into an empty set of
 elements.

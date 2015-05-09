@@ -70,4 +70,4 @@ var app = Tabs({
   ]
 });
 
-React.renderComponent(app, document.getElementById('host'));
+React.render(app, document.getElementById('host'));

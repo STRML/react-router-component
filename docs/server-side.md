@@ -24,7 +24,7 @@ server):
 Then to get the markup:
 
     var app = App({path: '/users/andreypopp')
-    var markup = React.renderComponentToString(app)
+    var markup = React.renderToString(app)
 
 ## Express middleware
 
@@ -37,7 +37,7 @@ needed middleware would look like:
       try {
         var path = url.parse(req.url).pathname
         var app = App({path: path})
-        var markup = React.renderComponentToString(app)
+        var markup = React.renderToString(app)
         res.send(markup)
       } catch(err) {
         return next(err)
