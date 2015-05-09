@@ -59,4 +59,4 @@ var App = React.createClass({
   }
 });
 
-React.renderComponent(App(), document.getElementById('host'));
+React.render(App(), document.getElementById('host'));
