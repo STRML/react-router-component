@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.25.0
+  - Better React 0.13 support without typechecking errors.
+  - Send (path, navigation, cb) - don't lose `navigation` object.
+  - Use React.batchedUpdates (now exposed on React object)
+  - Documentation fixes.
+
+## 0.24.4
+  - Update react-async version.
+
+## 0.24.3
+  - Support React 0.13 in peerDependencies.
+
 ## 0.24.2
   - Fix LocalStorageEnvironment failure in browsers' private modes. Android, iOS, and Safari all keep LocalStorage
     available, but throw when you use it.
