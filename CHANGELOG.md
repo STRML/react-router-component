@@ -3,6 +3,8 @@
 ## 0.25.0
   - Better React 0.13 support without typechecking errors.
   - Send (path, navigation, cb) - don't lose `navigation` object.
+  - Update dependencies (urllite, url-pattern, etc).
+  - Adjust for new `url-pattern` API.
   - Use React.batchedUpdates (now exposed on React object)
   - Documentation fixes.
 
