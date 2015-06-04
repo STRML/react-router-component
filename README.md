@@ -1,7 +1,12 @@
 # React Router Component
 
-*React-Router-Component >= 0.23 uses React 0.12. If you need React 0.11 support,*
-*please use versions 0.20 through 0.22.2.*
+
+|Version        | Compatibility|
+|---------------|--------------|
+|> 0.24         | React 0.13   |
+|> 0.23         | React 0.12   |
+|0.20 - 0.22.2  | React 0.11   |
+|< 0.20         | React 0.10   |
 
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
