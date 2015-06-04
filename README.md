@@ -13,16 +13,16 @@ in a declarative manner, directly as a part of your component hierarchy.
 
 ## Docs
 
-* [Overview][docs]
+* [Overview and Usage][docs]
 * [Implementation Visualization][implementation]
 * [Hash Routing][hash-routing]
 * [Server-side Rendering][server-side]
 * [Multiple Routers][multiple]
 * [Contextual Routers][contextual]
 * [Asynchronous Routes][async]
-* [Capturing Clicks on anchor elements][a-elements]
-* [A custom Link component][rec-custom-link]
-* [A custom Router component][rec-custom-router]
+* [Capturing Clicks on Anchor Elements][a-elements]
+* [A custom Link Component][rec-custom-link]
+* [A custom Router Component][rec-custom-router]
 
 ## Project Overview
 
@@ -52,8 +52,8 @@ users.
 React router component can dispatch based on `location.pathname` or
 `location.hash` if browser doesn't support History API (see [hash routing][hash-routing]).
 
-Furthermore it provides advanced features like support for [full page server
-side rendering][server-side], [multiple routers][multiple] on the same page,
+Furthermore it provides advanced features like support for [regex matching][regex],
+[full page server side rendering][server-side], [multiple routers][multiple] on the same page,
 [contextual routers][contextual] and support for [async components][async].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
@@ -75,6 +75,7 @@ Compatible with React 0.12 and React 0.13. Older versions work with older versio
 See [docs][] for the usage.
 
 [hash-routing]: http://strml.viewdocs.io/react-router-component/hash-routing
+[regex]: http://strml.viewdocs.io/react-router-component#user-content-regular-expressions
 [server-side]: http://strml.viewdocs.io/react-router-component/server-side
 [multiple]: http://strml.viewdocs.io/react-router-component/multiple
 [contextual]: http://strml.viewdocs.io/react-router-component/contextual
