@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.25.1
+  - Remove bad ReactComponent typecheck on Route/Location.
+
 ## 0.25.0
   - Better React 0.13 support without typechecking errors.
   - Send (path, navigation, cb) - don't lose `navigation` object.
