@@ -53,7 +53,7 @@ describe('JSX + Routing with async components', function() {
 
   if (!historyAPI) return;
 
-  var App = React.createClass({displayName: 'App',
+  var App = React.createClass({displayName: "App",
 
     render: function() {
       var Locations = Router.Locations;
@@ -68,19 +68,19 @@ describe('JSX + Routing with async components', function() {
     }
   });
 
-  var Main = React.createClass({displayName: 'Main',
+  var Main = React.createClass({displayName: "Main",
     render: function() {
       return React.createElement("div", null, "Main");
     }
   });
 
-  var Page1 = React.createClass({displayName: 'Page1',
+  var Page1 = React.createClass({displayName: "Page1",
     render: function() {
       return React.createElement("div", null, "Page1")
     }
   });
 
-  var Page2 = React.createClass({displayName: 'Page2',
+  var Page2 = React.createClass({displayName: "Page2",
     render: function() {
       return React.createElement("div", null, this.props.text)
     }
