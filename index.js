@@ -38,5 +38,10 @@ module.exports = {
   // The fn used to create a compiler for "/user/:id"-style routes is exposed here so it can be overridden.
   createURLPatternCompiler: function() {
     return new URLPattern.Compiler();
+  },
+
+  // For ES6 imports, which can't modify module.exports directly
+  setCreateURLPatternCompilerFactory: function(fn) {
+    this.createURLPatternCompiler = fn;
   }
 };

@@ -88,7 +88,7 @@ describe('matchRoutes', function() {
                           handler: React.createElement('div', {name: 'parseDomain'})});
 
     // Lifted from url-pattern docs
-    Router.createURLPatternCompiler = function(routeProps) {
+    Router.setCreateURLPatternCompilerFactory(function(routeProps) {
       // Somebody might use this, make sure it works.
       assert.strictEqual(routeProps.path, route.props.path);
 
@@ -102,7 +102,7 @@ describe('matchRoutes', function() {
       compiler.optionalSegmentEndChar = ']';
       compiler.wildcardChar = '?';
       return compiler;
-    };
+    });
 
     var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component');
     assert(match.route);
