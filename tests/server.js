@@ -23,7 +23,7 @@ describe('react-router-component (on server)', function() {
             // Or a component.
             handler: React.createClass({
               render: function() {
-                return React.createElement('div', null, this.props.slug); 
+                return React.createElement('div', null, this.props.slug);
               }
             })
           }),
@@ -31,7 +31,7 @@ describe('react-router-component (on server)', function() {
             path: /\/y(.*)/,
             handler: React.createClass({
               render: function() {
-                return React.createElement('div', null, this.props._[0]); 
+                return React.createElement('div', null, this.props._[0]);
               }
             })
           }),
@@ -70,7 +70,7 @@ describe('react-router-component (on server)', function() {
       var markup = React.renderToString(App({path: '/y/ohhai'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/ohhai/));
-    })
+    });
 
     it('renders with regex and matchKeys', function() {
       var markup = React.renderToString(App({path: '/z/one/two'}));
@@ -125,7 +125,7 @@ describe('react-router-component (on server)', function() {
           }),
           Location({
             path: '/hello3/*',
-            handler: 
+            handler:
               Locations({className: 'Y', contextual: true},
                 Location({
                   path: '/:subslug',
@@ -137,10 +137,10 @@ describe('react-router-component (on server)', function() {
                 })
               )
           })
-        )
+        );
       }
     });
-    
+
     var App = React.createClass({
 
       render: function() {
@@ -155,23 +155,23 @@ describe('react-router-component (on server)', function() {
 
     App = React.createFactory(App);
 
-    it ('renders Link component with href scoped to its prefix', function() {
+    it('renders Link component with href scoped to its prefix', function() {
       var markup = React.renderToString(App({path: '/x/nice/hello'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="\/x\/nice\/hi"/));
     });
 
-    it ('renders global Link component with correct href (not scoped to a router)', function() {
+    it('renders global Link component with correct href (not scoped to a router)', function() {
       var markup = React.renderToString(App({path: '/x/nice/hello2'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="\/hi"/));
     });
 
-    it ('renders Link component with href scoped to its nested context prefix', function() {
+    it('renders Link component with href scoped to its nested context prefix', function() {
       var markup = React.renderToString(App({path: '/x/nice/hello3/welcome'}));
-      assert(markup.match(/class="App"/));      
+      assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/class="Y"/));
       assert(markup.match(/href="\/x\/nice\/hello3\/sup-welcome"/));
@@ -231,7 +231,7 @@ describe('react-router-component (on server)', function() {
 
     App = React.createFactory(App);
 
-    it ('renders Link component with href scoped to its prefix', function() {
+    it('renders Link component with href scoped to its prefix', function() {
       var markup = React.renderToString(App({path: '/l1/nice'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
@@ -239,7 +239,7 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/data-slug="nice"/));
     });
 
-    it ('renders Link component with href scoped to its prefix - trailing slash', function() {
+    it('renders Link component with href scoped to its prefix - trailing slash', function() {
       var markup = React.renderToString(App({path: '/l1/nice/'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
@@ -247,7 +247,7 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/data-slug="nice"/));
     });
 
-    it ('renders nested Link component with href scoped to its prefix', function() {
+    it('renders nested Link component with href scoped to its prefix', function() {
       var markup = React.renderToString(App({path: '/l1/nice/l2'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
@@ -256,7 +256,7 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/data-slug="l2"/));
     });
 
-    it ('renders global Link component with correct href (not scoped to a router)', function() {
+    it('renders global Link component with correct href (not scoped to a router)', function() {
       var markup = React.renderToString(App({path: '/l1/nice/l2/foo'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L2"/));

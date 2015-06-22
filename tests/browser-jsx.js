@@ -47,7 +47,7 @@ function setUp(App) {
     host = document.createElement('div');
     app = React.render(React.createElement(App), host);
     router = app.refs.router;
-  }
+  };
 }
 describe('JSX + Routing with async components', function() {
 
@@ -59,9 +59,9 @@ describe('JSX + Routing with async components', function() {
       var Locations = Router.Locations;
       var Location = Router.Location;
       return (
-        React.createElement(Locations, {ref: "router", className: "App"}, 
-          React.createElement(Location, {path: "/__zuul", handler: Main, ref: "main"}), 
-          React.createElement(Location, {path: "/__zuul/page1", handler: Page1, ref: "page1"}), 
+        React.createElement(Locations, {ref: "router", className: "App"},
+          React.createElement(Location, {path: "/__zuul", handler: Main, ref: "main"}),
+          React.createElement(Location, {path: "/__zuul/page1", handler: Page1, ref: "page1"}),
           React.createElement(Location, {path: "/__zuul/:text", handler: Page2, ref: "page2"})
         )
       );
@@ -76,13 +76,13 @@ describe('JSX + Routing with async components', function() {
 
   var Page1 = React.createClass({displayName: "Page1",
     render: function() {
-      return React.createElement("div", null, "Page1")
+      return React.createElement("div", null, "Page1");
     }
   });
 
   var Page2 = React.createClass({displayName: "Page2",
     render: function() {
-      return React.createElement("div", null, this.props.text)
+      return React.createElement("div", null, this.props.text);
     }
   });
 
