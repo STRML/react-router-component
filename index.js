@@ -16,7 +16,7 @@ var CaptureClicks             = require('./lib/CaptureClicks');
 
 var URLPattern                = require('url-pattern');
 
-module.exports = {
+var exportsObject = {
   Locations: Router.Locations,
   Pages: Router.Pages,
 
@@ -42,6 +42,8 @@ module.exports = {
 
   // For ES6 imports, which can't modify module.exports directly
   setCreateURLPatternCompilerFactory: function(fn) {
-    this.createURLPatternCompiler = fn;
+    exportsObject.createURLPatternCompiler = fn;
   }
 };
+
+module.exports = exportsObject;
