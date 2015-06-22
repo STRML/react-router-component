@@ -14,6 +14,8 @@ var environment               = require('./lib/environment');
 
 var CaptureClicks             = require('./lib/CaptureClicks');
 
+var URLPattern                = require('url-pattern');
+
 module.exports = {
   Locations: Router.Locations,
   Pages: Router.Pages,
@@ -31,5 +33,10 @@ module.exports = {
   AsyncRouteRenderingMixin: AsyncRouteRenderingMixin,
 
   NavigatableMixin: NavigatableMixin,
-  CaptureClicks: CaptureClicks
+  CaptureClicks: CaptureClicks,
+
+  // The fn used to create a compiler for "/user/:id"-style routes is exposed here so it can be overridden.
+  createURLPatternCompiler: function() {
+    return new URLPattern.Compiler();
+  }
 };

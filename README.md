@@ -23,6 +23,7 @@ in a declarative manner, directly as a part of your component hierarchy.
 * [Capturing Clicks on Anchor Elements][a-elements]
 * [A custom Link Component][rec-custom-link]
 * [A custom Router Component][rec-custom-router]
+* [Overridding URL-Pattern's Compiler][override-url-pattern]
 
 ## Project Overview
 
@@ -82,6 +83,7 @@ See [docs][] for the usage.
 [a-elements]: http://strml.viewdocs.io/react-router-component/a-elements
 [rec-custom-link]: http://strml.viewdocs.io/react-router-component/recipes/custom-link
 [rec-custom-router]: http://strml.viewdocs.io/react-router-component/recipes/custom-router
+[override-url-pattern]: http://strml.viewdocs.io/react-router-component/override-url-pattern
 [async]: http://strml.viewdocs.io/react-router-component/async
 [implementation]: http://strml.viewdocs.io/react-router-component/implementation
 
