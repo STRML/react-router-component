@@ -1,6 +1,6 @@
 # A custom animated Router component with ES6
 
-See also the [docs on a custom Router component](custom-router).
+See also the [docs on a custom Router component](recipes/custom-router).
 
 ES6 classes don't support mixins, but they are needed to define your own custom router.
 
