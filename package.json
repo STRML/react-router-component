@@ -12,14 +12,16 @@
   "devDependencies": {
     "browserify": "^10.2.3",
     "browserify-shim": "^3.8.7",
+    "eslint": "^0.24.0",
+    "eslint-plugin-react": "^2.6.4",
     "jsxhint": "~0.15.1",
     "mocha": "~2.2.5",
+    "object-assign": "~3.0.0",
     "react-tools": "^0.13.3",
     "reactify": "^1.1.1",
     "semver": "~4.3.6",
     "uglify-js": "^2.4.23",
-    "zuul": "~3.0.0",
-    "object-assign": "~3.0.0"
+    "zuul": "~3.0.0"
   },
   "peerDependencies": {
     "react-async": "^2.1.0",

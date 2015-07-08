@@ -11,6 +11,7 @@
 * [Capturing Clicks on anchor elements][a-elements]
 * [A custom Link component][rec-custom-link]
 * [A custom Router component][rec-custom-router]
+* [An animated Router with ES6][rec-es6-custom-router]
 
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
@@ -96,7 +97,7 @@ into `Locations` router:
     })
 
 **Note:** See [hash routing][hash-routing] to enable `location.hash`.
- 
+
 Direct children of `Locations` router must be `Location` route descriptors.
 
 Each descriptor accepts a `path` property which specifies URL pattern and a
@@ -118,7 +119,7 @@ elements.
 
 Regular expressions are an easy way to accomplish more advanced routing.
 
-When using a regular expression, parameters extracted from the regex will be 
+When using a regular expression, parameters extracted from the regex will be
 passed as an array with the name `_`. This may be inconvenient if your components
 are reused. If you specify an array of keys and pass it as the `matchKeys` prop,
 matches from the regex will be translated.
@@ -204,8 +205,13 @@ These are the examples of what you can do with React Router component:
     routes as a prototype attribute (statically) as opposed to have routes
     inferred from its children.
 
+  * [An Animated Router component in ES6][rec-es6-custom-router] an animated router that allows
+    the user to set transitions via ReactCSSTransitionGroup. This example also shows use of mixins
+    with ES6.
+
 [rec-custom-link]: recipes/custom-link
 [rec-custom-router]: recipes/custom-router
+[rec-es6-custom-router]: recipes/rec-es6-custom-router
 
 [hash-routing]: hash-routing
 [server-side]: server-side
