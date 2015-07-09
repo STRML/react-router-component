@@ -20,10 +20,6 @@ describe('matchRoutes', function() {
   ];
 
   afterEach(function() {
-    // Remove any compiled regex patterns from all routes
-    routes.forEach(function(r) {
-      r.props.pattern = null;
-    });
     // In case we overrode this, reset it.
     Router.createURLPatternCompiler = function () { return new URLPattern.Compiler(); };
   });
