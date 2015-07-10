@@ -150,6 +150,17 @@ describe('matchRoutes', function() {
     assert.strictEqual(match.unmatchedPath, null);
   });
 
+  it('matches query strings', function() {
+    var match = matchRoutes(routes, '/cat/hello?foo=bar&baz=biff');
+    assert(match.route);
+    assert.strictEqual(match.route.props.handler.props.name, 'cat');
+    assert.deepEqual(match.match, {id: 'hello'});
+    assert.strictEqual(match.path, '/cat/hello');
+    assert.strictEqual(match.matchedPath, '/cat/hello');
+    assert.strictEqual(match.unmatchedPath, null);
+    assert.deepEqual(match.query, {foo : 'bar', baz: 'biff'});
+  });
+
   it('handles not found', function() {
     var match = matchRoutes(routes, '/hm');
     assert(match.route);

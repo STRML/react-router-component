@@ -26,7 +26,9 @@ var a = React.createFactory('a');
 function divProps(children, prop) {
   return React.createClass({
     render: function() {
-      return div(children, this.props[prop]);
+      var propVal = this.props[prop];
+      if (typeof propVal === 'object') propVal = JSON.stringify(propVal);
+      return div(children, propVal);
     }
   });
 }
@@ -111,6 +113,10 @@ describe('Routing', function() {
             handler: div(null, 'i\'m transient')
           }),
           Location({
+            path: '/__zuul/query',
+            handler: divProps(null, '_query')
+          }),
+          Location({
             path: '/__zuul/:slug',
             handler: divProps(null, 'slug')
           }),
@@ -169,6 +175,15 @@ describe('Routing', function() {
       router.navigate('/__zuul/hello');
       delay(function() {
         assertRendered('hello');
+        done();
+      });
+    });
+
+    it('navigates with a querystring and parses it', function(done) {
+      assertRendered('mainpage');
+      router.navigate('/__zuul/query?foo=bar&baz=biff&num=1');
+      delay(function() {
+        assertRendered(JSON.stringify({foo: 'bar', baz: 'biff', num: "1"}));
         done();
       });
     });
