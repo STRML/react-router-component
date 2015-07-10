@@ -56,7 +56,7 @@ React router component can dispatch based on `location.pathname` or
 
 Furthermore it provides advanced features like support for [regex matching][regex],
 [full page server side rendering][server-side], [multiple routers][multiple] on the same page,
-[contextual routers][contextual] and support for [async components][async].
+[querystring parsing][querystring], [contextual routers][contextual] and support for [async components][async].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
@@ -81,6 +81,7 @@ See [docs][] for the usage.
 [server-side]: http://strml.viewdocs.io/react-router-component/server-side
 [multiple]: http://strml.viewdocs.io/react-router-component/multiple
 [contextual]: http://strml.viewdocs.io/react-router-component/contextual
+[querystring]: http://strml.viewdocs.io/react-router-component/querystring
 [a-elements]: http://strml.viewdocs.io/react-router-component/a-elements
 [rec-custom-link]: http://strml.viewdocs.io/react-router-component/recipes/custom-link
 [rec-custom-router]: http://strml.viewdocs.io/react-router-component/recipes/custom-router

@@ -46,6 +46,7 @@ React router component can dispatch based on `location.pathname` or
 
 Furthermore it provides advanced features like support for [full page server
 side rendering][server-side], [multiple routers][multiple] on the same page,
+[querystring parsing][querystring],
 [contextual routers][contextual], support for [async components][async] and
 [optional handling of normal `<a>` elements][a-elements].
 
@@ -214,6 +215,7 @@ These are the examples of what you can do with React Router component:
 [rec-es6-custom-router]: recipes/rec-es6-custom-router
 
 [hash-routing]: hash-routing
+[querystring]: querystring
 [server-side]: server-side
 [multiple]: multiple
 [contextual]: contextual

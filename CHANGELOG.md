@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.26.0
+  - Support querystrings.
+    * Querystrings are not matched - they are stripped before matching patterns.
+    * Querystrings, if present, are parsed and passed as the `_query` prop.
+    * See the [querystring docs](http://strml.viewdocs.io/react-router-component/querystring).
+
+## 0.25.4
+  - More ES6 fixes.
+
+## 0.25.3
+  - Hotfix: adjust API for url-pattern to fit ES6 modules.
+
+## 0.25.2
+  - Allow overriding url-pattern's compiler.
+
 ## 0.25.1
   - Remove bad ReactComponent typecheck on Route/Location.
 
