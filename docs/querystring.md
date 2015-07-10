@@ -39,4 +39,4 @@ For example:
       }
     })
 
-    React.render(<App path="/foo/bar?baz=biff&num=1&react=isAwesome");
+    React.render(<App path="/foo/bar?baz=biff&num=1&react=isAwesome" />);

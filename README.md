@@ -16,6 +16,7 @@ in a declarative manner, directly as a part of your component hierarchy.
 * [Overview and Usage][docs]
 * [Implementation Visualization][implementation]
 * [Hash Routing][hash-routing]
+* [Parsing Query Strings][querystring]
 * [Server-side Rendering][server-side]
 * [Multiple Routers][multiple]
 * [Contextual Routers][contextual]
