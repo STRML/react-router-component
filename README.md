@@ -11,22 +11,6 @@
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
 
-## Docs
-
-* [Overview and Usage][docs]
-* [Implementation Visualization][implementation]
-* [Hash Routing][hash-routing]
-* [Parsing Query Strings][querystring]
-* [Server-side Rendering][server-side]
-* [Multiple Routers][multiple]
-* [Contextual Routers][contextual]
-* [Asynchronous Routes][async]
-* [Capturing Clicks on Anchor Elements][a-elements]
-* [A custom Link Component][rec-custom-link]
-* [A custom Router Component][rec-custom-router]
-* [An Animated Router Component with ES6][rec-es6-custom-router]
-* [Overriding URL-Pattern's Compiler][override-url-pattern]
-
 ## Project Overview
 
 Usage is as simple as just returning a configured router component from your
@@ -75,7 +59,21 @@ React router component is packaged on npm:
 
 Compatible with React 0.12 and React 0.13. Older versions work with older versions of React, see the commit log.
 
-See [docs][] for the usage.
+## Docs
+
+* [Overview and Usage][docs]
+* [Implementation Visualization][implementation]
+* [Hash Routing][hash-routing]
+* [Parsing Query Strings][querystring]
+* [Server-side Rendering][server-side]
+* [Multiple Routers][multiple]
+* [Contextual Routers][contextual]
+* [Asynchronous Routes][async]
+* [Capturing Clicks on Anchor Elements][a-elements]
+* [A custom Link Component][rec-custom-link]
+* [A custom Router Component][rec-custom-router]
+* [An Animated Router Component with ES6][rec-es6-custom-router]
+* [Overriding URL-Pattern's Compiler][override-url-pattern]
 
 [hash-routing]: http://strml.viewdocs.io/react-router-component/hash-routing
 [regex]: http://strml.viewdocs.io/react-router-component#user-content-regular-expressions
