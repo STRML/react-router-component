@@ -1,7 +1,7 @@
 'use strict';
 var assert          = require('assert');
-var ReactAsync      = require('react-async');
 var React           = require('react');
+var ReactDOM        = require('react-dom');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
 var Router          = require('../index');
@@ -43,7 +43,7 @@ function delay(ms, func) {
 
 function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
-  var node = content.getDOMNode();
+  var node = ReactDOM.findDOMNode(content);
   return node.textContent || node.innerText;
 }
 
@@ -62,7 +62,7 @@ function clickOn(component) {
 }
 
 function cleanUp(done) {
-  React.unmountComponentAtNode(host);
+  ReactDOM.unmountComponentAtNode(host);
   if (historyAPI) {
     window.history.pushState({}, '', '/__zuul');
   }
@@ -73,7 +73,7 @@ function cleanUp(done) {
 function setUp(App) {
   return function() {
     host = document.createElement('div');
-    app = React.render(React.createElement(App), host);
+    app = ReactDOM.render(React.createElement(App), host);
     router = app.refs.router;
   }
 }
@@ -362,164 +362,6 @@ describe('Routing', function() {
     });
   });
 
-});
-
-describe('Routing with async components', function() {
-
-  if (!historyAPI) return;
-
-  var mainWasInLoadingState;
-  var aboutWasInLoadingState;
-  var mainSeenPendingUpdate;
-
-  var mainAsyncStateCount;
-  var aboutAsyncStateCount;
-
-  var App = React.createClass({
-
-    render: function() {
-      return Locations({ref: 'router', className: 'App'},
-        Location({path: '/__zuul', handler: Main, ref: 'main'}),
-        Location({path: '/__zuul/about', handler: About, ref: 'about'}),
-        Location({path: '/__zuul/about2', handler: About, ref: 'about2'})
-      );
-    }
-  });
-
-  var Main = React.createClass({
-    mixins: [ReactAsync.Mixin, Router.NavigatableMixin],
-
-    getInitialStateAsync: function(cb) {
-      mainAsyncStateCount += 1;
-      setTimeout(function() {
-        cb(null, {message: 'main'});
-      }, 20);
-    },
-
-    render: function() {
-      if (!this.state.message) {
-        mainWasInLoadingState = true;
-      }
-
-      if (this.context.router.hasPendingUpdate()) {
-        mainSeenPendingUpdate = true;
-      }
-      return div(null, this.state.message ? this.state.message : 'loading...');
-    }
-  });
-
-  var About = React.createClass({
-    mixins: [ReactAsync.Mixin],
-
-    getInitialStateAsync: function(cb) {
-      aboutAsyncStateCount += 1;
-      delay(function() {
-        cb(null, {message: 'about'});
-      });
-    },
-
-    render: function() {
-      if (!this.state.message) {
-        aboutWasInLoadingState = true;
-      }
-      return div(null, this.state.message ? this.state.message : 'loading...');
-    }
-  });
-
-  beforeEach(function() {
-    mainWasInLoadingState = false;
-    aboutWasInLoadingState = false;
-
-    mainSeenPendingUpdate = false;
-
-    mainAsyncStateCount = 0;
-    aboutAsyncStateCount = 0;
-  });
-
-  beforeEach(setUp(App));
-  afterEach(cleanUp);
-
-  it('renders async component', function(done) {
-    assertRendered('loading...');
-    delay(50, function() {
-      assertRendered('main');
-      assert(!mainSeenPendingUpdate);
-      assert(mainWasInLoadingState);
-      assert.equal(mainAsyncStateCount, 1);
-      assert.equal(aboutAsyncStateCount, 0);
-      done();
-    });
-  });
-
-  it('renders async component and navigates', function(done) {
-    assertRendered('loading...');
-
-    delay(100, function() {
-      assertRendered('main');
-
-      router.navigate('/__zuul/about', function(err) {
-        if (err) return done(err);
-        assertRendered('about');
-        assert(mainWasInLoadingState);
-        assert(mainSeenPendingUpdate);
-        assert(!aboutWasInLoadingState);
-        assert.equal(mainAsyncStateCount, 1);
-        assert.equal(aboutAsyncStateCount, 1);
-        done();
-      });
-    });
-  });
-
-  it('cancels pending update on navigate', function(done) {
-    assertRendered('loading...');
-
-    delay(100, function() {
-      assertRendered('main');
-
-      router.navigate('/__zuul/about', function(err) {
-        if (err) return done(err);
-        assert(false);
-      });
-
-      router.navigate('/__zuul', function(err) {
-        if (err) return done(err);
-
-        assertRendered('main');
-        assert(mainSeenPendingUpdate);
-        assert(mainWasInLoadingState);
-        assert(!aboutWasInLoadingState);
-        assert.equal(mainAsyncStateCount, 1);
-        assert.equal(aboutAsyncStateCount, 1);
-        done();
-      });
-
-    });
-  });
-
-  it('does not trigger async state load if type of the next component is the same', function(done) {
-    assertRendered('loading...');
-
-    delay(100, function() {
-      assertRendered('main');
-
-      router.navigate('/__zuul/about', function(err) {
-        if (err) return done(err);
-        assertRendered('about');
-
-        router.navigate('/__zuul/about2', function(err) {
-          if (err) return done(err);
-          assertRendered('about');
-          assert(mainWasInLoadingState);
-          assert(mainSeenPendingUpdate);
-          assert(!aboutWasInLoadingState);
-          assert.equal(mainAsyncStateCount, 1);
-          assert.equal(aboutAsyncStateCount, 1);
-          done();
-        });
-      });
-    });
-
-  });
 });
 
 describe('Nested routers', function() {
@@ -839,7 +681,7 @@ describe('Hash routing', function() {
 
   it('renders', function() {
     assertRendered('mainpage');
-    var dom = app.getDOMNode();
+    var dom = ReactDOM.findDOMNode(app);
     if (dom.classList)
       assert.ok(dom.classList.contains('App'));
   });

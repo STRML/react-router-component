@@ -5,7 +5,6 @@ var Route                     = require('./lib/Route');
 var Link                      = require('./lib/Link');
 
 var RouterMixin               = require('./lib/RouterMixin');
-var AsyncRouteRenderingMixin  = require('./lib/AsyncRouteRenderingMixin');
 var RouteRenderingMixin       = require('./lib/RouteRenderingMixin');
 
 var NavigatableMixin          = require('./lib/NavigatableMixin');
@@ -30,7 +29,6 @@ var exportsObject = {
 
   RouterMixin: RouterMixin,
   RouteRenderingMixin: RouteRenderingMixin,
-  AsyncRouteRenderingMixin: AsyncRouteRenderingMixin,
 
   NavigatableMixin: NavigatableMixin,
   CaptureClicks: CaptureClicks,

@@ -7,7 +7,6 @@
 * [Server-side Rendering][server-side]
 * [Multiple Routers][multiple]
 * [Contextual Routers][contextual]
-* [Asynchronous Routes][async]
 * [Capturing Clicks on anchor elements][a-elements]
 * [A custom Link component][rec-custom-link]
 * [A custom Router component][rec-custom-router]
@@ -47,7 +46,7 @@ React router component can dispatch based on `location.pathname` or
 Furthermore it provides advanced features like support for [full page server
 side rendering][server-side], [multiple routers][multiple] on the same page,
 [querystring parsing][querystring],
-[contextual routers][contextual], support for [async components][async] and
+[contextual routers][contextual] and
 [optional handling of normal `<a>` elements][a-elements].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
@@ -219,7 +218,6 @@ These are the examples of what you can do with React Router component:
 [server-side]: server-side
 [multiple]: multiple
 [contextual]: contextual
-[async]: async
 [a-elements]: a-elements
 [implementation]: implementation
 

@@ -1,6 +1,7 @@
 'use strict';
 var assert          = require('assert');
 var React           = require('react');
+var ReactDOM        = require('react-dom');
 var Router          = require('../index');
 
 var historyAPI = (
@@ -22,7 +23,7 @@ function delay(ms, func) {
 
 function getRenderedContent() {
   var content = app.refs.content || app.refs.router;
-  var node = content.getDOMNode();
+  var node = ReactDOM.findDOMNode(content);
   return node.textContent || node.innerText;
 }
 
@@ -34,7 +35,7 @@ function assertRendered(text) {
 }
 
 function cleanUp(done) {
-  React.unmountComponentAtNode(host);
+  ReactDOM.unmountComponentAtNode(host);
   if (historyAPI) {
     window.history.pushState({}, '', '/__zuul');
   }
@@ -45,28 +46,13 @@ function cleanUp(done) {
 function setUp(App) {
   return function() {
     host = document.createElement('div');
-    app = React.render(React.createElement(App), host);
+    app = ReactDOM.render(React.createElement(App), host);
     router = app.refs.router;
   };
 }
 describe('JSX + Routing with async components', function() {
 
   if (!historyAPI) return;
-
-  var App = React.createClass({displayName: "App",
-
-    render: function() {
-      var Locations = Router.Locations;
-      var Location = Router.Location;
-      return (
-        React.createElement(Locations, {ref: "router", className: "App"}, 
-          React.createElement(Location, {path: "/__zuul", handler: Main, ref: "main"}), 
-          React.createElement(Location, {path: "/__zuul/page1", handler: Page1, ref: "page1"}), 
-          React.createElement(Location, {path: "/__zuul/:text", handler: Page2, ref: "page2"})
-        )
-      );
-    }
-  });
 
   var Main = React.createClass({displayName: "Main",
     render: function() {
@@ -83,6 +69,21 @@ describe('JSX + Routing with async components', function() {
   var Page2 = React.createClass({displayName: "Page2",
     render: function() {
       return React.createElement("div", null, this.props.text);
+    }
+  });
+
+  var App = React.createClass({displayName: "App",
+
+    render: function() {
+      var Locations = Router.Locations;
+      var Location = Router.Location;
+      return (
+        React.createElement(Locations, {ref: "router", className: "App"},
+          React.createElement(Location, {path: "/__zuul", handler: Main, ref: "main"}),
+          React.createElement(Location, {path: "/__zuul/page1", handler: Page1, ref: "page1"}),
+          React.createElement(Location, {path: "/__zuul/:text", handler: Page2, ref: "page2"})
+        )
+      );
     }
   });
 

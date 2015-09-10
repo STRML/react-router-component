@@ -3,8 +3,9 @@
 
 |Version        | Compatibility|
 |---------------|--------------|
-|> 0.24         | React 0.13   |
-|> 0.23         | React 0.12   |
+|>= 0.27.0      | React 0.14   |
+|0.24 - 0.26.0  | React 0.13   |
+|0.23 - 0.26.0  | React 0.12   |
 |0.20 - 0.22.2  | React 0.11   |
 |< 0.20         | React 0.10   |
 
@@ -41,7 +42,7 @@ React router component can dispatch based on `location.pathname` or
 
 Furthermore it provides advanced features like support for [regex matching][regex],
 [full page server side rendering][server-side], [multiple routers][multiple] on the same page,
-[querystring parsing][querystring], [contextual routers][contextual] and support for [async components][async].
+[querystring parsing][querystring], and [contextual routers][contextual].
 
 Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
@@ -68,7 +69,6 @@ Compatible with React 0.12 and React 0.13. Older versions work with older versio
 * [Server-side Rendering][server-side]
 * [Multiple Routers][multiple]
 * [Contextual Routers][contextual]
-* [Asynchronous Routes][async]
 * [Capturing Clicks on Anchor Elements][a-elements]
 * [A custom Link Component][rec-custom-link]
 * [A custom Router Component][rec-custom-router]
@@ -86,7 +86,6 @@ Compatible with React 0.12 and React 0.13. Older versions work with older versio
 [rec-custom-router]: http://strml.viewdocs.io/react-router-component/recipes/custom-router
 [rec-es6-custom-router]: http://strml.viewdocs.io/react-router-component/recipes/es6-custom-router
 [override-url-pattern]: http://strml.viewdocs.io/react-router-component/override-url-pattern
-[async]: http://strml.viewdocs.io/react-router-component/async
 [implementation]: http://strml.viewdocs.io/react-router-component/implementation
 
 [docs]: http://strml.viewdocs.io/react-router-component

@@ -7,7 +7,7 @@ install link:
 	@npm $@
 
 lint:
-	@./node_modules/.bin/jsxhint index.js `find lib tests \( -iname \*.js -o -iname \*.jsx \)`
+	@./node_modules/.bin/eslint index.js `find lib tests \( -iname \*.js -o -iname \*.jsx \)`
 
 test: test-unit test-server
 	@echo "The browser test suite should be run before commit. Run 'make test-local' to run it."
