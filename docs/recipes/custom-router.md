@@ -19,13 +19,19 @@ We are going to implement custom router as a mixin:
     var Router = require('react-router-component')
 
     var MyRouterMixin = {
-      mixins: [Router.RouterMixin, Router.AsyncRouteRenderingMixin],
+      mixins: [Router.RouterMixin, Router.RouteRenderingMixin],
 
       getRoutes: function(props) {
         var routes = []
         for (var path in this.routes)
           routes.push({path: path, handler: this.routes[path]})
         return routes
+      },
+
+      setRoutingState: function(state) {
+        // contains match, matchProps, handler, prefix, navigation;
+        // see RouterMixin
+        this.setState(state);
       }
     }
 
@@ -38,7 +44,9 @@ the environment router works in).
 This mixin expects that you would implement `getRoutes` method which should
 return a list of route descriptions in form of `{path: ..., handler: ...}`.
 
-Second, `Router.AsyncRouteRenderingMixin` is a strategy which specifies how
+`RouterMixin` also supports intercepting its use of `setState` via `setRoutingState`.
+
+Second, `Router.RouteRenderingMixin` is a strategy which specifies how
 handler is rendered. It provides a method `renderRouteHandler()`.
 
 We can now define our custom routers like this:
