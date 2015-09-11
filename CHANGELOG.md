@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.27.0-rc1
+  - Support for React 0.14.0-rc1.
+  - Remove React-Async and AsyncRouteRenderingMixin.
+    * Async support will be re-added via a plugin.
+      See [#129](https://github.com/STRML/react-router-component/issues/129) for tracking on this issue.
+  - Dependency cleanup.
+
 ## 0.26.0
   - Support querystrings.
     * Querystrings are not matched - they are stripped before matching patterns.
