@@ -19,7 +19,7 @@ test-server:
 	@./node_modules/.bin/mocha -R spec -b tests/server.js
 
 test-local:
-	@./node_modules/.bin/jsx tests/browser-jsx.jsx > tests/browser-jsx.js
+	@./node_modules/.bin/babel tests/browser-jsx.jsx > tests/browser-jsx.js
 	@./node_modules/.bin/zuul --local 3000  -- tests/browser.js tests/browser-jsx.js
 
 test-cloud:
