@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.26.1
+  - Remove deprecated replaceState().
+
 ## 0.26.0
   - Support querystrings.
     * Querystrings are not matched - they are stripped before matching patterns.
