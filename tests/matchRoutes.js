@@ -64,13 +64,10 @@ describe('matchRoutes', function() {
     assert.strictEqual(match.unmatchedPath, null);
   });
 
-  it('matches /cat/:id with a custom url-pattern compiler and periods in param', function() {
-    Router.createURLPatternCompiler = function() {
-      var compiler = new URLPattern.Compiler();
-      compiler.segmentValueCharset = 'a-zA-Z0-9_\\- %\\.';
-      return compiler;
-    };
-    var match = matchRoutes(routes, '/cat/hello.with.periods');
+  it('matches /cat/:id with a custom url-pattern options and periods in param', function() {
+    var match = matchRoutes(routes, '/cat/hello.with.periods', {urlPatternOptions: {
+      segmentValueCharset: 'a-zA-Z0-9_\\- %\\.'
+    }});
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'cat');
     assert.deepEqual(match.match, {id: 'hello.with.periods'});
@@ -84,23 +81,19 @@ describe('matchRoutes', function() {
                           handler: React.createElement('div', {name: 'parseDomain'})});
 
     // Lifted from url-pattern docs
-    Router.setCreateURLPatternCompilerFactory(function(routeProps) {
-      // Somebody might use this, make sure it works.
-      assert.strictEqual(routeProps.path, route.props.path);
+    var urlPatternOptions = {
+      escapeChar: '!',
+      segmentNameStartChar: '$',
+      segmentNameCharset: 'a-zA-Z0-9_-',
+      segmentValueCharset: 'a-zA-Z0-9',
+      optionalSegmentStartChar: '[',
+      optionalSegmentEndChar: ']',
+      wildcardChar: '?'
+    };
 
-      // Create a very custom compiler.
-      var compiler = new URLPattern.Compiler();
-      compiler.escapeChar = '!';
-      compiler.segmentNameStartChar = '$';
-      compiler.segmentNameCharset = 'a-zA-Z0-9_-';
-      compiler.segmentValueCharset = 'a-zA-Z0-9';
-      compiler.optionalSegmentStartChar = '[';
-      compiler.optionalSegmentEndChar = ']';
-      compiler.wildcardChar = '?';
-      return compiler;
+    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', {
+      urlPatternOptions: urlPatternOptions
     });
-
-    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'parseDomain');
     assert.deepEqual(match.match, {sub_domain: 'www', domain: 'github', 'toplevel-domain': 'com',

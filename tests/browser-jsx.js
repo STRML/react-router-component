@@ -1,7 +1,11 @@
 'use strict';
 var assert = require('assert');
 var React = require('react');
-var ReactDOM = require('react-dom');
+var ReactDOM = React; // For 0.13
+if (parseInt(React.version.split('.')[1], 10) >= 14) {
+  // For 0.14+
+  ReactDOM = require('react-dom');
+}
 var Router = require('../index');
 
 var historyAPI = window.history !== undefined && window.history.pushState !== undefined;

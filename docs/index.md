@@ -121,7 +121,7 @@ Regular expressions are an easy way to accomplish more advanced routing.
 
 When using a regular expression, parameters extracted from the regex will be
 passed as an array with the name `_`. This may be inconvenient if your components
-are reused. If you specify an array of keys and pass it as the `matchKeys` prop,
+are reused. If you specify an array of keys and pass it as the `urlPatternOptions` prop,
 matches from the regex will be translated.
 
 For example, in the App above, the path `/friends/39/wall` would pass the props

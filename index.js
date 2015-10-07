@@ -31,17 +31,7 @@ var exportsObject = {
   RouteRenderingMixin: RouteRenderingMixin,
 
   NavigatableMixin: NavigatableMixin,
-  CaptureClicks: CaptureClicks,
-
-  // The fn used to create a compiler for "/user/:id"-style routes is exposed here so it can be overridden.
-  createURLPatternCompiler: function() {
-    return new URLPattern.Compiler();
-  },
-
-  // For ES6 imports, which can't modify module.exports directly
-  setCreateURLPatternCompilerFactory: function(fn) {
-    exportsObject.createURLPatternCompiler = fn;
-  }
+  CaptureClicks: CaptureClicks
 };
 
 module.exports = exportsObject;
