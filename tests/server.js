@@ -38,7 +38,7 @@ describe('react-router-component (on server)', function() {
           }),
           React.createElement(Location, {
             path: /\/z\/(.*)\/(.*)/,
-            matchKeys: ['match1', 'match2'],
+            urlPatternOptions: ['match1', 'match2'],
             handler: React.createClass({
               render: function() {
                 return React.createElement('div', null, this.props.match1 + this.props.match2);
@@ -71,7 +71,7 @@ describe('react-router-component (on server)', function() {
       assert(markup.match(/ohhai/));
     });
 
-    it('renders with regex and matchKeys', function() {
+    it('renders with regex and urlPatternOptions(matchKeys)', function() {
       var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/z/one/two'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/onetwo/));
@@ -315,6 +315,108 @@ describe('react-router-component (on server)', function() {
       var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/'}));
       assert(markup.match(/class="App"/));
       assert(markup.match(/flux_value/));
+    });
+  });
+
+  describe('urlPatternOptions hierarchy', function() {
+    var Inner = React.createClass({
+      displayName: 'Inner',
+
+      render: function() {
+        return React.createElement('div', {}, this.props.foo + '|' + this.props.bar + this.props._);
+      }
+    });
+
+    var App = React.createClass({
+
+      getRoutes: function() {
+        return [
+          // Direct passthrough from Locations
+          React.createElement(Location, {
+            path: '/1/$foo/$bar',
+            handler: Inner
+          }),
+          // Merge one property
+          React.createElement(Location, {
+            path: '/2/$foo/$bar',
+            handler: Inner,
+            urlPatternOptions: {
+              segmentValueCharset: 'A-Z'
+            }
+          }),
+          // Override a property
+          React.createElement(Location, {
+            path: '/3/!foo/!bar',
+            handler: Inner,
+            urlPatternOptions: {
+              segmentNameStartChar: '!'
+            }
+          }),
+          // Inherit from parent contextual
+          React.createElement(Location, {
+            path: '/4/[foo]?',
+            handler: Inner,
+            urlPatternOptions: {
+              optionalSegmentStartChar: '[',
+              optionalSegmentEndChar: ']'
+            }
+          }),
+          // Parent props
+          React.createElement(NotFound, {
+            handler: React.createElement('div', null, 'not found')
+          })
+        ]
+      },
+
+      render: function() {
+        return React.createElement('div', {className: 'App'},
+          React.createElement(Locations, {
+            path: this.props.path,
+            urlPatternOptions: {
+              wildcardChar: '?'
+            }
+          },
+            React.createElement(Location, {
+              path: '/start?',
+              handler:  React.createElement('div', null,
+                React.createElement(Locations, {
+                  contextual: true,
+                  children: this.getRoutes(),
+                  urlPatternOptions: {
+                    segmentNameStartChar: '$'
+                  }
+                })
+              )
+            }),
+            React.createElement(NotFound, {
+              handler: React.createElement('div', null, 'not found')
+            })
+          )
+        );
+      }
+    });
+
+
+    it('passes urlPatternOptions from parent <Locations>', function() {
+      var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/start/1/biff/baz'}));
+      assert(markup.match(/biff\|baz/));
+    });
+
+    it('merges urlPatternOptions from parent <Locations> and a <Location>', function() {
+      var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/start/2/BIFF/BA'}));
+      assert(markup.match(/BIFF\|BA/));
+      markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/start/2/biff/ba'}));
+      assert(markup.match(/not found/));
+    });
+
+    it('gives urlPatternOptions on route precedence over router', function() {
+      var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/start/3/biff/boff'}));
+      assert(markup.match(/biff\|boff/));
+    });
+
+    it('inherits from parent contextual router', function() {
+      var markup = ReactDOMServer.renderToString(React.createElement(App, {path: '/start/4/foobar'}));
+      assert(markup.match(/undefined\|undefinedbar/));
     });
   });
 

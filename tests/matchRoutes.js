@@ -5,7 +5,6 @@ var React       = require('react');
 var Router      = require('../');
 var Location    = React.createFactory(Router.Location);
 var NotFound    = React.createFactory(Router.NotFound);
-var URLPattern  = require('url-pattern');
 
 describe('matchRoutes', function() {
 
@@ -15,14 +14,9 @@ describe('matchRoutes', function() {
     Location({path: '/mod/*', handler: React.createElement('div', {name: 'mod'})}),
     Location({path: /\/regex\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regex'})}),
     Location({path: /\/(.*?)\/(\d)\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regexMatch'}),
-              matchKeys: ['name', 'num', 'text']}),
+              urlPatternOptions: ['name', 'num', 'text']}),
     NotFound({handler: React.createElement('div', {name: 'notfound'})})
   ];
-
-  afterEach(function() {
-    // In case we overrode this, reset it.
-    Router.createURLPatternCompiler = function () { return new URLPattern.Compiler(); };
-  });
 
   it('matches ""', function() {
     var match = matchRoutes(routes, '');
@@ -65,9 +59,9 @@ describe('matchRoutes', function() {
   });
 
   it('matches /cat/:id with a custom url-pattern options and periods in param', function() {
-    var match = matchRoutes(routes, '/cat/hello.with.periods', {urlPatternOptions: {
+    var match = matchRoutes(routes, '/cat/hello.with.periods', {
       segmentValueCharset: 'a-zA-Z0-9_\\- %\\.'
-    }});
+    });
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'cat');
     assert.deepEqual(match.match, {id: 'hello.with.periods'});
@@ -91,9 +85,7 @@ describe('matchRoutes', function() {
       wildcardChar: '?'
     };
 
-    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', {
-      urlPatternOptions: urlPatternOptions
-    });
+    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', urlPatternOptions);
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'parseDomain');
     assert.deepEqual(match.match, {sub_domain: 'www', domain: 'github', 'toplevel-domain': 'com',

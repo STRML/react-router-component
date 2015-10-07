@@ -9,7 +9,7 @@ Compile an object matching these fields and pass it on your `<Location>` or `<Lo
 defaults.
 
 It's possible to set more specific rules on individual `<Location>` components. These rules will be merged
-with parent rules.
+with parent rules. Rules are even merged from parent contextual routers!
 
 For example:
 
