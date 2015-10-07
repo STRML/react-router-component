@@ -1,10 +1,23 @@
 # CHANGELOG
 
+## 0.27.0
+  - Breaking Changes (see also 0.27.0-rc1 changelog):
+    * Support for React 0.14.0 only.
+    * `url-pattern` `0.10` brought breaking updates. If you are customizing `url-pattern`, there is a new API:
+      - `createURLPatternCompiler()` and `setCreateURLPatternCompilerFactory()` have been removed.
+      - Instead, pass an object at the prop `urlPatternOptions` on either your router or individual routes.
+        Route-level options will be merged with precedence over Router options. Contextual router options
+        are not merged between levels.
+    * `matchKeys` has been deprecated. `url-pattern` now handles this natively; pass an array as the prop
+      `urlPatternOptions` when using a regex.
+
+
 ## 0.27.0-rc1
+  - Breaking Changes:
+    * Remove React-Async and AsyncRouteRenderingMixin.
+      - Async support will be re-added via a plugin.
+        See [#129](https://github.com/STRML/react-router-component/issues/129) for tracking on this issue.
   - Support for React 0.14.0-rc1.
-  - Remove React-Async and AsyncRouteRenderingMixin.
-    * Async support will be re-added via a plugin.
-      See [#129](https://github.com/STRML/react-router-component/issues/129) for tracking on this issue.
   - Dependency cleanup.
 
 ## 0.26.0
