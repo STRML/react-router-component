@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.27.1
+  - Bugfixes for `urlPatternOptions`, which was not properly being passed to `matchRoutes` in some cases.
+  - `urlPatternOptions` now propagates down the contextual router hierarchy.
+  - Added additional tests for `urlPatternOptions`.
+
 ## 0.27.0
   - Breaking Changes (see also 0.27.0-rc1 changelog):
     * Support for React 0.14.0 only.
