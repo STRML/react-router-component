@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.27.2
+  - Switch Object.assign shims, 'object.assign' uses eval()
+
 ## 0.27.1
   - Bugfixes for `urlPatternOptions`, which was not properly being passed to `matchRoutes` in some cases.
   - `urlPatternOptions` now propagates down the contextual router hierarchy.
