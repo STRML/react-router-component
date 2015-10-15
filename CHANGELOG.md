@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.26.1-no-react-async
+  - Special build targeting React 0.13 but with react-async removed.
+
 ## 0.26.1
   - Remove deprecated replaceState().
 
