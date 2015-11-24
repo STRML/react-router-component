@@ -39,5 +39,16 @@ publish:
 	npm publish
 
 define release
-	npm version $(1)
+	VERSION=`node -pe "require('./package.json').version"` && \
+	NEXT_VERSION=`node -pe "require('semver').inc(\"$$VERSION\", '$(1)')"` && \
+	node -e "\
+		['./package.json'].forEach(function(fileName) {\
+			var j = require(fileName);\
+			j.version = \"$$NEXT_VERSION\";\
+			var s = JSON.stringify(j, null, 2);\
+			require('fs').writeFileSync(fileName, s);\
+		});" && \
+	git add package.json CHANGELOG.md && \
+	git commit -m "release v$$NEXT_VERSION" && \
+	git tag "v$$NEXT_VERSION" -m "release v$$NEXT_VERSION"
 endef

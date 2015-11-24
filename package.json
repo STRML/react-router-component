@@ -18,6 +18,7 @@
     "eslint-plugin-react": "^3.5.1",
     "jsxhint": "^0.15.1",
     "mocha": "^2.3.3",
+    "semver": "^5.1.0",
     "zuul": "^3.6.0"
   },
   "peerDependencies": {
