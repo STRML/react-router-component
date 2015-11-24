@@ -1,18 +1,19 @@
 "use strict";
 
-var assert                    = require('assert');
-var QuerystringKeyEnvironment = require('../lib/environment/QuerystringKeyEnvironment');
+var assert = require('assert');
+var QuerystringKeyEnvironment = require('../../lib/environment/QuerystringKeyEnvironment');
 
 describe('QuerystringKeyEnvironment', function() {
 
-  var env;
+  var env, origPath;
 
   beforeEach(function() {
     env = new QuerystringKeyEnvironment('key');
+    origPath = window.location.pathname;
   });
 
   afterEach(function() {
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, '', origPath);
   });
 
   it('updates the corresponding key in querystring on setPath', function() {

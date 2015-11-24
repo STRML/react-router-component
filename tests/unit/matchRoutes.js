@@ -1,8 +1,8 @@
 'use strict';
 var assert      = require('assert');
-var matchRoutes = require('../lib/matchRoutes');
+var matchRoutes = require('../../lib/matchRoutes');
 var React       = require('react');
-var Router      = require('../');
+var Router      = require('../../');
 var Location    = React.createFactory(Router.Location);
 var NotFound    = React.createFactory(Router.NotFound);
 
