@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.28.0
+  - Fix querystring not being properly passed in `PathnameEnvironment`. Incremented minor in case of potential
+    unexpected `_query` attribute.
+
 ## 0.27.2
   - Switch Object.assign shims, 'object.assign' uses eval()
 
