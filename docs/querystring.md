@@ -32,7 +32,7 @@ For example:
           <div>
             Hello, this is main page of the application!
             This component was passed the values:
-            Foo: <b>{this.props.foo}</b>
+            Bar: <b>{this.props.bar}</b>
             Query: <b>{JSON.stringify(this.props._query)}</b>
           </div>
         )
