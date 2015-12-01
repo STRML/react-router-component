@@ -1,6 +1,6 @@
 # Querystring parsing
 
-React-router-component, as of 0.26.0, understands querystrings.
+React-router-component, as of 0.28.0, understands querystrings.
 
 Querystrings are not matched as part of a route. It is not possible to switch routes
 based on a querystring.
