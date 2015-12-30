@@ -25,16 +25,6 @@ component's `render()` method:
       <Location path={/\/product\/([0-9]*)/} handler={ProductPage} />
     </Locations>
 
-Alternatively, if you don't prefer JSX:
-
-    var Locations = React.createFactory(Router.Locations);
-    var Location = React.createFactory(Router.Location);
-    Locations(null,
-      Location({path: "/", handler: MainPage}),
-      Location({path: "/users/:username", handler: UserPage}))
-      Location({path: "/search/*", handler: SearchPage}))
-      Location({path: /\/product\/([0-9]*)/, handler: ProductPage}))
-
 Having routes defined as a part of your component hierarchy allows to
 dynamically reconfigure routing based on your application state. For example you
 can return a different set of allowed locations for anonymous and signed-in

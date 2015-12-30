@@ -24,14 +24,6 @@ component's `render()` method:
       <Location path={/\/product\/([0-9]*)/} handler={ProductPage} />
     </Locations>
 
-Alternatively, if you don't prefer JSX:
-
-    Locations(null,
-      Location({path: "/", handler: MainPage}),
-      Location({path: "/users/:username", handler: UserPage}),
-      Location({path: "/search/*", handler: SearchPage}),
-      Location({path: /\/product\/([0-9]*)/, handler: ProductPage}))
-
 Having routes defined as a part of your component hierarchy allows to
 dynamically reconfigure routing based on your application state. For example you
 can return a different set of allowed locations for anonymous and signed-in
@@ -39,6 +31,9 @@ users.
 
 React router component can dispatch based on `location.pathname` or
 `location.hash` if browser doesn't support History API (see [hash routing][hash-routing]).
+
+Props can be passed through the router by setting them directly on each `<Location>`, or to all possible routes
+via a `childProps` hash.
 
 Furthermore it provides advanced features like support for [regex matching][regex],
 [full page server side rendering][server-side], [multiple routers][multiple] on the same page,
