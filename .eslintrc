@@ -1,5 +1,6 @@
 {
   root: true,
+  parser: "babel-eslint",
   extends: "eslint:recommended",
   rules: {
     strict: 0,
@@ -16,9 +17,7 @@
   env: {
     browser: true,
     node: true,
-    mocha: true
-  },
-  ecmaFeatures: {
-    jsx: true
+    mocha: true,
+    es6: true
   }
 }

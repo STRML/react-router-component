@@ -1,21 +1,19 @@
 'use strict';
-var assert      = require('assert');
-var matchRoutes = require('../../lib/matchRoutes');
-var React       = require('react');
-var Router      = require('../../');
-var Location    = React.createFactory(Router.Location);
-var NotFound    = React.createFactory(Router.NotFound);
+import assert      from 'power-assert';
+import matchRoutes from '../../lib/matchRoutes';
+import React       from 'react';
+import {Location, NotFound} from '../../';
 
 describe('matchRoutes', function() {
 
   var routes = [
-    Location({path: '(/)', handler: React.createElement('div', {name: 'root'})}),
-    Location({path: '/cat/:id', handler: React.createElement('div', {name: 'cat'})}),
-    Location({path: '/mod/*', handler: React.createElement('div', {name: 'mod'})}),
-    Location({path: /\/regex\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regex'})}),
-    Location({path: /\/(.*?)\/(\d)\/([a-zA-Z]*)$/, handler: React.createElement('div', {name: 'regexMatch'}),
-              urlPatternOptions: ['name', 'num', 'text']}),
-    NotFound({handler: React.createElement('div', {name: 'notfound'})})
+    <Location path='(/)' handler={<div name="root" />} />,
+    <Location path='/cat/:id' handler={<div name="cat" />} />,
+    <Location path='/mod/*' handler={<div name="mod" />} />,
+    <Location path={/\/regex\/([a-zA-Z]*)$/} handler={<div name="regex" />} />,
+    <Location path={/\/(.*?)\/(\d)\/([a-zA-Z]*)$/} handler={<div name="regexMatch" />}
+              urlPatternOptions={['name', 'num', 'text']} />,
+    <NotFound handler={<div name="notfound" />} />
   ];
 
   it('matches ""', function() {
@@ -71,8 +69,8 @@ describe('matchRoutes', function() {
   });
 
   it('matches a very custom url-pattern compiler config', function() {
-    var route = Location({path: '[http[s]!://][$sub_domain.]$domain.$toplevel-domain[/?]',
-                          handler: React.createElement('div', {name: 'parseDomain'})});
+    var route = <Location path="[http[s]!://][$sub_domain.]$domain.$toplevel-domain[/?]"
+                          handler={<div name="parseDomain" />} />;
 
     // Lifted from url-pattern docs
     var urlPatternOptions = {

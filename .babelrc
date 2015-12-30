@@ -1,3 +1,11 @@
 {
-  "stage": 0
+  "stage": 0,
+  "env": {
+    "test": {
+      "plugins": [
+        // Makes power-assert work
+        "espower"
+      ]
+    }
+  }
 }

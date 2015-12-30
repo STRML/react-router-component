@@ -1,5 +1,5 @@
 'use strict';
-var assert          = require('assert');
+var assert          = require('power-assert');
 var React           = require('react');
 var ReactDOM        = require('react-dom');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');

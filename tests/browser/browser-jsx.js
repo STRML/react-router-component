@@ -1,5 +1,5 @@
 'use strict';
-var assert = require('assert');
+var assert = require('power-assert');
 var React = require('react');
 var ReactDOM = React; // For 0.13
 var Router = require('../../index');
@@ -25,7 +25,15 @@ function getRenderedContent() {
 }
 
 function assertRendered(text) {
-  assert.equal(getRenderedContent(), text);
+  assert.equal(assert._expr(assert._capt(getRenderedContent(), 'arguments/0'), {
+    content: 'assert.equal(getRenderedContent(), text)',
+    filepath: 'tests/browser/browser-jsx.jsx',
+    line: 31
+  }), assert._expr(assert._capt(text, 'arguments/1'), {
+    content: 'assert.equal(getRenderedContent(), text)',
+    filepath: 'tests/browser/browser-jsx.jsx',
+    line: 31
+  }));
 }
 
 function cleanUp(done) {

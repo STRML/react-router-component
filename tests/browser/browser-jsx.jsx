@@ -1,5 +1,5 @@
 'use strict';
-var assert          = require('assert');
+var assert          = require('power-assert');
 var React           = require('react');
 var ReactDOM        = React; // For 0.13
 var Router          = require('../../index');

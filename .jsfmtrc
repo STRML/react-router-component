@@ -1,0 +1,17 @@
+{
+  "extensions": [
+    "js",
+    "jsx"
+  ],
+  "plugins": [
+    "esformatter-jsx"
+  ],
+  "jsx": {
+    "formatJSX": true,
+    "attrsOnSameLineAsTag": false,
+    "spaceInJSXExpressionContainers": "",
+    "maxAttrsOnTag": 2,
+    "firstAttributeOnSameLine": true,
+    "alignWithFirstAttribute": false
+  }
+}

@@ -1,6 +1,6 @@
 "use strict";
 
-var assert = require('assert');
+var assert = require('power-assert');
 var QuerystringKeyEnvironment = require('../../lib/environment/QuerystringKeyEnvironment');
 
 describe('QuerystringKeyEnvironment', function() {

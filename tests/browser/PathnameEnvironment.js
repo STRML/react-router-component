@@ -1,6 +1,6 @@
 "use strict";
 
-var assert = require('assert');
+var assert = require('power-assert');
 var PathnameEnvironment = require('../../lib/environment/PathnameEnvironment');
 
 describe('PathnameEnvironment', function() {
