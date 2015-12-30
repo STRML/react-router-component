@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.29.0
+  - Added optional `childProps` hash to the Router. If this is specified, these props will be passed to all
+    handlers, contextual routers, and their children. Props defined on a handler or Route directly have priority.
+    This fixes [#104](https://github.com/STRML/react-router-component/issues/104).
+  - Possibly Breaking Change/Bugfix:
+    * We allow passing an actual element as a handler, not just a component. Previously, props on these
+      elements were lost, so that `<Location handler={<div className="foo" />} />` would render `<div></div>`.
+      This was unintentional and these inner props are now preserved and have priority over `childProps` or
+      properties defined on the Route.
+
 ## 0.28.0
   - Fix querystring not being properly passed in `PathnameEnvironment`. Incremented minor in case of potential
     unexpected `_query` attribute.
