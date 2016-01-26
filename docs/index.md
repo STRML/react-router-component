@@ -8,9 +8,9 @@
 * [Multiple Routers][multiple]
 * [Contextual Routers][contextual]
 * [Capturing Clicks on anchor elements][a-elements]
-* [A custom Link component][rec-custom-link]
-* [A custom Router component][rec-custom-router]
-* [An animated Router with ES6][rec-es6-custom-router]
+* [A custom Link component][custom-link]
+* [A custom Router component][custom-router]
+* [An animated Router with ES6][es6-custom-router]
 
 React router component allows you to define routes in your [React][] application
 in a declarative manner, directly as a part of your component hierarchy.
@@ -188,20 +188,20 @@ side rendering][server-side], [multiple routers][multiple] on the same page and
 
 These are the examples of what you can do with React Router component:
 
-  * [Create a custom Link component][rec-custom-link] which would have different appearance if the
+  * [Create a custom Link component][custom-link] which would have different appearance if the
     current location matches its href.
 
-  * [A custom Router component][rec-custom-router] which allows to declare
+  * [A custom Router component][custom-router] which allows to declare
     routes as a prototype attribute (statically) as opposed to have routes
     inferred from its children.
 
-  * [An Animated Router component in ES6][rec-es6-custom-router] an animated router that allows
+  * [An Animated Router component in ES6][es6-custom-router] an animated router that allows
     the user to set transitions via ReactCSSTransitionGroup. This example also shows use of mixins
     with ES6.
 
-[rec-custom-link]: recipes/custom-link
-[rec-custom-router]: recipes/custom-router
-[rec-es6-custom-router]: recipes/rec-es6-custom-router
+[custom-link]: recipes/custom-link
+[custom-router]: recipes/custom-router
+[es6-custom-router]: recipes/es6-custom-router
 
 [hash-routing]: hash-routing
 [querystring]: querystring
