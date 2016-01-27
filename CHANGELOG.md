@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.29.2
+  - Fix typo in previous commit
+
 ## 0.29.1
   - Minor: Prevent `:focus` from sticking on clicked anchors under `<CaptureClicks>`.
 
