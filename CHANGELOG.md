@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.29.1
+  - Minor: Prevent `:focus` from sticking on clicked anchors under `<CaptureClicks>`.
+
 ## 0.29.0
   - Added optional `childProps` hash to the Router. If this is specified, these props will be passed to all
     handlers, contextual routers, and their children. Props defined on a handler or Route directly have priority.
