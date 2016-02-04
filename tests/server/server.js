@@ -87,6 +87,34 @@ describe('react-router-component (on server)', function() {
     });
   });
 
+  describe('Custom Component', function() {
+    class AppSection extends React.Component {
+      render() {
+        return <Locations className="App" path={this.props.path} component="section">
+                 <Location path="/" handler={<div>mainpage</div>} />
+               </Locations>;
+      }
+    }
+
+    class AppNoWrapper extends React.Component {
+      render() {
+        return <Locations className="App" path={this.props.path} component={null}>
+                 <Location path="/" handler={<div>mainpage</div>} />
+               </Locations>;
+      }
+    }
+
+    it('renders to <section>', function() {
+      var markup = ReactDOMServer.renderToStaticMarkup(<AppSection path="/" />);
+      assert.equal(markup, '<section class="App"><div>mainpage</div></section>');
+    });
+
+    it('removes wrapper with falsy value', function() {
+      var markup = ReactDOMServer.renderToStaticMarkup(<AppNoWrapper path="/" />);
+      assert.equal(markup, '<div>mainpage</div>');
+    });
+  });
+
   describe('contextual router', function() {
     class rendersSubSlug extends React.Component {
       render() {
