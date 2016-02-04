@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.30.0
+  - Support omitting the router's wrapping component entirely by passing a falsy `component` prop.
+
 ## 0.29.2
   - Fix typo in previous commit
 
