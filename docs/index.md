@@ -178,6 +178,17 @@ properties which will be called before and after navigation correspondingly:
       ...
     </Locations>
 
+## Custom / No Router Component
+
+Routers also accept a `component` prop, so you can change the rendered parent component:
+
+    <Locations component="section">...
+
+You can also remove the wrapper entirely by passing a falsy value. This will render the matching
+route directly without wrapping.
+
+    <Locations component={null}>....
+
 ## Advanced usage
 
 Advanced features include support for [full page server
