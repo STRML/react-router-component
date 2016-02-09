@@ -232,14 +232,14 @@ describe('Routing', function() {
         beforeNavigationHandler: function (nextPath) {
           called.push(nextPath);
         },
-        navigationHandler: function () {
-          called.push('onNavigation');
+        navigationHandler: function (path) {
+          called.push(path);
         }
       });
       router.navigate('/__zuul/hello', function () {
         assert.equal(called.length, 2);
         assert.equal(called[0], '/__zuul/hello');
-        assert.equal(called[1], 'onNavigation');
+        assert.equal(called[1], '/__zuul/hello');
         done();
       });
     });
