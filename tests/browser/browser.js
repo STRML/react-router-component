@@ -127,7 +127,8 @@ describe('Routing', function() {
         CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/hi'}),
           a({ref: 'anchorUnhandled', href: '/goodbye'}),
-          a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'})
+          a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'}),
+          a({ref: 'anchorPrevented', href: '#'})
         ),
         Link({ref: 'outside', href: '/__zuul/hi'}),
         Link({ref: 'prevented', href: '/__zuul/hi', onClick: this.handlePreventedLinkClick}),
@@ -359,6 +360,20 @@ describe('Routing', function() {
         }
       });
       clickOn(app.refs.anchorUnhandled);
+    });
+
+    it('doesn\'t route bare hash links', function(done) {
+      assertRendered('mainpage');
+      var called = false;
+      app.setProps({
+        gotoURL: function(url) {
+          called = true;
+          done();
+        }
+      });
+      clickOn(app.refs.anchorPrevented);
+      assert(!called);
+      done();
     });
   });
 
