@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.31.0
+  - Allow returning `false` from `<CaptureClicks>`'s `onClick` handler to completely cancel an anchor navigation.
+  - Ignore `'#'` by default in `<CaptureClicks>`, unless we're in a hash routing environment.
+
 ## 0.30.1
   - Also pass (path, navigation) to onNavigation to match onBeforeNavigation.
 
