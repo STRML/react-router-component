@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.31.1
+  - Bugfix for `'#'` ignoring.
+
 ## 0.31.0
   - Allow returning `false` from `<CaptureClicks>`'s `onClick` handler to completely cancel an anchor navigation.
   - Ignore `'#'` by default in `<CaptureClicks>`, unless we're in a hash routing environment.
