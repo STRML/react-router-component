@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.31.2
+  - Remove an errant 'let' that made its way into the build.
+
 ## 0.31.1
   - Bugfix for `'#'` ignoring.
 
