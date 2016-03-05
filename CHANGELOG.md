@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.31.3
+  - Fix import of `batchedUpdates` (currently ReactDOM.unstable_batchedUpdates) for use with the CDN
+    version of React.
+
 ## 0.31.2
   - Remove an errant 'let' that made its way into the build.
 
