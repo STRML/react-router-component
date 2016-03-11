@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.31.4
+  - Remove `react/lib/batchedUpdates` require(), which was causing issues with CDN users.
+
 ## 0.31.3
   - Fix import of `batchedUpdates` (currently ReactDOM.unstable_batchedUpdates) for use with the CDN
     version of React.
