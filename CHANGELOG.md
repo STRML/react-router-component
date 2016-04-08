@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.32.0
+  - React v15 support. React 0.14 support will remain for some time.
+
 ## 0.31.4
   - Remove `react/lib/batchedUpdates` require(), which was causing issues with CDN users.
 
