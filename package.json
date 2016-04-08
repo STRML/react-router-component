@@ -21,12 +21,14 @@
     "jsxhint": "^0.15.1",
     "mocha": "^2.3.3",
     "power-assert": "^1.2.0",
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
     "semver": "^5.1.0",
     "zuul": "^3.6.0"
   },
   "peerDependencies": {
-    "react": ">=0.14.0 <0.15.0",
-    "react-dom": ">=0.14.0 <0.15.0"
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^=0.14.0 || ^15.0.0"
   },
   "browserify": {
     "transform": [
