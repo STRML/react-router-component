@@ -84,12 +84,16 @@ describe('Routing', function() {
 
   var App = React.createClass({
 
+    getInitialState: function() {
+      return {};
+    },
+
     render: function() {
-      return div({onClick: this.props.onClick},
+      return div({onClick: this.state.onClick},
         Locations({
             ref: 'router', className: 'App',
-            onNavigation: this.props.navigationHandler,
-            onBeforeNavigation: this.props.beforeNavigationHandler
+            onNavigation: this.state.navigationHandler,
+            onBeforeNavigation: this.state.beforeNavigationHandler
           },
           Location({
             path: '/__zuul',
@@ -140,8 +144,8 @@ describe('Routing', function() {
     },
 
     gotoURL: function(url) {
-      if (this.props.gotoURL) {
-        this.props.gotoURL(url);
+      if (this.state.gotoURL) {
+        this.state.gotoURL(url);
       }
     },
 
@@ -229,7 +233,7 @@ describe('Routing', function() {
     it('calls onBeforeNaviation and onNavigation', function(done) {
       assertRendered('mainpage');
       var called = [];
-      app.setProps({
+      app.setState({
         beforeNavigationHandler: function (nextPath) {
           called.push(nextPath);
         },
@@ -294,7 +298,7 @@ describe('Routing', function() {
 
     var assertNotNavigated = function(done) {
       assertRendered('mainpage');
-      app.setProps({
+      app.setState({
         onClick: function(event) {
           // Make sure that the event hasn't had its default prevented by the
           // CaptureClicks component.
@@ -339,7 +343,7 @@ describe('Routing', function() {
 
     it("doesn't navigate if the href has another host", function(done) {
       assertRendered('mainpage');
-      app.setProps({
+      app.setState({
         onClick: function(event) {
           // Make sure that the event hasn't had its default prevented by the
           // CaptureClicks component.
@@ -354,7 +358,7 @@ describe('Routing', function() {
 
     it('follows the link if the href has no matching route', function(done) {
       assertRendered('mainpage');
-      app.setProps({
+      app.setState({
         gotoURL: function(url) {
           done();
         }
@@ -365,7 +369,7 @@ describe('Routing', function() {
     it('doesn\'t route bare hash links', function(done) {
       assertRendered('mainpage');
       var called = false;
-      app.setProps({
+      app.setState({
         gotoURL: function(url) {
           called = true;
           done();
@@ -456,7 +460,7 @@ describe('Nested routers', function() {
   describe('CaptureClicks component', function() {
     it('navigates to a subroute via onClick event', function(done) {
       assertRendered('mainpage');
-      app.setProps({
+      app.setState({
         gotoURL: function(url) {
           done(new Error('Followed link to ' + url));
         }
@@ -470,7 +474,7 @@ describe('Nested routers', function() {
 
     it('navigates to a subroute via onClick event (root case)', function(done) {
       assertRendered('mainpage');
-      app.setProps({
+      app.setState({
         gotoURL: function(url) {
           done(new Error('Followed link to ' + url));
         }
