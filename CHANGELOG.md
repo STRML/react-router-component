@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.32.1
+  - Reuse empty `_query` objects as not to bust ShouldComponentUpdate.
+
 ## 0.32.0
   - React v15 support. React 0.14 support will remain for some time.
 
