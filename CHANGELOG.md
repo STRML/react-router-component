@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.32.2
+  - Hotfix: Accidental 'const', we're not using Babel
+
 ## 0.32.1
   - Reuse empty `_query` objects as not to bust ShouldComponentUpdate.
 
