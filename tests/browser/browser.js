@@ -1,5 +1,6 @@
 'use strict';
-var assert          = require('power-assert');
+var assert          = require('assert');
+var assign          = Object.assign || require('object-assign');
 var React           = require('react');
 var ReactDOM        = require('react-dom');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
@@ -230,15 +231,19 @@ describe('Routing', function() {
   });
 
   describe('Navigation lifecycle callbacks', function () {
-    it('calls onBeforeNaviation and onNavigation', function(done) {
+    it('calls onBeforeNavigation and onNavigation', function(done) {
       assertRendered('mainpage');
       var called = [];
       app.setState({
-        beforeNavigationHandler: function (nextPath) {
+        beforeNavigationHandler: function (nextPath, navigation, match) {
           called.push(nextPath);
+          assert.equal(match.match.slug, 'hello');
+          assert(!navigation.match);
         },
-        navigationHandler: function (path) {
+        navigationHandler: function (path, navigation, match) {
           called.push(path);
+          assert.equal(match.match.slug, 'hello');
+          assert(!navigation.match);
         }
       });
       router.navigate('/__zuul/hello', function () {
@@ -390,7 +395,7 @@ describe('Nested routers', function() {
   var NestedRouter = React.createClass({
     render: function() {
       return div(null,
-        Locations(null,
+        Locations(this.props,
           Location({
             path: '/__zuul/nested/',
             handler: div(null, 'nested/root')
@@ -405,9 +410,17 @@ describe('Nested routers', function() {
 
   var App = React.createClass({
 
+    getInitialState: function() {
+      return {};
+    },
+
     render: function() {
       return div(null,
-        Locations({ref: 'router', className: 'App'},
+        Locations({
+          ref: 'router', className: 'App',
+          onNavigation: this.state.navigationHandler,
+          onBeforeNavigation: this.state.beforeNavigationHandler
+        },
           Location({
             path: '/__zuul',
             foo: 'bar',
@@ -420,7 +433,9 @@ describe('Nested routers', function() {
           }),
           Location({
             path: '/__zuul/nested/*',
-            handler: NestedRouter
+            handler: NestedRouter,
+            onNavigation: this.state.navigationHandler,
+            onBeforeNavigation: this.state.beforeNavigationHandler
           })
         ),
         CaptureClicks({gotoURL: this.gotoURL},
@@ -453,6 +468,42 @@ describe('Nested routers', function() {
     assertRendered('mainpage');
     router.navigate('/__zuul/nested/', function() {
       assertRendered('nested/root');
+      done();
+    });
+  });
+
+  it('calls onBeforeNaviation and onNavigation with correct match objects w/ multiple routers', function(done) {
+    assertRendered('mainpage');
+    var called = [];
+    router.navigate('/__zuul/nested/');
+    // Goes beforeNav, beforeNav, nav, nav
+    app.setState({
+      beforeNavigationHandler: function (nextPath, navigation, match) {
+        called.push(nextPath);
+        if (called.length === 1) {
+          assert.equal(match.match._[0], 'page');
+          assert.equal(match.matchedPath, '/__zuul/nested/');
+        } else {
+          assert.equal(match.matchedPath, '/__zuul/nested/page');
+        }
+        assert(!navigation.match);
+      },
+      navigationHandler: function (path, navigation, match) {
+        called.push(path);
+        if (called.length === 3) {
+          assert.equal(match.match._[0], 'page');
+          assert.equal(match.matchedPath, '/__zuul/nested/');
+        } else {
+          assert.equal(match.matchedPath, '/__zuul/nested/page');
+        }
+        assert(!navigation.match);
+      }
+    });
+    router.navigate('/__zuul/nested/page', function () {
+      assert.equal(called.length, 4);
+      called.forEach(function(c) {
+        assert.equal(c, '/__zuul/nested/page');
+      });
       done();
     });
   });
@@ -498,7 +549,7 @@ describe('Contextual routers', function() {
 
     render: function() {
       return div(null,
-        Locations({ref: 'router', contextual: true},
+        Locations(assign({ref: 'router', contextual: true}, this.props),
           Location({
             path: '/',
             handler: div(null, 'subcat/root')
@@ -519,8 +570,16 @@ describe('Contextual routers', function() {
 
   var App = React.createClass({
 
+    getInitialState: function() {
+      return {};
+    },
+
     render: function() {
-      return Locations({ref: 'router'},
+      return Locations({
+        ref: 'router',
+        onNavigation: this.state.navigationHandler,
+        onBeforeNavigation: this.state.beforeNavigationHandler
+      },
         Location({
           path: '/__zuul',
           handler: div(null, "mainpage")
@@ -528,7 +587,9 @@ describe('Contextual routers', function() {
         Location({
           path: '/__zuul/subcat/*',
           handler: SubCat,
-          ref: 'subcat'
+          ref: 'subcat',
+          onNavigation: this.state.navigationHandler,
+          onBeforeNavigation: this.state.beforeNavigationHandler
         })
       );
     }
@@ -585,6 +646,39 @@ describe('Contextual routers', function() {
         assertRendered('mainpage');
         done();
       });
+    });
+  });
+
+  it('calls onBeforeNaviation and onNavigation with correct match objects w/ contextual routers', function(done) {
+    assertRendered('mainpage');
+    var called = [];
+    router.navigate('/__zuul/subcat/');
+    // Goes beforeNav, beforeNav, nav, nav
+    app.setState({
+      beforeNavigationHandler: function (nextPath, navigation, match) {
+        called.push(nextPath);
+        if (called.length === 1) {
+          assert.equal(match.match._[0], 'page');
+          assert.equal(match.matchedPath, '/__zuul/subcat/');
+        } else {
+          assert.equal(match.matchedPath, '/page');
+        }
+        assert(!navigation.match);
+      },
+      navigationHandler: function (path, navigation, match) {
+        called.push(path);
+        if (called.length === 3) {
+          assert.equal(match.match._[0], 'page');
+          assert.equal(match.matchedPath, '/__zuul/subcat/');
+        } else {
+          assert.equal(match.matchedPath, '/page');
+        }
+        assert(!navigation.match);
+      }
+    });
+    router.navigate('/__zuul/subcat/page', function () {
+      assert.equal(called.length, 4);
+      done();
     });
   });
 });
