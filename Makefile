@@ -19,7 +19,7 @@ test-server:
 	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --compilers js:babel/register -b tests/server/*.js
 
 test-local:
-	@env NODE_ENV=test ./node_modules/.bin/babel tests/browser/browser-jsx.jsx > tests/browser/browser-jsx.js
+	@env NODE_ENV=test ./node_modules/.bin/babel -f tests/browser/browser-jsx.jsx tests/browser/browser-jsx.jsx -o tests/browser/browser-jsx.js
 	@env NODE_ENV=test ./node_modules/.bin/zuul --local 3000  -- tests/browser/*.js
 
 test-cloud:
