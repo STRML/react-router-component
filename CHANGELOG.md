@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.33.0
+  - Possibly breaking changes to callbacks:
+    - `onNavigation` and `onBeforeNavigation` is now called on all routers.
+      - This fixes [#95](https://github.com/STRML/react-router-component/issues/95)
+    - Arity change in callbacks: now `(path, navigation, match)` from `(path, navigation)`.
+      - The trailing `match` parameter was added to better track subrouter matches.
+      - `navigation` will no longer contain a `match` attribute, which was a singleton and thus
+        could not be unique when using multiple routers.
+
 ## 0.32.2
   - Hotfix: Accidental 'const', we're not using Babel
 
