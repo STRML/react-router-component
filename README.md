@@ -52,10 +52,6 @@ React router component is packaged on npm:
 
     % npm install react-router-component
 
-## Compatibility
-
-Compatible with React 0.12 and React 0.13. Older versions work with older versions of React, see the commit log.
-
 ## Docs
 
 * [Overview and Usage][docs]
