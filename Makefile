@@ -13,14 +13,14 @@ test: test-unit test-server
 	@echo "The browser test suite should be run before commit. Run 'make test-local' to run it."
 
 test-unit:
-	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --compilers js:babel/register -b tests/unit/*.js
+	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --compilers js:babel-register -b tests/unit/*.js
 
 test-server:
-	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --compilers js:babel/register -b tests/server/*.js
+	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --compilers js:babel-register -b tests/server/*.js
 
 test-local:
 	@env NODE_ENV=test ./node_modules/.bin/babel -f tests/browser/browser-jsx.jsx tests/browser/browser-jsx.jsx -o tests/browser/browser-jsx.js
-	@env NODE_ENV=test ./node_modules/.bin/zuul --local 3000  -- tests/browser/*.js
+	@env NODE_ENV=test ./node_modules/.bin/zuul --local 3000 -- tests/browser/*.js
 
 test-cloud:
 	@env NODE_ENV=test ./node_modules/.bin/zuul -- tests/browser/*.js

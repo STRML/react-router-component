@@ -1,4 +1,7 @@
 'use strict';
+
+var _powerAssertRecorder = function () { function PowerAssertRecorder() { this.captured = []; } PowerAssertRecorder.prototype._capt = function _capt(value, espath) { this.captured.push({ value: value, espath: espath }); return value; }; PowerAssertRecorder.prototype._expr = function _expr(value, source) { return { powerAssertContext: { value: value, events: this.captured }, source: source }; }; return PowerAssertRecorder; }();
+
 var assert = require('power-assert');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -25,11 +28,14 @@ function getRenderedContent() {
 }
 
 function assertRendered(text) {
-  assert.equal(assert._expr(assert._capt(getRenderedContent(), 'arguments/0'), {
+  var _rec = new _powerAssertRecorder(),
+      _rec2 = new _powerAssertRecorder();
+
+  assert.equal(_rec._expr(_rec._capt(getRenderedContent(), 'arguments/0'), {
     content: 'assert.equal(getRenderedContent(), text)',
     filepath: 'tests/browser/browser-jsx.jsx',
     line: 31
-  }), assert._expr(assert._capt(text, 'arguments/1'), {
+  }), _rec2._expr(_rec2._capt(text, 'arguments/1'), {
     content: 'assert.equal(getRenderedContent(), text)',
     filepath: 'tests/browser/browser-jsx.jsx',
     line: 31
@@ -131,4 +137,3 @@ describe('JSX + Routing with async components', function () {
     });
   });
 });
-
