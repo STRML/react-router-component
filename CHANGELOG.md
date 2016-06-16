@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.34.0
+  - Update dependencies.
+  - Move to Babel 6.
+
 ## 0.33.0
   - Possibly breaking changes to callbacks:
     - `onNavigation` and `onBeforeNavigation` is now called on all routers.
