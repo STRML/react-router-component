@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.35.0 (Jul 1, 2016)
+  - Update for React v15.2.0: attempt to pass fewer unknown props to DOM elements.
+  - Tighten up some missing `propTypes`.
+
 ## 0.34.0
   - Update dependencies.
   - Move to Babel 6.
