@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "object-assign": "^4.1.0",
+    "object.omit": "^2.0.0",
     "qs": "^6.2.0",
     "url-pattern": "~1.0.1",
     "urllite": "~0.5.0"
