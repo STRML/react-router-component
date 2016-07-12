@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.36.0 (Jul 12, 2016)
+  - Router: Avoid unnecessary `setPath()` calls when receiving identical props. Fixes #177
+  - CaptureClicks: Potentially breaking change:
+    - Previously, `<CaptureClicks>` would call `props.gotoURL()` (default: `window.location.href = e.href`) as soon
+      as the first router failed to match. This was error-prone as it depended on the registration order of routers.
+      Subrouters with limited routes could cause navigation not to occur.
+      - This was masked somewhat by the extraenous `setPath()` calls. Navigation would occur, but `onNavigation` would
+        not fire.
+    - Now, `<CaptureClicks>` calls `props.gotoURL()` only if all routers fail to match.
+
 ## 0.35.0 (Jul 1, 2016)
   - Update for React v15.2.0: attempt to pass fewer unknown props to DOM elements.
   - Tighten up some missing `propTypes`.
