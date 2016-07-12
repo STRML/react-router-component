@@ -472,7 +472,7 @@ describe('Nested routers', function() {
     });
   });
 
-  it('calls onBeforeNaviation and onNavigation with correct match objects w/ multiple routers', function(done) {
+  it('calls onBeforeNavigation and onNavigation with correct match objects w/ multiple routers', function(done) {
     assertRendered('mainpage');
     var called = [];
     router.navigate('/__zuul/nested/');
@@ -649,7 +649,7 @@ describe('Contextual routers', function() {
     });
   });
 
-  it('calls onBeforeNaviation and onNavigation with correct match objects w/ contextual routers', function(done) {
+  it('calls onBeforeNavigation and onNavigation with correct match objects w/ contextual routers', function(done) {
     assertRendered('mainpage');
     var called = [];
     router.navigate('/__zuul/subcat/');
