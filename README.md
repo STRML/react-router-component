@@ -40,7 +40,7 @@ Furthermore it provides advanced features like support for [regex matching][rege
 [full page server side rendering][server-side], [multiple routers][multiple] on the same page,
 [querystring parsing][querystring], and [contextual routers][contextual].
 
-Its functionality is tested using [Saucelabs][] on all modern browsers (IE >= 9,
+Its functionality is tested using [Saucelabs](https://saucelabs.com) on all modern browsers (IE >= 9,
 Chrome >= 27, Firefox >= 25, Safari >= 6 and Mobile Safari on iPhone and iPad >=
 6).
 
