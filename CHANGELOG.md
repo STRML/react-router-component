@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.36.1 (Nov 12, 2016)
+  - Fix `component` propType. Thanks @jsg2021.
+
 ## 0.36.0 (Jul 12, 2016)
   - Router: Avoid unnecessary `setPath()` calls when receiving identical props. Fixes #177
   - CaptureClicks: Potentially breaking change:
