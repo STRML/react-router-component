@@ -1,0 +1,7 @@
+.*.yml
+bundle.js
+tests
+examples
+docs
+Makefile
+yarn.lock
