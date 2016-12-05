@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.36.2 (Dec 5, 2016)
+  - Remove usage of `React.DOM.*`, which will soon be deprecated in React 16 and has incompatibilities with
+    Preact, Inferno, etc.
+
 ## 0.36.1 (Nov 12, 2016)
   - Fix `component` propType. Thanks @jsg2021.
 
