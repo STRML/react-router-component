@@ -1,6 +1,3 @@
-/**
- * @jsx React.DOM
- */
 "use strict";
 
 var qs          = require('querystring');
