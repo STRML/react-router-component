@@ -34,8 +34,8 @@ In this example, the decoder would ensure that UserPage gets `username="foo@bar.
 
 ```
 const decoders = {
-    //for every named segment, there can be a decode function...
-    username: (value) => decodeURIComponent(value)
+  //for every named segment, there can be a decode function...
+  username: (value) => decodeURIComponent(value)
 }
 
 function View (props) {
@@ -53,3 +53,27 @@ function View (props) {
 }
 ```
 
+Also, if you have a single function that handles all the names & values you can pass it in. Ex:
+
+```
+function decodeRouteValues (name, value) {
+  if (name === 'username') {
+    return decodeUsername(value);
+  }
+  return value;
+}
+
+function View (props) {
+  return (
+    <Locations 
+      urlPatternOptions={{
+        namedSegmentValueDecoders: decodeRouteValues, //pass the decoder
+        segmentValueCharset: 'a-zA-Z0-9-+_.%' //allow email-like values
+      }}
+    >
+      <Location path="/" handler={MainPage} />
+      <Location path="/users/:username" handler={UserPage} />
+    </Locations>
+  );
+}
+```
