@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## next
-  - Add the ability to decode named segments in routes before they are given as props to handlers. See the [url pattern docs](http://strml.viewdocs.io/react-router-component/override-url-pattern).
+## 0.36.4 (Jan 23, 2016)
+  - Add the ability to decode named segments in routes before they are given as props to handlers. See the
+    [url pattern docs](http://strml.viewdocs.io/react-router-component/override-url-pattern).
 
 ## 0.36.3 (Dec 5, 2016)
   - Reduce npm tarball size by 80% (excluding docs, examples, etc)
