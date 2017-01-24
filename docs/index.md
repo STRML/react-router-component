@@ -80,7 +80,7 @@ into `Locations` router:
             <Location path="/" handler={MainPage} />
             <Location path="/users/:username" handler={UserPage} />
             <Location path={/\/friends\/(\d+)\/(photos|wall)/} handler={FriendsPage}
-              matchKeys={['id', 'pageName']} />
+              urlPatternOptions={['id', 'pageName']} />
           </Locations>
         )
       }
