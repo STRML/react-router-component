@@ -20,7 +20,7 @@ test-server:
 
 test-local:
 	@env NODE_ENV=test ./node_modules/.bin/babel -f tests/browser/browser-jsx.jsx tests/browser/browser-jsx.jsx -o tests/browser/browser-jsx.js
-	@env NODE_ENV=test ./node_modules/.bin/zuul --local 3000 -- tests/browser/*.js
+	@env NODE_ENV=test DEBUG=zuul:* ./node_modules/.bin/zuul --debug --local -- tests/browser/*.js
 
 test-cloud:
 	@env NODE_ENV=test ./node_modules/.bin/zuul -- tests/browser/*.js

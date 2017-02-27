@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.36.5 (Feb 27, 2017)
+  - Fix a few unknown props errors. Thanks @BlakeRxxk. Ref: #178, #181
+  - Update dev dependencies.
+
 ## 0.36.4 (Jan 23, 2016)
   - Add the ability to decode named segments in routes before they are given as props to handlers. See the
     [url pattern docs](http://strml.viewdocs.io/react-router-component/override-url-pattern).
