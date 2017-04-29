@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.37.0 (Apr 29, 2017)
+  - Import `create-react-class` and `prop-types` to deal with React 15.5 warnings. Thanks @curquhart
+
 ## 0.36.5 (Feb 27, 2017)
   - Fix a few unknown props errors. Thanks @BlakeRxxk. Ref: #178, #181
   - Update dev dependencies.
