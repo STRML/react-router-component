@@ -3,6 +3,7 @@ var assert          = require('assert');
 var assign          = Object.assign || require('object-assign');
 var React           = require('react');
 var ReactDOM        = require('react-dom');
+var CreateReactClass = require('create-react-class');
 var ReactTestUtils  = require('react/lib/ReactTestUtils');
 var EventConstants  = require('react/lib/EventConstants');
 var Router          = require('../../index');
@@ -25,7 +26,7 @@ var div = React.createFactory('div');
 var a = React.createFactory('a');
 
 function divProps(children, prop) {
-  return React.createClass({
+  return CreateReactClass({
     render: function() {
       var propVal = this.props[prop];
       if (typeof propVal === 'object') propVal = JSON.stringify(propVal);
@@ -83,7 +84,7 @@ describe('Routing', function() {
 
   if (!historyAPI) return;
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     getInitialState: function() {
       return {};
@@ -103,7 +104,7 @@ describe('Routing', function() {
             // To reach through a Location boundary, you must put a ref
             // on the Location itself, and the handler. We used to be able to just clone
             // the handler with the ref, but React now throws warnings on that use.
-            handler: React.createClass({
+            handler: CreateReactClass({
               render: function() {
                 return Link({
                   ref: 'inner',
@@ -392,7 +393,7 @@ describe('Nested routers', function() {
 
   if (!historyAPI) return;
 
-  var NestedRouter = React.createClass({
+  var NestedRouter = CreateReactClass({
     render: function() {
       return div(null,
         Locations(this.props,
@@ -408,7 +409,7 @@ describe('Nested routers', function() {
     }
   });
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     getInitialState: function() {
       return {};
@@ -425,7 +426,7 @@ describe('Nested routers', function() {
             path: '/__zuul',
             foo: 'bar',
             ref: 'link',
-            handler: React.createClass({
+            handler: CreateReactClass({
               render: function() {
                 return Link({foo: this.props.foo, href: '/__zuul/hello'}, 'mainpage')
               }
@@ -545,7 +546,7 @@ describe('Contextual routers', function() {
 
   if (!historyAPI) return;
 
-  var SubCat = React.createClass({
+  var SubCat = CreateReactClass({
 
     render: function() {
       return div(null,
@@ -568,7 +569,7 @@ describe('Contextual routers', function() {
     }
   });
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     getInitialState: function() {
       return {};
@@ -687,7 +688,7 @@ describe('Multiple active routers', function() {
 
   if (!historyAPI) return;
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     render: function() {
       var router1 = Locations({ref: 'router1', className: 'App'},
@@ -698,7 +699,7 @@ describe('Multiple active routers', function() {
         }),
         Location({
           path: '/__zuul/:slug',
-          handler: React.createClass({
+          handler: CreateReactClass({
             render: function() {
               return div(null, this.props.slug + '1');
             }
@@ -714,7 +715,7 @@ describe('Multiple active routers', function() {
         }),
         Location({
           path: '/__zuul/:slug',
-          handler: React.createClass({
+          handler: CreateReactClass({
             render: function() {
               return div(null, this.props.slug + '2');
             }
@@ -764,7 +765,7 @@ describe('Multiple active routers', function() {
 
 describe('Hash routing', function() {
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     render: function() {
       return Locations({ref: 'router', hash: true, className: 'App'},
@@ -779,7 +780,7 @@ describe('Hash routing', function() {
         }),
         Location({
           path: '/:slug',
-          handler: React.createClass({
+          handler: CreateReactClass({
             render: function() {
               return div(null, this.props.slug);
             }
@@ -860,7 +861,7 @@ describe('Hash routing', function() {
 
 describe('Contextual Hash routers', function() {
 
-  var SubCat = React.createClass({
+  var SubCat = CreateReactClass({
 
     render: function() {
       return div(null,
@@ -878,7 +879,7 @@ describe('Contextual Hash routers', function() {
     }
   });
 
-  var App = React.createClass({
+  var App = CreateReactClass({
 
     render: function() {
       return Locations({ref: 'router', hash: true},

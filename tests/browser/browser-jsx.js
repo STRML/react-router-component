@@ -5,6 +5,7 @@ var _powerAssertRecorder = function () { function PowerAssertRecorder() { this.c
 var assert = require('power-assert');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var CreateReactClass = require('create-react-class');
 var Router = require('../../index');
 
 var historyAPI = window.history !== undefined && window.history.pushState !== undefined;
@@ -62,7 +63,7 @@ describe('JSX + Routing with async components', function () {
 
   if (!historyAPI) return;
 
-  var Main = React.createClass({
+  var Main = CreateReactClass({
     displayName: 'Main',
 
     render: function render() {
@@ -74,7 +75,7 @@ describe('JSX + Routing with async components', function () {
     }
   });
 
-  var Page1 = React.createClass({
+  var Page1 = CreateReactClass({
     displayName: 'Page1',
 
     render: function render() {
@@ -86,7 +87,7 @@ describe('JSX + Routing with async components', function () {
     }
   });
 
-  var Page2 = React.createClass({
+  var Page2 = CreateReactClass({
     displayName: 'Page2',
 
     render: function render() {
@@ -98,7 +99,7 @@ describe('JSX + Routing with async components', function () {
     }
   });
 
-  var App = React.createClass({
+  var App = CreateReactClass({
     displayName: 'App',
 
     render: function render() {

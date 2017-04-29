@@ -9,7 +9,9 @@ need is to pass a `path` prop to a router so it can determine which location to
 render without accessing `window.location.pathname` (which isn't available on
 server):
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (
@@ -58,8 +60,9 @@ similar to `Locations` but renders directly into `<body>` DOM element.
     var Router = require('react-router-component')
     var Pages = Router.Pages
     var Page = Router.Page
+    var CreateReactClass = require('create-react-class');
 
-    var App = React.createClass({
+    var App = CreateReactClass({
 
       render: function() {
         return (

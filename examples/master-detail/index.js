@@ -2,11 +2,12 @@
 
 var React = require('react');
 var ReactRouter = require('../../');
+var CreateReactClass = require('create-react-class');
 var Locations = ReactRouter.Locations;
 var Location = ReactRouter.Location;
 var Link = ReactRouter.Link;
 
-var Master = React.createClass({
+var Master = CreateReactClass({
 
   render: function() {
     var links = [1, 2, 3, 4, 5].map((item) =>
@@ -18,7 +19,7 @@ var Master = React.createClass({
   }
 });
 
-var Detail = React.createClass({
+var Detail = CreateReactClass({
 
   render: function() {
     return (
@@ -29,7 +30,7 @@ var Detail = React.createClass({
   }
 });
 
-var Page = React.createClass({
+var Page = CreateReactClass({
 
   render: function() {
     return (
@@ -41,7 +42,7 @@ var Page = React.createClass({
   }
 });
 
-var App = React.createClass({
+var App = CreateReactClass({
 
   render: function() {
     return (

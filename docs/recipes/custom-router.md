@@ -51,7 +51,9 @@ handler is rendered. It provides a method `renderRouteHandler()`.
 
 We can now define our custom routers like this:
 
-    var Application = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var Application = CreateReactClass({
       mixins: [MyRouterMixin],
 
       routes: {

@@ -14,8 +14,9 @@ Just wrap these sections with a `CaptureClicks` component:
     var Locations = Router.Locations
     var Location = Router.Location
     var CaptureClicks = require('react-router-component/lib/CaptureClicks')
+    var CreateReactClass = require('create-react-class');
 
-    var Page = React.createClass({
+    var Page = CreateReactClass({
       render: function() {
         return (
           <div>
@@ -28,7 +29,7 @@ Just wrap these sections with a `CaptureClicks` component:
       }
     })
 
-    var App = React.createClass({
+    var App = CreateReactClass({
       render: function() {
         return (
           <CaptureClicks>

@@ -1,5 +1,7 @@
 'use strict';
 var React = require('react');
+var CreateReactClass = require('create-react-class');
+var PropTypes = require('prop-types');
 var Router = require('react-router-component');
 
 /**
@@ -7,7 +9,7 @@ var Router = require('react-router-component');
  * The actual function that switches the title is not implemented here, as that 
  * can be environment-specific in isomorphic apps.
  */
-var TitleSwitcher = React.createClass({
+var TitleSwitcher = CreateReactClass({
   mixins: [
     Router.AsyncRouteRenderingMixin,
     Router.RouterMixin,
@@ -15,8 +17,8 @@ var TitleSwitcher = React.createClass({
   ],
 
   propTypes: {
-    messages: React.PropTypes.object,
-    component: React.PropTypes.node
+    messages: PropTypes.object,
+    component: PropTypes.node
   },
 
   getDefaultProps: function() {

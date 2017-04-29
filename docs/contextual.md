@@ -4,7 +4,9 @@ Contextual router is a router which can be mounted under another router. Such
 router is not aware of the global `location.pathname` and routes only the
 unmatched part of the parent router.
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (
@@ -16,7 +18,7 @@ unmatched part of the parent router.
       }
     })
 
-    var Photos = React.createClass({
+    var Photos = CreateReactClass({
 
       render: function() {
         return (
@@ -38,7 +40,7 @@ If you use `Link` components inside a contextual router, its `href` would be
 scoped to this router. In the following example, the link *"back to albums"*
 would trigger transition to `/photos/` URL.
 
-    var PhotoPage = React.createClass({
+    var PhotoPage = CreateReactClass({
 
       render: function() {
         return (
