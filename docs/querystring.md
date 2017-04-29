@@ -26,8 +26,8 @@ For example:
 
     var QueryPage = CreateReactClass({
       propTypes: {
-        bar: prop-types.string,
-        _query: prop-types.object
+        bar: propTypes.string,
+        _query: propTypes.object
       },
 
       render: function() {
