@@ -2,6 +2,7 @@
 var assert          = require('power-assert');
 var React           = require('react');
 var ReactDOM        = require('react-dom');
+var CreateReactClass = require('create-react-class');
 var Router          = require('../../index');
 
 var historyAPI = (
@@ -54,25 +55,25 @@ describe('JSX + Routing with async components', function() {
 
   if (!historyAPI) return;
 
-  var Main = React.createClass({
+  var Main = CreateReactClass({
     render: function() {
       return <div>Main</div>;
     }
   });
 
-  var Page1 = React.createClass({
+  var Page1 = CreateReactClass({
     render: function() {
       return <div>Page1</div>;
     }
   });
 
-  var Page2 = React.createClass({
+  var Page2 = CreateReactClass({
     render: function() {
       return <div>{this.props.text}</div>;
     }
   });
 
-  var App = React.createClass({
+  var App = CreateReactClass({
     render: function() {
       var Locations = Router.Locations;
       var Location = Router.Location;

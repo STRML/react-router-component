@@ -72,7 +72,9 @@ Otherwise, as of React 0.12, you must create factories:
 Now you can define your application as a regular React component which renders
 into `Locations` router:
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (
@@ -124,8 +126,9 @@ other location is matched. For that there's a special `NotFound` location
 descriptor:
 
     var NotFound = Router.NotFound
+    var CreateReactClass = require('create-react-class');
 
-    var App = React.createClass({
+    var App = CreateReactClass({
 
       render: function() {
         return (
@@ -148,8 +151,9 @@ As an example, let's see how `MainPage` component can be implemented with the
 usage of the `Link` component to transition to a `UserPage`:
 
     var Link = require('react-router-component').Link
+    var CreateReactClass = require('create-react-class');
 
-    var MainPage = React.createClass({
+    var MainPage = CreateReactClass({
 
       render: function() {
         return (

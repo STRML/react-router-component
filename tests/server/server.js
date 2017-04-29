@@ -1,5 +1,6 @@
 import assert from 'power-assert';
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOMServer from 'react-dom/server';
 import { Link, Location, Locations, Pages, NotFound } from '../../index';
 
@@ -243,7 +244,7 @@ describe('react-router-component (on server)', function() {
     }
 
     Inner.contextTypes = {
-      flux: React.PropTypes.object
+      flux: PropTypes.object
     };
 
     Inner.displayName = 'Inner';
@@ -277,7 +278,7 @@ describe('react-router-component (on server)', function() {
     }
 
     App.childContextTypes = {
-      flux: React.PropTypes.object
+      flux: PropTypes.object
     };
 
     it('renders to / with context intact', function() {

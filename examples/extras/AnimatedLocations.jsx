@@ -1,12 +1,13 @@
 'use strict';
 var React = require('react');
+var CreateReactClass = require('create-react-class');
 var Router = require('react-router-component');
 var TransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 
 /**
  * AnimatedLocations is an extension of the <Locations> object that animates route transitions.
  */
-var AnimatedLocations = React.createClass({
+var AnimatedLocations = CreateReactClass({
   mixins: [
     Router.AsyncRouteRenderingMixin,
     Router.RouterMixin,

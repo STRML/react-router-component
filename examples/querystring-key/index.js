@@ -2,6 +2,7 @@
 
 var qs          = require('querystring');
 var React       = require('react');
+var CreateReactClass = require('create-react-class');
 var Router      = require('../../');
 var Environment = require('../../lib/Environment');
 
@@ -65,7 +66,7 @@ var Context = {
   }
 };
 
-var Tabs = React.createClass({
+var Tabs = CreateReactClass({
 
   mixins: [Context],
 
@@ -95,14 +96,14 @@ var Tabs = React.createClass({
   }
 });
 
-var Tab1 = React.createClass({
+var Tab1 = CreateReactClass({
 
   render: function() {
     return <div>Tab1</div>;
   }
 });
 
-var Tab2 = React.createClass({
+var Tab2 = CreateReactClass({
 
   render: function() {
     return <div>Tab2</div>;

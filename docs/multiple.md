@@ -5,7 +5,9 @@ You can have multiple routers active at the same time.
 Define several components which use `Locations` router to dispatch to different
 UI components:
 
-    var Sidebar = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var Sidebar = CreateReactClass({
 
       render: function() {
         return (
@@ -17,7 +19,7 @@ UI components:
       }
     })
 
-    var Content = React.createClass({
+    var Content = CreateReactClass({
 
       render: function() {
         return (
@@ -31,7 +33,9 @@ UI components:
 
 Then combine them into a single component:
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (

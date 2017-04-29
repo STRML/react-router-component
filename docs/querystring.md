@@ -9,7 +9,10 @@ The route `/foo/:bar` will match both `/foo/biff` and `/foo/baz?biff=baz&num=1`.
 
 For example:
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+    var PropTypes = require('prop-types');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (<Locations path={this.props.path)}
@@ -21,10 +24,10 @@ For example:
       }
     });
 
-    var QueryPage = React.createClass({
+    var QueryPage = CreateReactClass({
       propTypes: {
-        bar: React.PropTypes.string,
-        _query: React.PropTypes.object
+        bar: prop-types.string,
+        _query: prop-types.object
       },
 
       render: function() {

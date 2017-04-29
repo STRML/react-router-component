@@ -8,8 +8,9 @@ which wraps original `Link` component:
 
     var React = require('react')
     var Router = require('react-router-component')
+    var CreateReactClass = require('create-react-class');
 
-    var HighlightedLink = React.createClass({
+    var HighlightedLink = CreateReactClass({
 
       mixins: [Router.NavigatableMixin],
 

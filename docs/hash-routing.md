@@ -11,7 +11,9 @@ location but everything else will be working as expected.
 
 To use hash routing you need to pass a `hash` prop to a router:
 
-    var App = React.createClass({
+    var CreateReactClass = require('create-react-class');
+
+    var App = CreateReactClass({
 
       render: function() {
         return (
