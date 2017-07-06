@@ -57,7 +57,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /cat/:id with a custom url-pattern options and periods in param', function() {
-    var match = matchRoutes(routes, '/cat/hello.with.periods', {
+    var match = matchRoutes(routes, '/cat/hello.with.periods', null, {
       segmentValueCharset: 'a-zA-Z0-9_\\- %\\.'
     });
     assert(match.route);
@@ -83,7 +83,7 @@ describe('matchRoutes', function() {
       wildcardChar: '?'
     };
 
-    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', urlPatternOptions);
+    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', null, urlPatternOptions);
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'parseDomain');
     assert.deepEqual(match.match, {sub_domain: 'www', domain: 'github', 'toplevel-domain': 'com',
