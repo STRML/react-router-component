@@ -35,11 +35,11 @@ function assertRendered(text) {
   assert.equal(_rec._expr(_rec._capt(getRenderedContent(), 'arguments/0'), {
     content: 'assert.equal(getRenderedContent(), text)',
     filepath: 'tests/browser/browser-jsx.jsx',
-    line: 31
+    line: 32
   }), _rec2._expr(_rec2._capt(text, 'arguments/1'), {
     content: 'assert.equal(getRenderedContent(), text)',
     filepath: 'tests/browser/browser-jsx.jsx',
-    line: 31
+    line: 32
   }));
 }
 
@@ -64,8 +64,6 @@ describe('JSX + Routing with async components', function () {
   if (!historyAPI) return;
 
   var Main = CreateReactClass({
-    displayName: 'Main',
-
     render: function render() {
       return React.createElement(
         'div',
@@ -76,8 +74,6 @@ describe('JSX + Routing with async components', function () {
   });
 
   var Page1 = CreateReactClass({
-    displayName: 'Page1',
-
     render: function render() {
       return React.createElement(
         'div',
@@ -88,8 +84,6 @@ describe('JSX + Routing with async components', function () {
   });
 
   var Page2 = CreateReactClass({
-    displayName: 'Page2',
-
     render: function render() {
       return React.createElement(
         'div',
@@ -100,8 +94,6 @@ describe('JSX + Routing with async components', function () {
   });
 
   var App = CreateReactClass({
-    displayName: 'App',
-
     render: function render() {
       var Locations = Router.Locations;
       var Location = Router.Location;

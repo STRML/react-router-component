@@ -4,8 +4,7 @@ var assign          = Object.assign || require('object-assign');
 var React           = require('react');
 var ReactDOM        = require('react-dom');
 var CreateReactClass = require('create-react-class');
-var ReactTestUtils  = require('react/lib/ReactTestUtils');
-var EventConstants  = require('react/lib/EventConstants');
+var ReactTestUtils  = require('react-dom/test-utils');
 var Router          = require('../../index');
 var CaptureClicks   = React.createFactory(require('../../lib/CaptureClicks'));
 var Location        = React.createFactory(Router.Location);
@@ -57,10 +56,7 @@ function assertRendered(text) {
 }
 
 function clickOn(component) {
-  ReactTestUtils.simulateNativeEventOnDOMComponent(
-    EventConstants.topLevelTypes.topClick,
-    component,
-    {});
+  ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(component), {button: 0});
 }
 
 function cleanUp(done) {
