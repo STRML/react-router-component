@@ -129,6 +129,8 @@ describe('Routing', function() {
         CaptureClicks({gotoURL: this.gotoURL},
           a({ref: 'anchor', href: '/__zuul/hi'}),
           a({ref: 'anchorUnhandled', href: '/goodbye'}),
+          a({ref: 'anchorQuery', href: '/query-it?foo=bar'}),
+          a({ref: 'anchorHash', href: '/hash-it#foo=bar'}),
           a({ref: 'anchorExternal', href: 'https://github.com/andreypopp/react-router-component'}),
           a({ref: 'anchorPrevented', href: '#'})
         ),
@@ -341,6 +343,28 @@ describe('Routing', function() {
         assertRendered('hi');
         done();
       });
+    });
+
+    it("Passes on query strings", function(done) {
+      assertRendered('mainpage');
+      app.setState({
+        gotoURL: function(url) {
+          assert(url.indexOf('/query-it?foo=bar') !== -1);
+          done();
+        }
+      });
+      clickOn(app.refs.anchorQuery);
+    });
+
+    it("Passes on hash", function(done) {
+      assertRendered('mainpage');
+      app.setState({
+        gotoURL: function(url) {
+          assert(url.indexOf('/hash-it#foo=bar') !== -1);
+          done();
+        }
+      });
+      clickOn(app.refs.anchorHash);
     });
 
     it("doesn't navigate if the href has another host", function(done) {
@@ -675,6 +699,31 @@ describe('Contextual routers', function() {
     });
     router.navigate('/__zuul/subcat/page', function () {
       assert.equal(called.length, 4);
+      done();
+    });
+  });
+
+  it('Passes query to subrouter', function(done) {
+    assertRendered('mainpage');
+    var called = [];
+    router.navigate('/__zuul/subcat/');
+    app.setState({
+      // Goes beforeNav, beforeNav, nav, nav
+      navigationHandler: function(path, navigation, match) {
+        called.push(path);
+        if (called.length === 1) {
+          // App
+          assert.equal(match.match._[0], 'page');
+        } else {
+          // SubCat
+          assert.equal(match.matchedPath, '/page');
+        }
+        assert.equal(match.query.foo, 'bar');
+        assert.equal(match.query.baz, 'biff');
+      }
+    });
+    router.navigate('/__zuul/subcat/page?foo=bar&baz=biff', function () {
+      assert.equal(called.length, 2);
       done();
     });
   });
