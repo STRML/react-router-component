@@ -1,5 +1,7 @@
 # React Router Component
 
+[![TravisCI Build Status](https://travis-ci.org/STRML/react-router-component.svg?branch=master)](https://travis-ci.org/STRML/react-router-component)
+
 
 |Version        | Compatibility|
 |---------------|--------------|
