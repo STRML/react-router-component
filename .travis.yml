@@ -1,10 +1,8 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
-  - "4.0"
-  - "6.0"
-  - "7.0"
+  - 4
+  - 6
+  - 8
 email:
   on_failure: change
   on_success: never

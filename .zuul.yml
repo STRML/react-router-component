@@ -9,6 +9,6 @@ browsers:
   - name: firefox
     version: '24..latest'
   - name: iphone
-    version: '6.0..latest'
+    version: '8.1..latest'
   - name: ipad
-    version: '6.0..latest'
+    version: '8.1..latest'
