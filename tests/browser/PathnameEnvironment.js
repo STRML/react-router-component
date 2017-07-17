@@ -28,4 +28,14 @@ describe('PathnameEnvironment', function() {
     assert.equal(env.getPath(), '/foo/bar/biff?key=y');
   });
 
+  it('can set state', function() {
+    env.setPath('/foo/', {state: {foo: 'bar'}});
+    assert.deepEqual(window.history.state, {foo: 'bar'});
+    assert.equal(env.getPath(), '/foo/');
+    
+    env.setPath('/bar/', {replace: true, state: {bar: 'foo'}});
+    assert.deepEqual(window.history.state, {bar: 'foo'});
+    assert.equal(env.getPath(), '/bar/');
+  });
+
 });
