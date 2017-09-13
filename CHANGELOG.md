@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.38.0 (Sep 13, 2017)
+  - Bugfix: Don't drop querystring from `<CaptureClicks>`.
+
 ## 0.37.0 (Apr 29, 2017)
   - Import `create-react-class` and `prop-types` to deal with React 15.5 warnings. Thanks @curquhart
 
