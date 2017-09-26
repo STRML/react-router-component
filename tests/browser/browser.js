@@ -511,11 +511,13 @@ describe('Nested routers', function() {
       },
       navigationHandler: function (path, navigation, match) {
         called.push(path);
+        // Note: this got switched around in order in React 16 due to some new handling
+        // on async setState
         if (called.length === 3) {
+          assert.equal(match.matchedPath, '/__zuul/nested/page');
+        } else {
           assert.equal(match.match._[0], 'page');
           assert.equal(match.matchedPath, '/__zuul/nested/');
-        } else {
-          assert.equal(match.matchedPath, '/__zuul/nested/page');
         }
         assert(!navigation.match);
       }
@@ -689,10 +691,10 @@ describe('Contextual routers', function() {
       navigationHandler: function (path, navigation, match) {
         called.push(path);
         if (called.length === 3) {
+          assert.equal(match.matchedPath, '/page');
+        } else {
           assert.equal(match.match._[0], 'page');
           assert.equal(match.matchedPath, '/__zuul/subcat/');
-        } else {
-          assert.equal(match.matchedPath, '/page');
         }
         assert(!navigation.match);
       }
@@ -712,11 +714,11 @@ describe('Contextual routers', function() {
       navigationHandler: function(path, navigation, match) {
         called.push(path);
         if (called.length === 1) {
-          // App
-          assert.equal(match.match._[0], 'page');
-        } else {
           // SubCat
           assert.equal(match.matchedPath, '/page');
+        } else {
+          // App
+          assert.equal(match.match._[0], 'page');
         }
         assert.equal(match.query.foo, 'bar');
         assert.equal(match.query.baz, 'biff');
