@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.39.0 (Sep 26, 2017)
+  - React 16 support.
+    - Note: React 16 inverts the call order of `setState(obj, cb)`. Parent components' callbacks
+      are now called first, where they previously were last.
+
 ## 0.38.0 (Sep 13, 2017)
   - Bugfix: Don't drop querystring from `<CaptureClicks>`.
 
