@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.39.1 (Feb 8, 2018)
+  - Rem `@providesModule` from copied `warning.js` which can cause issues with Flow/RN.
+
 ## 0.39.0 (Sep 26, 2017)
   - React 16 support.
     - Note: React 16 inverts the call order of `setState(obj, cb)`. Parent components' callbacks
