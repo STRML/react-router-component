@@ -43,31 +43,31 @@ describe('react-router-component (on server)', function() {
     }
 
     it('renders to /', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/mainpage/));
     });
 
     it('renders to /:slug', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/hello" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/hello" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/hello/));
     });
 
     it('renders with regex', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/y/ohhai" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/y/ohhai" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/ohhai/));
     });
 
     it('renders with regex and urlPatternOptions(matchKeys)', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/z/one/two" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/z/one/two" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/onetwo/));
     });
 
     it('renders to empty on notfound', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/notfound" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/notfound" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/not_found/));
     });
@@ -83,7 +83,7 @@ describe('react-router-component (on server)', function() {
     }
 
     it('renders to <body>', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
       assert.equal(markup, '<body class="App"><div>mainpage</div></body>');
     });
   });
@@ -106,12 +106,12 @@ describe('react-router-component (on server)', function() {
     }
 
     it('renders to <section>', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<AppSection path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<AppSection path="/" />);
       assert.equal(markup, '<section class="App"><div>mainpage</div></section>');
     });
 
     it('removes wrapper with falsy value', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<AppNoWrapper path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<AppNoWrapper path="/" />);
       assert.equal(markup, '<div>mainpage</div>');
     });
   });
@@ -143,21 +143,21 @@ describe('react-router-component (on server)', function() {
     }
 
     it('renders Link component with href scoped to its prefix', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="\/x\/nice\/hi"/));
     });
 
     it('renders global Link component with correct href (not scoped to a router)', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello2" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello2" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/href="\/hi"/));
     });
 
     it('renders Link component with href scoped to its nested context prefix', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello3/welcome" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/x/nice/hello3/welcome" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="X"/));
       assert(markup.match(/class="Y"/));
@@ -173,7 +173,7 @@ describe('react-router-component (on server)', function() {
     }
     class Level2 extends React.Component {
       render() {
-        var thisSlug = this.props.slug;
+        const thisSlug = this.props.slug;
         return <Locations className="L2" contextual={true}>
                  <Location path="/" handler={<Link href="/hello" data-slug={thisSlug} />} />
                  <Location path="/:slug" handler={RendersLinkSlug} />
@@ -183,7 +183,7 @@ describe('react-router-component (on server)', function() {
 
     class Level1 extends React.Component {
       render() {
-        var thisSlug = this.props.slug;
+        const thisSlug = this.props.slug;
         return <Locations className="L1" contextual={true}>
                  <Location path="/" handler={<Link href="/l2" data-slug={thisSlug} />} />
                  <Location path="/:slug(/*)" handler={Level2} />
@@ -200,7 +200,7 @@ describe('react-router-component (on server)', function() {
     }
 
     it('renders Link component with href scoped to its prefix', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
       assert(markup.match(/href="\/l1\/nice\/l2"/));
@@ -208,7 +208,7 @@ describe('react-router-component (on server)', function() {
     });
 
     it('renders Link component with href scoped to its prefix - trailing slash', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
       assert(markup.match(/href="\/l1\/nice\/l2"/));
@@ -216,7 +216,7 @@ describe('react-router-component (on server)', function() {
     });
 
     it('renders nested Link component with href scoped to its prefix', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/l2" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/l2" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L1"/));
       assert(markup.match(/class="L2"/));
@@ -225,7 +225,7 @@ describe('react-router-component (on server)', function() {
     });
 
     it('renders global Link component with correct href (not scoped to a router)', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/l2/foo" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/l1/nice/l2/foo" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/class="L2"/));
       assert(markup.match(/href="\/hi"/));
@@ -267,7 +267,7 @@ describe('react-router-component (on server)', function() {
       }
 
       render() {
-        var routes = this.getRoutes();
+        const routes = this.getRoutes();
 
         return <div className="App">
                  <div>
@@ -282,7 +282,7 @@ describe('react-router-component (on server)', function() {
     };
 
     it('renders to / with context intact', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
       assert(markup.match(/class="App"/));
       assert(markup.match(/flux_value/));
     });
@@ -331,24 +331,24 @@ describe('react-router-component (on server)', function() {
     }
 
     it('passes urlPatternOptions from parent <Locations>', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/1/biff/baz" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/1/biff/baz" />);
       assert(markup.match(/biff\|baz/));
     });
 
     it('merges urlPatternOptions from parent <Locations> and a <Location>', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/2/BIFF/BA" />);
+      let markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/2/BIFF/BA" />);
       assert(markup.match(/BIFF\|BA/));
       markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/2/biff/ba" />);
       assert(markup.match(/not found/));
     });
 
     it('gives urlPatternOptions on route precedence over router', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/3/biff/boff" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/3/biff/boff" />);
       assert(markup.match(/biff\|boff/));
     });
 
     it('inherits from parent contextual router', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/4/foobar" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/start/4/foobar" />);
       assert(markup.match(/undefined\|undefinedbar/));
     });
   });
@@ -376,23 +376,23 @@ describe('react-router-component (on server)', function() {
     }
 
     it('passes className', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/" />);
       assert(markup.match(/<div class="A" [^>]*>mainpage/));
     });
 
     it('does not override child classname', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/hasclassname" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/hasclassname" />);
       assert(markup.match(/<div class="ownClassname"/));
     });
 
     it('passes childProps to contextual children, but inner childProps have priority', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/nested/foo" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/nested/foo" />);
       assert.equal(markup, '<div class="X"><div class="Y" data-own-prop="true" data-from-first="A">' +
         '<div class="B" data-from-first="A" data-from-second="B">foo</div></div></div>');
     });
 
     it('keeps going and going', function() {
-      var markup = ReactDOMServer.renderToStaticMarkup(<App path="/nested/nestedAgain/bar" />);
+      const markup = ReactDOMServer.renderToStaticMarkup(<App path="/nested/nestedAgain/bar" />);
       assert.equal(markup, '<div class="X"><div class="Y" data-own-prop="true" data-from-first="A">' +
         '<div class="Z" data-own-prop="true" data-from-first="A" data-from-second="B">' +
         '<div class="C" data-from-first="A" data-from-second="B" data-from-third="C">bar' +
