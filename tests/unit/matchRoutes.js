@@ -6,7 +6,7 @@ import {Location, NotFound} from '../../';
 
 describe('matchRoutes', function() {
 
-  var routes = [
+  const routes = [
     <Location path='(/)' handler={<div name="root" />} />,
     <Location path='/cat/:id' handler={<div name="cat" />} />,
     <Location path='/mod/*' handler={<div name="mod" />} />,
@@ -17,7 +17,7 @@ describe('matchRoutes', function() {
   ];
 
   it('matches ""', function() {
-    var match = matchRoutes(routes, '');
+    const match = matchRoutes(routes, '');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'root');
     assert.deepEqual(match.match, {});
@@ -27,7 +27,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /', function() {
-    var match = matchRoutes(routes, '/');
+    const match = matchRoutes(routes, '/');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'root');
     assert.deepEqual(match.match, {});
@@ -37,7 +37,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /cat/:id', function() {
-    var match = matchRoutes(routes, '/cat/hello');
+    const match = matchRoutes(routes, '/cat/hello');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'cat');
     assert.deepEqual(match.match, {id: 'hello'});
@@ -47,7 +47,7 @@ describe('matchRoutes', function() {
   });
 
   it('fails to match /cat/:id with periods in param', function() {
-    var match = matchRoutes(routes, '/cat/hello.with.periods');
+    const match = matchRoutes(routes, '/cat/hello.with.periods');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'notfound');
     assert.deepEqual(match.match, null);
@@ -57,7 +57,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /cat/:id with a custom url-pattern options and periods in param', function() {
-    var match = matchRoutes(routes, '/cat/hello.with.periods', null, {
+    const match = matchRoutes(routes, '/cat/hello.with.periods', null, {
       segmentValueCharset: 'a-zA-Z0-9_\\- %\\.'
     });
     assert(match.route);
@@ -69,11 +69,11 @@ describe('matchRoutes', function() {
   });
 
   it('matches a very custom url-pattern compiler config', function() {
-    var route = <Location path="[http[s]!://][$sub_domain.]$domain.$toplevel-domain[/?]"
+    const route = <Location path="[http[s]!://][$sub_domain.]$domain.$toplevel-domain[/?]"
                           handler={<div name="parseDomain" />} />;
 
     // Lifted from url-pattern docs
-    var urlPatternOptions = {
+    const urlPatternOptions = {
       escapeChar: '!',
       segmentNameStartChar: '$',
       segmentNameCharset: 'a-zA-Z0-9_-',
@@ -83,7 +83,7 @@ describe('matchRoutes', function() {
       wildcardChar: '?'
     };
 
-    var match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', null, urlPatternOptions);
+    const match = matchRoutes([route], 'https://www.github.com/strml/react-router-component', null, urlPatternOptions);
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'parseDomain');
     assert.deepEqual(match.match, {sub_domain: 'www', domain: 'github', 'toplevel-domain': 'com',
@@ -94,7 +94,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /mod/wow/here', function() {
-    var match = matchRoutes(routes, '/mod/wow/here');
+    const match = matchRoutes(routes, '/mod/wow/here');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'mod');
     assert.deepEqual(match.match, {_: ['wow/here']});
@@ -104,7 +104,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /regex/text', function() {
-    var match = matchRoutes(routes, '/regex/text');
+    const match = matchRoutes(routes, '/regex/text');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'regex');
     assert.deepEqual(match.match, {_: ['text']});
@@ -114,7 +114,7 @@ describe('matchRoutes', function() {
   });
 
   it('does not match /regex/1text', function() {
-    var match = matchRoutes(routes, '/regex/1text');
+    const match = matchRoutes(routes, '/regex/1text');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'notfound');
     assert.deepEqual(match.match, null);
@@ -124,7 +124,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches /regexMatch/2/foobar', function() {
-    var match = matchRoutes(routes, '/regexMatch/2/foobar');
+    const match = matchRoutes(routes, '/regexMatch/2/foobar');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'regexMatch');
     assert.deepEqual(match.match, {name: 'regexMatch', num: '2', text: 'foobar'});
@@ -134,7 +134,7 @@ describe('matchRoutes', function() {
   });
 
   it('matches query strings', function() {
-    var match = matchRoutes(routes, '/cat/hello?foo=bar&baz=biff');
+    const match = matchRoutes(routes, '/cat/hello?foo=bar&baz=biff');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'cat');
     assert.deepEqual(match.match, {id: 'hello'});
@@ -145,7 +145,7 @@ describe('matchRoutes', function() {
   });
 
   it('handles not found', function() {
-    var match = matchRoutes(routes, '/hm');
+    const match = matchRoutes(routes, '/hm');
     assert(match.route);
     assert.strictEqual(match.route.props.handler.props.name, 'notfound');
     assert.deepEqual(match.match, null);

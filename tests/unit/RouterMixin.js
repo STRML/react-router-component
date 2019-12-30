@@ -7,7 +7,7 @@ import {Location, Locations} from '../../';
 describe('RouterMixin', function() {
     it('RouterMixin join() ensures slash', function () {
         return new Promise(function (done, fail) {
-            var component = renderer.create(
+            const component = renderer.create(
                 <Locations path="/foo/baz">
                     <Location path='/foo/:bar(/*)' handler={Sub}/>
                 </Locations>
