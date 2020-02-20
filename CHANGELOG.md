@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.40.0 (Feb 19, 2020)
+  - Ensure joined routes are slash-separated. Thanks @jsg2021. Ref: #205
+  - Various dev updates & rebuilds.
+  - Use `UNSAFE_componentWillReceiveProps` for React >= 16.3.
+    - #215 contains work in progress to move to `static getDerivedStateFromProps()`.
+
 ## 0.39.1 (Feb 8, 2018)
   - Rem `@providesModule` from copied `warning.js` which can cause issues with Flow/RN.
 
