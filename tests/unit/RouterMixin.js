@@ -1,5 +1,5 @@
 'use strict';
-import assert      from 'power-assert';
+import assert from 'node:assert/strict';
 import React       from 'react';
 import renderer    from 'react-test-renderer';
 import {Location, Locations} from '../../';

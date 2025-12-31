@@ -1,5 +1,5 @@
 'use strict';
-import assert      from 'power-assert';
+import assert from 'node:assert/strict';
 import matchRoutes from '../../lib/matchRoutes';
 import React       from 'react';
 import {Location, NotFound} from '../../';

@@ -7,23 +7,22 @@ install link:
 	@npm $@
 
 lint:
-	@./node_modules/.bin/eslint index.js `find lib tests \( -iname \*.js -o -iname \*.jsx \)`
+	@./node_modules/.bin/eslint index.js `find lib tests \( -iname \*.js -o -iname \*.jsx \) -not -path 'tests/e2e/bundle.js'`
 
 test: test-unit test-server
-	@echo "The browser test suite should be run before commit. Run 'make test-local' to run it."
+	@echo "Run 'make test-e2e' to run browser tests with Playwright."
 
 test-unit:
-	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --require @babel/register -b tests/unit/*.js
+	@env NODE_ENV=test node --no-experimental-detect-module ./node_modules/.bin/mocha -R spec --require @babel/register -b tests/unit/*.js
 
 test-server:
-	@env NODE_ENV=test ./node_modules/.bin/mocha -R spec --require @babel/register -b tests/server/*.js
+	@env NODE_ENV=test node --no-experimental-detect-module ./node_modules/.bin/mocha -R spec --require @babel/register -b tests/server/*.js
 
-test-local:
-	@env NODE_ENV=test ./node_modules/.bin/babel -f tests/browser/browser-jsx.jsx tests/browser/browser-jsx.jsx -o tests/browser/browser-jsx.js
-	@env NODE_ENV=test DEBUG=zuul:* ./node_modules/.bin/zuul --debug --local -- tests/browser/*.js
+test-e2e: build-e2e
+	@./node_modules/.bin/playwright test
 
-test-cloud:
-	@env NODE_ENV=test ./node_modules/.bin/zuul -- tests/browser/*.js
+build-e2e:
+	@./node_modules/.bin/esbuild tests/e2e/test-app.jsx --bundle --outfile=tests/e2e/bundle.js --define:process.env.NODE_ENV=\"test\"
 
 release-patch: test lint
 	@$(call release,patch)

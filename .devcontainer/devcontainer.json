@@ -1,0 +1,4 @@
+{
+  "name": "dev",
+  "image": "node:stable"
+}

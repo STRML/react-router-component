@@ -1,18 +1,10 @@
 {
   "presets": [
-    "@babel/preset-react", 
+    "@babel/preset-react",
     ["@babel/preset-env", {
-      targets: {
-        node: true
+      "targets": {
+        "node": true
       }
     }]
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        // Makes power-assert work
-        "babel-plugin-espower"
-      ]
-    }
-  }
+  ]
 }
