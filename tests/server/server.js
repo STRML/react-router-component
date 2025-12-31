@@ -1,4 +1,4 @@
-import assert from 'power-assert';
+import assert from 'node:assert/strict';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOMServer from 'react-dom/server';
