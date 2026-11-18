@@ -70,7 +70,8 @@
       "warn",
       "nofunc"
     ],
-    "no-undef": "error"
+    "no-undef": "error",
+    "no-new-native-nonconstructor": "error"
   },
   "ignorePatterns": [
     "tests/e2e/bundle.js"
