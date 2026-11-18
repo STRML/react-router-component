@@ -7,7 +7,7 @@ install link:
 	@npm $@
 
 lint:
-	@./node_modules/.bin/eslint index.js `find lib tests \( -iname \*.js -o -iname \*.jsx \) -not -path 'tests/e2e/bundle.js'`
+	@./node_modules/.bin/oxlint index.js lib tests
 
 test: test-unit test-server
 	@echo "Run 'make test-e2e' to run browser tests with Playwright."
